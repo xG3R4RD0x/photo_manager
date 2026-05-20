@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 use serde::{Serialize, Deserialize};
-use chrono::NaiveDateTime;
 use std::sync::Mutex;
 use std::collections::HashMap;
+use base64::Engine;
 
 use crate::media_management::{storage, metadata, thumbnail};
 use crate::import::{dedup, copier};
@@ -77,7 +77,7 @@ pub fn get_exif(path: String) -> Option<EXIFData> {
     let file_path = PathBuf::from(&path);
     let metadata = metadata::extract_exif_date(&file_path)?;
     
-    let filename = file_path.file_name()
+    let _filename = file_path.file_name()
         .map(|n| n.to_string_lossy().to_string())
         .unwrap_or_default();
     
@@ -118,7 +118,8 @@ pub fn get_thumbnail(path: String) -> Result<String, String> {
     let thumbnail_data = thumbnail::get_thumbnail(&file_path, 200)?;
     
     // Encode to base64
-    let base64 = base64::encode(&thumbnail_data);
+    let engine = base64::engine::general_purpose::STANDARD;
+    let base64 = engine.encode(&thumbnail_data);
     let data_url = format!("data:image/jpeg;base64,{}", base64);
     
     // Cache it

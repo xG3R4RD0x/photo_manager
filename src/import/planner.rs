@@ -60,14 +60,14 @@ pub fn build_destination_tree(
     
     for (_path, date_opt) in photos {
         let folder_path = match date_opt {
-            Some(dt) => apply_template(template, dt),
+            Some(dt) => apply_template(template, *dt),
             None => "SinFecha".to_string(),
         };
         
         // Parse folder_path into nested structure
         let parts: Vec<&str> = folder_path.split('/').filter(|s| !s.is_empty()).collect();
         
-        let mut current = &mut tree;
+        let current = &mut tree;
         for (i, part) in parts.iter().enumerate() {
             if i == parts.len() - 1 {
                 current.entry(part.to_string())

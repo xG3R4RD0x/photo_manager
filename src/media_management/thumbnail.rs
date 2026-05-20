@@ -69,9 +69,9 @@ fn extract_embedded_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, Str
             file2.read_exact(&mut jpeg_data).map_err(|e| e.to_string())?;
             
             // Decode and resize
-            let img = ImageReader::new(Cursor::new(&jpeg_data))
-                .map_err(|e| e.to_string())?
-                .decode()
+            let mut reader = ImageReader::new(Cursor::new(&jpeg_data));
+            reader.set_format(image::ImageFormat::Jpeg);
+            let img = reader.decode()
                 .map_err(|e| e.to_string())?;
             
             let resized = img.resize(width, width, image::imageops::FilterType::Lanczos3);
