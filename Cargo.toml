@@ -24,11 +24,11 @@ base64 = "0.22"
 lazy_static = "1.4"
 
 [target.'cfg(windows)'.dependencies]
-tauri = "2"
+tauri = { version = "2", features = [] }
 tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"
 
 [target.'cfg(not(windows))'.dependencies]
-tauri = "2"
+tauri = { version = "2", features = [] }
 
 [dev-dependencies]

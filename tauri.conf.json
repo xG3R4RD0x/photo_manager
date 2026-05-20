@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "identifier": "com.photo-manager.gui",
   "build": {
-    "beforeDevCommand": "cd ../gui-frontend && npm run dev",
-    "beforeBuildCommand": "cd ../gui-frontend && npm run build",
-    "devPath": "http://localhost:5173",
-    "frontendDist": "../gui-frontend/dist"
+    "beforeDevCommand": "npm --prefix ./gui-frontend run dev",
+    "beforeBuildCommand": "npm --prefix ./gui-frontend run build",
+    "frontendDist": "./gui-frontend/dist"
   },
   "app": {
     "windows": [
@@ -31,7 +30,6 @@
       "msi",
       "nsis"
     ],
-    "identifier": "com.photo-manager.gui",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -42,8 +40,6 @@
     "windows": {
       "certificateThumbprint": null,
       "digestAlgorithm": "sha256",
-      "signingIdentity": null,
-      "publisher": "Photo Manager",
       "wix": null
     }
   }
