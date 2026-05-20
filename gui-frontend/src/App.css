@@ -1,0 +1,25 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background: #1a1a1a;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 200px 1fr 350px;
+  gap: 1px;
+  flex: 1;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+
+.main-content > * {
+  background: #1a1a1a;
+  border-right: 1px solid #2a2a2a;
+}
+
+.main-content > *:last-child {
+  border-right: none;
+}

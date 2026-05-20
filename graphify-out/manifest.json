@@ -1,0 +1,22 @@
+{
+  "D:\\dev\\photo_manager\\src\\main.rs": {
+    "mtime": 1760043964.3157997,
+    "ast_hash": "376ce86c0d9c22e91aa43e74cb0598bc",
+    "semantic_hash": "376ce86c0d9c22e91aa43e74cb0598bc"
+  },
+  "D:\\dev\\photo_manager\\src\\media_management\\metadata.rs": {
+    "mtime": 1760043960.634019,
+    "ast_hash": "c5cf33d4fca92fbc9bd92d70b35f7223",
+    "semantic_hash": "c5cf33d4fca92fbc9bd92d70b35f7223"
+  },
+  "D:\\dev\\photo_manager\\src\\media_management\\mod.rs": {
+    "mtime": 1760042685.8677204,
+    "ast_hash": "ad4ebb3729dd782c853911631979aa5b",
+    "semantic_hash": "ad4ebb3729dd782c853911631979aa5b"
+  },
+  "D:\\dev\\photo_manager\\src\\media_management\\storage.rs": {
+    "mtime": 1760042271.0366392,
+    "ast_hash": "ab6ffffb035af48d9f05da84e6dd1ffc",
+    "semantic_hash": "ab6ffffb035af48d9f05da84e6dd1ffc"
+  }
+}

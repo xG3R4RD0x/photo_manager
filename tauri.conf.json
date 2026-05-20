@@ -1,0 +1,50 @@
+{
+  "productName": "Photo Manager",
+  "version": "0.1.0",
+  "identifier": "com.photo-manager.gui",
+  "build": {
+    "beforeDevCommand": "cd ../gui-frontend && npm run dev",
+    "beforeBuildCommand": "cd ../gui-frontend && npm run build",
+    "devPath": "http://localhost:5173",
+    "frontendDist": "../gui-frontend/dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Photo Manager",
+        "width": 1400,
+        "height": 900,
+        "minWidth": 1024,
+        "minHeight": 768,
+        "resizable": true,
+        "fullscreen": false,
+        "focus": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "msi",
+      "nsis"
+    ],
+    "identifier": "com.photo-manager.gui",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "signingIdentity": null,
+      "publisher": "Photo Manager",
+      "wix": null
+    }
+  }
+}

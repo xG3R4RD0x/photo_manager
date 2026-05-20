@@ -1,0 +1,18 @@
+{
+  "name": "photo-manager-workspace",
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "gui-frontend"
+  ],
+  "scripts": {
+    "dev": "cd gui-frontend && npm run dev",
+    "build": "cd gui-frontend && npm run build",
+    "tauri": "tauri",
+    "tauri:build": "tauri build",
+    "tauri:dev": "tauri dev"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"
+  }
+}

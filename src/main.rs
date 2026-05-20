@@ -1,5 +1,4 @@
-mod media_management;
-use media_management::{storage, metadata};
+use photo_manager::media_management::{storage, metadata};
 
 fn main() {
     println!("🔍 Buscando dispositivos de cámara...");
@@ -22,7 +21,10 @@ fn main() {
             let mut processed = 0;
             let mut with_date = 0;
             
-            for photo in photos {
+            // Solo procesar las primeras 5 fotos para debug
+            let photos_to_process = photos.into_iter().take(5);
+            
+            for photo in photos_to_process {
                 processed += 1;
                 
                 // Mostrar progreso cada 10 fotos

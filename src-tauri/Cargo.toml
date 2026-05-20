@@ -1,0 +1,27 @@
+[package]
+name = "photo_manager_gui"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70"
+
+[lib]
+name = "photo_manager_gui"
+path = "src/lib.rs"
+
+[[bin]]
+name = "photo_manager_gui"
+path = "src/main.rs"
+
+[dependencies]
+photo_manager = { path = ".." }
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+
+[target.'cfg(windows)'.dependencies]
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

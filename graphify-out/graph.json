@@ -1,0 +1,218 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "main.rs",
+      "file_type": "code",
+      "source_file": "main.rs",
+      "source_location": "L1",
+      "id": "main_rs",
+      "community": 2,
+      "norm_label": "main.rs"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "main.rs",
+      "source_location": "L4",
+      "id": "src_main_main",
+      "community": 2,
+      "norm_label": "main()"
+    },
+    {
+      "label": "metadata.rs",
+      "file_type": "code",
+      "source_file": "media_management/metadata.rs",
+      "source_location": "L1",
+      "id": "media_management_metadata_rs",
+      "community": 0,
+      "norm_label": "metadata.rs"
+    },
+    {
+      "label": "extract_exif_date()",
+      "file_type": "code",
+      "source_file": "media_management/metadata.rs",
+      "source_location": "L8",
+      "id": "media_management_metadata_extract_exif_date",
+      "community": 0,
+      "norm_label": "extract_exif_date()"
+    },
+    {
+      "label": "PhotoMetadata",
+      "file_type": "code",
+      "source_file": "media_management/metadata.rs",
+      "source_location": "L36",
+      "id": "media_management_metadata_photometadata",
+      "community": 0,
+      "norm_label": "photometadata"
+    },
+    {
+      "label": ".year()",
+      "file_type": "code",
+      "source_file": "media_management/metadata.rs",
+      "source_location": "L42",
+      "id": "media_management_metadata_photometadata_year",
+      "community": 0,
+      "norm_label": ".year()"
+    },
+    {
+      "label": ".formatted_day()",
+      "file_type": "code",
+      "source_file": "media_management/metadata.rs",
+      "source_location": "L46",
+      "id": "media_management_metadata_photometadata_formatted_day",
+      "community": 0,
+      "norm_label": ".formatted_day()"
+    },
+    {
+      "label": "mod.rs",
+      "file_type": "code",
+      "source_file": "media_management/mod.rs",
+      "source_location": "L1",
+      "id": "media_management_mod_rs",
+      "community": 3,
+      "norm_label": "mod.rs"
+    },
+    {
+      "label": "storage.rs",
+      "file_type": "code",
+      "source_file": "media_management/storage.rs",
+      "source_location": "L1",
+      "id": "media_management_storage_rs",
+      "community": 1,
+      "norm_label": "storage.rs"
+    },
+    {
+      "label": "detect_camera_drive()",
+      "file_type": "code",
+      "source_file": "media_management/storage.rs",
+      "source_location": "L7",
+      "id": "media_management_storage_detect_camera_drive",
+      "community": 1,
+      "norm_label": "detect_camera_drive()"
+    },
+    {
+      "label": "find_photo_folder()",
+      "file_type": "code",
+      "source_file": "media_management/storage.rs",
+      "source_location": "L23",
+      "id": "media_management_storage_find_photo_folder",
+      "community": 1,
+      "norm_label": "find_photo_folder()"
+    },
+    {
+      "label": "list_photos()",
+      "file_type": "code",
+      "source_file": "media_management/storage.rs",
+      "source_location": "L38",
+      "id": "media_management_storage_list_photos",
+      "community": 1,
+      "norm_label": "list_photos()"
+    },
+    {
+      "label": "count_photos()",
+      "file_type": "code",
+      "source_file": "media_management/storage.rs",
+      "source_location": "L55",
+      "id": "media_management_storage_count_photos",
+      "community": 1,
+      "norm_label": "count_photos()"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.rs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "main_rs",
+      "target": "src_main_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "media_management/metadata.rs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "media_management_metadata_rs",
+      "target": "media_management_metadata_extract_exif_date",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "media_management/metadata.rs",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "media_management_metadata_rs",
+      "target": "media_management_metadata_photometadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "media_management/metadata.rs",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "media_management_metadata_photometadata",
+      "target": "media_management_metadata_photometadata_year",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "media_management/metadata.rs",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "media_management_metadata_photometadata",
+      "target": "media_management_metadata_photometadata_formatted_day",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "media_management/storage.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "media_management_storage_rs",
+      "target": "media_management_storage_detect_camera_drive",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "media_management/storage.rs",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "media_management_storage_rs",
+      "target": "media_management_storage_find_photo_folder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "media_management/storage.rs",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "media_management_storage_rs",
+      "target": "media_management_storage_list_photos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "media_management/storage.rs",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "media_management_storage_rs",
+      "target": "media_management_storage_count_photos",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "97f68d2c8f10faa3eaeaefcc8e998d0c6e528989"
+}
