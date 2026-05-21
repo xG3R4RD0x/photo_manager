@@ -9,15 +9,12 @@ export default function Toolbar() {
   const selectedCount = usePhotoStore((s) => s.selectedPaths.size);
   const totalCount = usePhotoStore((s) => s.photos.length);
   const status = useUIStore((s) => s.status);
-  const { detectCamera, browseFolder, isLoading } = useFolderBrowse();
+  const { browseFolder, isLoading } = useFolderBrowse();
   const { loadMockPhotos } = useTestData();
 
   return (
     <div className="toolbar">
       <div className="toolbar-left">
-        <button onClick={detectCamera} disabled={isLoading}>
-          🔍 Detect Camera
-        </button>
         <button onClick={browseFolder} disabled={isLoading}>
           📁 Browse
         </button>

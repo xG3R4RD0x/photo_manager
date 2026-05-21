@@ -1,41 +1,48 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
+import { listen } from "@tauri-apps/api/event";
 import { usePhotoStore } from "../stores/usePhotoStore";
 import { useUIStore } from "../stores/useUIStore";
 
 export function useFolderBrowse() {
   const [isLoading, setIsLoading] = useState(false);
   const { setPhotos } = usePhotoStore();
-  const { setStatus } = useUIStore();
+  const { setSourceFolder, setStatus } = useUIStore();
 
-  const detectCamera = async () => {
+  const scanPhotosWithMetadata = async (folderPath: string) => {
     setIsLoading(true);
-    setStatus("Detecting camera...");
+    setStatus("Loading photos...");
+
     try {
-      const result = await invoke<string | null>("detect_camera");
-      if (result) {
-        setStatus(`Camera found at: ${result}`);
-        // Now find photo folder
-        const photoFolder = await invoke<string | null>("find_photo_folder", {
-          drive: result,
-        });
-        if (photoFolder) {
-          await scanPhotos(photoFolder);
-        }
-      } else {
-        setStatus("No camera detected");
-      }
+      // 1. Quick scan (instant - no EXIF yet)
+      const quickPhotos = await invoke<any[]>("scan_photos_quick", {
+        folder: folderPath,
+      });
+
+      setPhotos(quickPhotos);
+      setStatus(`Found ${quickPhotos.length} photos. Processing metadata...`);
+
+      // 2. Setup metadata_ready listener (fires when enrichment completes)
+      const unlistenMetadata = await listen<any[]>("metadata_ready", (event) => {
+        setPhotos(event.payload);
+        setStatus(`Loaded ${event.payload.length} photos`);
+        unlistenMetadata();
+      });
+
+      // 3. Start enrichment in background (no await - fires event when done)
+      invoke("enrich_photos_metadata_fast", { folder: folderPath }).catch((e) =>
+        console.error("Enrichment error:", e)
+      );
     } catch (error) {
-      setStatus(`Error detecting camera: ${error}`);
+      setStatus(`Error: ${error}`);
+      console.error("Scan error:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   const browseFolder = async () => {
-    setIsLoading(true);
-    setStatus("Browsing folder...");
     try {
       const selected = await open({
         directory: true,
@@ -44,29 +51,18 @@ export function useFolderBrowse() {
       });
 
       if (selected && typeof selected === "string") {
-        await scanPhotos(selected);
-      } else {
-        setStatus("No folder selected");
+        setSourceFolder(selected);
+        await scanPhotosWithMetadata(selected);
       }
     } catch (error) {
-      setStatus(`Error browsing folder: ${error}`);
-    } finally {
-      setIsLoading(false);
+      console.error("Browse error:", error);
+      setStatus(`Browse error: ${error}`);
     }
   };
 
-  const scanPhotos = async (folderPath: string) => {
-    setStatus("Scanning photos...");
-    try {
-      const photos = await invoke<any[]>("scan_photos", {
-        folder: folderPath,
-      });
-      setPhotos(photos);
-      setStatus(`Found ${photos.length} photos`);
-    } catch (error) {
-      setStatus(`Error scanning folder: ${error}`);
-    }
+  return {
+    browseFolder,
+    isLoading,
+    scanPhotosWithMetadata,
   };
-
-  return { detectCamera, browseFolder, isLoading };
 }

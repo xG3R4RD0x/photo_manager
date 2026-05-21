@@ -22,6 +22,8 @@ image = "0.25"
 blake3 = "1.5"
 base64 = "0.22"
 lazy_static = "1.4"
+rayon = "1.7"
+num_cpus = "1.16"
 tauri = { version = "2", features = [] }
 tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"

@@ -25,18 +25,6 @@
       "csp": null
     }
   },
-  "plugins": {
-    "dialog": {
-      "all": true,
-      "open": true
-    },
-    "fs": {
-      "all": true,
-      "readFile": true,
-      "writeFile": true,
-      "readDir": true
-    }
-  },
   "bundle": {
     "active": true,
     "targets": [
@@ -57,3 +45,8 @@
     }
   }
 }
+
+
+
+
+

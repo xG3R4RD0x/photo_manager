@@ -1,1 +1,1 @@
-{}
+{"main-window":{"identifier":"main-window","description":"Grants access to core events, dialog, and filesystem for the main window","local":true,"windows":["main"],"permissions":["core:event:allow-listen","core:event:allow-emit","dialog:allow-open","fs:allow-read","fs:allow-read-dir","fs:allow-write","fs:allow-read-file"]}}

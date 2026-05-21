@@ -2,6 +2,16 @@ use sysinfo::Disks;
 use walkdir::WalkDir;
 use std::path::PathBuf;
 use std::fs;
+use serde::{Serialize, Deserialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RemovableDrive {
+    pub mount_point: String,
+    pub label: String,
+    pub total_size: u64,
+    pub used_size: u64,
+    pub is_camera: bool,
+}
 
 /// Detecta la primera unidad extraíble (USB / cámara / SD)
 pub fn detect_camera_drive() -> Option<PathBuf> {
@@ -17,6 +27,55 @@ pub fn detect_camera_drive() -> Option<PathBuf> {
 
     println!("No se detectó ninguna unidad extraíble.");
     None
+}
+
+/// List ALL removable drives with camera detection
+pub fn list_all_removable_drives() -> Vec<RemovableDrive> {
+    let disks = Disks::new_with_refreshed_list();
+    let mut drives = Vec::new();
+
+    for disk in &disks {
+        if disk.is_removable() {
+            let mount_point = disk.mount_point().to_path_buf();
+            let label = disk.name()
+                .to_string_lossy()
+                .to_string();
+            
+            // Check if it's a camera (has DCIM or photos folder)
+            let is_camera = find_photo_folder(&mount_point).is_some();
+
+            let total_size = disk.total_space();
+            let available = disk.available_space();
+            let used_size = if total_size > available {
+                total_size - available
+            } else {
+                0
+            };
+
+            drives.push(RemovableDrive {
+                mount_point: mount_point.to_string_lossy().to_string(),
+                label: if label.is_empty() { 
+                    mount_point.to_string_lossy().to_string() 
+                } else { 
+                    label 
+                },
+                total_size,
+                used_size,
+                is_camera,
+            });
+        }
+    }
+
+    // Sort: cameras first, then by label
+    drives.sort_by(|a, b| {
+        if a.is_camera != b.is_camera {
+            b.is_camera.cmp(&a.is_camera)
+        } else {
+            a.label.cmp(&b.label)
+        }
+    });
+
+    drives
 }
 
 /// Busca la carpeta con fotos (por defecto DCIM) dentro del disco

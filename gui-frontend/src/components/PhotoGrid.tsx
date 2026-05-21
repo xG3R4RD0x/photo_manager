@@ -27,8 +27,9 @@ export default function PhotoGrid() {
 
     photos.forEach((photo) => {
       const date = photo.date || "Sin fecha";
-      const month = date.substring(0, 7); // YYYY-MM
-      const day = date; // YYYY-MM-DD
+      // Force "Sin fecha" to sort last by using special sort key
+      const month = date === "Sin fecha" ? "9999-12" : date.substring(0, 7);
+      const day = date;
 
       if (!groups[month]) groups[month] = {};
       if (!groups[month][day]) groups[month][day] = [];
@@ -39,7 +40,7 @@ export default function PhotoGrid() {
     return Object.entries(groups)
       .sort(([a], [b]) => b.localeCompare(a)) // Newest first
       .map(([month, days]): DateGroup => ({
-        month,
+        month: month === "9999-12" ? "Sin fecha" : month,
         expanded: true,
         days: Object.entries(days)
           .sort(([a], [b]) => b.localeCompare(a))
@@ -47,7 +48,7 @@ export default function PhotoGrid() {
             day,
             expanded: true,
             photos: dayPhotos,
-        })),
+          })),
       }));
   }, [photos]);
 
@@ -68,7 +69,7 @@ export default function PhotoGrid() {
                 {monthGroup.days.map((dayGroup) => (
                   <div key={dayGroup.day} className="day-group">
                     <div className="day-header">
-                      📅 {dayGroup.day} ({dayGroup.photos.length})
+                      {dayGroup.day} ({dayGroup.photos.length})
                     </div>
 
                     <div className="grid-items">

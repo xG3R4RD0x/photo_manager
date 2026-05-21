@@ -3,6 +3,10 @@ use serde::{Serialize, Deserialize};
 use std::sync::Mutex;
 use std::collections::HashMap;
 use base64::Engine;
+use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::Arc;
+use rayon::prelude::*;
+use tauri::Emitter;
 
 use crate::media_management::{storage, metadata, thumbnail};
 use crate::import::{dedup, copier};
@@ -44,6 +48,98 @@ pub fn detect_camera() -> Option<String> {
 pub fn find_photo_folder(drive: String) -> Option<String> {
     let drive_path = PathBuf::from(&drive);
     storage::find_photo_folder(&drive_path).map(|p| p.to_string_lossy().to_string())
+}
+
+#[tauri::command]
+pub fn list_all_removable_drives() -> Vec<storage::RemovableDrive> {
+    storage::list_all_removable_drives()
+}
+
+/// Quick scan without EXIF extraction (instant)
+#[tauri::command]
+pub fn scan_photos_quick(folder: String) -> Vec<PhotoInfo> {
+    let folder_path = PathBuf::from(&folder);
+    let paths = storage::list_photos(&folder_path);
+    
+    paths.into_iter().map(|path| {
+        let filename = path.file_name()
+            .map(|n| n.to_string_lossy().to_string())
+            .unwrap_or_default();
+        
+        let file_size = std::fs::metadata(&path)
+            .map(|m| m.len())
+            .unwrap_or(0);
+        
+        PhotoInfo {
+            path: path.to_string_lossy().to_string(),
+            filename,
+            date: None,  // No EXIF extraction yet
+            file_size,
+        }
+    }).collect()
+}
+
+/// Enrich photos with metadata (EXIF dates) in parallel
+#[tauri::command(async)]
+pub async fn enrich_photos_metadata_fast(
+    folder: String,
+    app: tauri::AppHandle,
+) -> Result<Vec<PhotoInfo>, String> {
+    let folder_path = PathBuf::from(&folder);
+    let mut paths = storage::list_photos(&folder_path);
+    
+    // Sort for deterministic order
+    paths.sort();
+    
+    let _total = paths.len();
+    let processed = Arc::new(AtomicUsize::new(0));
+
+    // Process in parallel
+    let results: Vec<PhotoInfo> = paths
+        .par_iter()
+        .map(|path| {
+            let filename = path.file_name()
+                .map(|n| n.to_string_lossy().to_string())
+                .unwrap_or_default();
+
+            // Fast EXIF extraction with cache + fallback
+            let date = metadata::extract_exif_date_fast(path)
+                .map(|dt| dt.format("%Y-%m-%d %H:%M:%S").to_string());
+
+            let file_size = std::fs::metadata(&path)
+                .map(|m| m.len())
+                .unwrap_or(0);
+
+            // Track progress
+            let _count = processed.fetch_add(1, Ordering::Relaxed);
+
+            PhotoInfo {
+                path: path.to_string_lossy().to_string(),
+                filename,
+                date,
+                file_size,
+            }
+        })
+        .collect();
+
+    // Sort results: by date (newest first), then "Sin fecha" at end
+    let mut results = results;
+    results.sort_by(|a, b| {
+        let date_a = &a.date;
+        let date_b = &b.date;
+
+        match (date_a, date_b) {
+            (Some(da), Some(db)) => db.cmp(da), // Newest first
+            (None, None) => std::cmp::Ordering::Equal,
+            (Some(_), None) => std::cmp::Ordering::Less, // Dates before "Sin fecha"
+            (None, Some(_)) => std::cmp::Ordering::Greater, // "Sin fecha" at end
+        }
+    });
+
+    // Emit completion event with organized results
+    let _ = app.emit("metadata_ready", &results);
+
+    Ok(results)
 }
 
 #[tauri::command]
