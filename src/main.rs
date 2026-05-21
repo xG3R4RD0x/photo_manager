@@ -18,6 +18,7 @@ fn main() {
             commands::list_all_removable_drives,
             commands::get_exif,
             commands::get_thumbnail,
+            commands::import_photos,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

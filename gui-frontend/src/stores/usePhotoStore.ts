@@ -12,6 +12,7 @@ export interface PhotoStore {
   selectedPaths: Set<string>;
   setPhotos: (photos: PhotoInfo[]) => void;
   toggleSelection: (path: string) => void;
+  toggleGroup: (paths: string[]) => void;
   selectAll: () => void;
   deselectAll: () => void;
   toggleGroupSelection: (selectedOnly: boolean) => void;
@@ -32,7 +33,18 @@ export const usePhotoStore = create<PhotoStore>((set) => ({
     }
     return { selectedPaths: selected };
   }),
-  
+
+  toggleGroup: (paths) => set((state) => {
+    const allSelected = paths.every((p) => state.selectedPaths.has(p));
+    const selected = new Set(state.selectedPaths);
+    if (allSelected) {
+      for (const p of paths) selected.delete(p);
+    } else {
+      for (const p of paths) selected.add(p);
+    }
+    return { selectedPaths: selected };
+  }),
+
   selectAll: () => set((state) => ({
     selectedPaths: new Set(state.photos.map((p) => p.path)),
   })),

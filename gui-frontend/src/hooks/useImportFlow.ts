@@ -1,39 +1,27 @@
-import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { usePhotoStore } from "../stores/usePhotoStore";
 import { useUIStore } from "../stores/useUIStore";
 
 export function useImportFlow() {
-  const [isImporting, setIsImporting] = useState(false);
-  const [importResult, setImportResult] = useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
-
   const startImport = async () => {
     const selectedPhotos = Array.from(usePhotoStore.getState().selectedPaths);
-    const { destFolder, selectedTemplate, setStatus } =
-      useUIStore.getState();
+    const { destFolder, selectedTemplate } = useUIStore.getState();
 
     if (!destFolder) {
-      setImportResult({
-        success: false,
-        message: "Please select a destination folder",
+      useUIStore.setState({
+        importResult: { success: false, message: "Please select a destination folder" },
       });
       return;
     }
 
     if (selectedPhotos.length === 0) {
-      setImportResult({
-        success: false,
-        message: "Select photos to import",
+      useUIStore.setState({
+        importResult: { success: false, message: "Select photos to import" },
       });
       return;
     }
 
-    setIsImporting(true);
-    setImportResult(null);
-    setStatus("Starting import...");
+    useUIStore.setState({ isImporting: true, importResult: null, status: "Starting import..." });
 
     try {
       const result = await invoke<string>("import_photos", {
@@ -42,25 +30,22 @@ export function useImportFlow() {
         template: selectedTemplate,
       });
 
-      setImportResult({
-        success: true,
-        message: result,
+      useUIStore.setState({
+        importResult: { success: true, message: result },
+        isImporting: false,
+        status: "Import complete!",
       });
-      setStatus("Import complete!");
 
-      // Clear selection after successful import
       usePhotoStore.getState().deselectAll();
     } catch (error) {
-      setImportResult({
-        success: false,
-        message: `Import failed: ${error}`,
+      useUIStore.setState({
+        importResult: { success: false, message: `Import failed: ${error}` },
+        isImporting: false,
+        status: "Import failed",
       });
-      setStatus("Import failed");
-    } finally {
-      setIsImporting(false);
     }
   };
 
-  return { startImport, isImporting, importResult, setImportResult };
+  return { startImport };
 }
 

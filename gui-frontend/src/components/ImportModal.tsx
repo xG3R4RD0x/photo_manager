@@ -1,11 +1,9 @@
 import { useUIStore } from "../stores/useUIStore";
-import { useImportFlow } from "../hooks/useImportFlow";
 import "./ImportModal.css";
 
 export default function ImportModal() {
-  const { showImportModal, setShowImportModal, importProgress, importTotal } =
+  const { showImportModal, setShowImportModal, importProgress, importTotal, importResult, setImportResult } =
     useUIStore();
-  const { importResult, setImportResult } = useImportFlow();
 
   if (!showImportModal) return null;
 

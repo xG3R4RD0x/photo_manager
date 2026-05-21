@@ -7,9 +7,9 @@ import { usePhotoStore } from "../stores/usePhotoStore";
 import "./RightPanel.css";
 
 export default function RightPanel() {
-  const { setShowImportModal } = useUIStore();
+  const { setShowImportModal, isImporting } = useUIStore();
   const selectedCount = usePhotoStore((s) => s.selectedPaths.size);
-  const { startImport, isImporting } = useImportFlow();
+  const { startImport } = useImportFlow();
 
   const handleImport = async () => {
     if (selectedCount === 0) {

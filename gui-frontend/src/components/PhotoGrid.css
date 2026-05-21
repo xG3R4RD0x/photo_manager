@@ -24,25 +24,72 @@
   gap: 12px;
 }
 
-.month-group {
+/* ── Year ── */
+
+.year-group {
   border: 1px solid #2a2a2a;
   border-radius: 4px;
   overflow: hidden;
 }
 
+.year-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #2a2a2a;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.year-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+}
+
+/* ── Month ── */
+
+.month-group {
+  border: 1px solid #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
 .month-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 12px;
   background: #242424;
   font-weight: 500;
   font-size: 13px;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid #333;
 }
+
+.month-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 8px 8px 20px;
+}
+
+/* ── Day ── */
 
 .day-group {
   border-bottom: 1px solid #2a2a2a;
 }
 
+.day-group:last-child {
+  border-bottom: none;
+}
+
 .day-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 6px 12px;
   background: #1f1f1f;
   font-size: 12px;
@@ -52,6 +99,53 @@
 
 .day-group:last-child .day-header {
   border-bottom: none;
+}
+
+/* ── Shared ── */
+
+.collapse-toggle {
+  cursor: pointer;
+  font-size: 10px;
+  user-select: none;
+  width: 14px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.group-select {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #555;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.group-select.all {
+  background: #4a9eff;
+  border-color: #4a9eff;
+  color: #fff;
+}
+
+.group-select.some {
+  background: #2a5a8f;
+  border-color: #4a9eff;
+  color: #fff;
+}
+
+.group-label {
+  cursor: pointer;
+  flex: 1;
+}
+
+.group-count {
+  color: #888;
+  font-size: 11px;
 }
 
 .grid-items {
@@ -89,7 +183,6 @@
   justify-content: center;
   background: #2a2a2a;
   border-radius: 2px;
-  font-size: 40px;
 }
 
 .filename {
