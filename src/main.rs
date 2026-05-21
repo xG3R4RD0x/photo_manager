@@ -21,6 +21,7 @@ fn main() {
             commands::import_photos,
             commands::list_directory_tree,
             commands::get_pictures_folder,
+            commands::start_duplicate_check,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

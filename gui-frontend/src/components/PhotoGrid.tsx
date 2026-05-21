@@ -21,8 +21,12 @@ interface YearGroup {
 export default function PhotoGrid() {
   const photos = usePhotoStore((s) => s.photos);
   const selectedPaths = usePhotoStore((s) => s.selectedPaths);
+  const duplicatePaths = usePhotoStore((s) => s.duplicatePaths);
   const { toggleSelection, toggleGroup } = usePhotoStore();
   const { setShowPreviewModal } = useUIStore();
+
+  const isDup = (path: string) => duplicatePaths.has(path);
+  const nonDups = (paths: string[]) => paths.filter((p) => !isDup(p));
 
   const [expandedYears, setExpandedYears] = useState<Set<string>>(new Set());
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
@@ -95,38 +99,45 @@ export default function PhotoGrid() {
     });
   };
 
+  const yearPaths = (yearGroup: YearGroup) =>
+    yearGroup.months.flatMap((m) => m.days.flatMap((d) => d.photos.map((p) => p.path)));
+  const monthPaths = (monthGroup: MonthGroup) =>
+    monthGroup.days.flatMap((d) => d.photos.map((p) => p.path));
+
   const yearSelectionState = (yearGroup: YearGroup): "none" | "some" | "all" => {
-    const paths = yearGroup.months.flatMap((m) => m.days.flatMap((d) => d.photos.map((p) => p.path)));
+    const paths = nonDups(yearPaths(yearGroup));
+    if (paths.length === 0) return "none";
     const all = paths.every((p) => selectedPaths.has(p));
     if (all) return "all";
     return paths.some((p) => selectedPaths.has(p)) ? "some" : "none";
   };
 
   const monthSelectionState = (monthGroup: MonthGroup): "none" | "some" | "all" => {
-    const paths = monthGroup.days.flatMap((d) => d.photos.map((p) => p.path));
+    const paths = nonDups(monthPaths(monthGroup));
+    if (paths.length === 0) return "none";
     const all = paths.every((p) => selectedPaths.has(p));
     if (all) return "all";
     return paths.some((p) => selectedPaths.has(p)) ? "some" : "none";
   };
 
   const daySelectionState = (dayGroup: DayGroup): "none" | "some" | "all" => {
-    const all = dayGroup.photos.every((p) => selectedPaths.has(p.path));
+    const paths = nonDups(dayGroup.photos.map((p) => p.path));
+    if (paths.length === 0) return "none";
+    const all = paths.every((p) => selectedPaths.has(p));
     if (all) return "all";
-    return dayGroup.photos.some((p) => selectedPaths.has(p.path)) ? "some" : "none";
+    return paths.some((p) => selectedPaths.has(p)) ? "some" : "none";
   };
 
   const handleYearCheckbox = (yearGroup: YearGroup) => {
-    const paths = yearGroup.months.flatMap((m) => m.days.flatMap((d) => d.photos.map((p) => p.path)));
-    toggleGroup(paths);
+    toggleGroup(nonDups(yearPaths(yearGroup)));
   };
 
   const handleMonthCheckbox = (monthGroup: MonthGroup) => {
-    const paths = monthGroup.days.flatMap((d) => d.photos.map((p) => p.path));
-    toggleGroup(paths);
+    toggleGroup(nonDups(monthPaths(monthGroup)));
   };
 
   const handleDayCheckbox = (dayGroup: DayGroup) => {
-    toggleGroup(dayGroup.photos.map((p) => p.path));
+    toggleGroup(nonDups(dayGroup.photos.map((p) => p.path)));
   };
 
   return (
@@ -152,12 +163,14 @@ export default function PhotoGrid() {
                     >
                       {yearExpanded ? "▼" : "▶"}
                     </span>
-                    <span
-                      className={`group-select ${yState}`}
-                      onClick={() => handleYearCheckbox(yearGroup)}
-                    >
-                      {yState === "all" ? "✓" : yState === "some" ? "–" : ""}
-                    </span>
+                    {nonDups(yearPaths(yearGroup)).length > 0 && (
+                      <span
+                        className={`group-select ${yState}`}
+                        onClick={() => handleYearCheckbox(yearGroup)}
+                      >
+                        {yState === "all" ? "✓" : yState === "some" ? "–" : ""}
+                      </span>
+                    )}
                     <span
                       className="group-label"
                       onClick={() => toggleYear(yearGroup.year)}
@@ -184,12 +197,14 @@ export default function PhotoGrid() {
                               >
                                 {monthExpanded ? "▼" : "▶"}
                               </span>
+                              {nonDups(monthPaths(monthGroup)).length > 0 && (
                               <span
                                 className={`group-select ${mState}`}
                                 onClick={() => handleMonthCheckbox(monthGroup)}
                               >
                                 {mState === "all" ? "✓" : mState === "some" ? "–" : ""}
                               </span>
+                            )}
                               <span
                                 className="group-label"
                                 onClick={() => toggleMonth(monthGroup.month)}
@@ -216,12 +231,14 @@ export default function PhotoGrid() {
                                         >
                                           {dayExpanded ? "▼" : "▶"}
                                         </span>
-                                        <span
-                                          className={`group-select ${dState}`}
-                                          onClick={() => handleDayCheckbox(dayGroup)}
-                                        >
-                                          {dState === "all" ? "✓" : dState === "some" ? "–" : ""}
-                                        </span>
+                                        {nonDups(dayGroup.photos.map((p) => p.path)).length > 0 && (
+                                          <span
+                                            className={`group-select ${dState}`}
+                                            onClick={() => handleDayCheckbox(dayGroup)}
+                                          >
+                                            {dState === "all" ? "✓" : dState === "some" ? "–" : ""}
+                                          </span>
+                                        )}
                                         <span
                                           className="group-label"
                                           onClick={() => toggleDay(dayGroup.day)}
@@ -235,28 +252,35 @@ export default function PhotoGrid() {
 
                                       {dayExpanded && (
                                         <div className="grid-items">
-                                          {dayGroup.photos.map((photo) => (
+                                          {dayGroup.photos.map((photo) => {
+                                            const dup = isDup(photo.path);
+                                            return (
                                             <div
                                               key={photo.path}
                                               className={`grid-item ${
                                                 selectedPaths.has(photo.path) ? "selected" : ""
-                                              }`}
-                                              onClick={() => toggleSelection(photo.path)}
-                                              onDoubleClick={() =>
-                                                setShowPreviewModal(true, photo.path)
-                                              }
+                                              } ${dup ? "duplicate" : ""}`}
+                                              onClick={() => {
+                                                if (!dup) toggleSelection(photo.path);
+                                              }}
+                                              onDoubleClick={() => {
+                                                if (!dup) setShowPreviewModal(true, photo.path);
+                                              }}
                                             >
                                               <div className="thumbnail-placeholder" />
                                               <div className="filename">{photo.filename}</div>
-                                              <input
-                                                type="checkbox"
-                                                className="grid-checkbox"
-                                                checked={selectedPaths.has(photo.path)}
-                                                onChange={() => toggleSelection(photo.path)}
-                                                onClick={(e) => e.stopPropagation()}
-                                              />
+                                              {!dup && (
+                                                <input
+                                                  type="checkbox"
+                                                  className="grid-checkbox"
+                                                  checked={selectedPaths.has(photo.path)}
+                                                  onChange={() => toggleSelection(photo.path)}
+                                                  onClick={(e) => e.stopPropagation()}
+                                                />
+                                              )}
                                             </div>
-                                          ))}
+                                            );
+                                          })}
                                         </div>
                                       )}
                                     </div>

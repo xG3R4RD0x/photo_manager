@@ -331,3 +331,55 @@ pub fn import_photos(
     
     Ok(summary)
 }
+
+#[derive(Clone, serde::Serialize)]
+struct DupProgress {
+    current: usize,
+    total: usize,
+}
+
+#[tauri::command]
+pub fn start_duplicate_check(
+    paths: Vec<String>,
+    subfolders: Vec<String>,
+    dest: String,
+    app: tauri::AppHandle,
+) -> Result<(), String> {
+    std::thread::spawn(move || {
+        let dest_base = PathBuf::from(&dest);
+        let total = paths.len();
+
+        if total == 0 {
+            let _ = app.emit("duplicate_check_done", ());
+            return;
+        }
+
+        let mut found: Vec<String> = Vec::new();
+
+        for (i, (path, folder)) in paths.iter().zip(subfolders.iter()).enumerate() {
+            // Emit progress every 50 files to avoid flooding the event loop
+            if i % 50 == 0 || i == total - 1 {
+                let _ = app.emit(
+                    "duplicate_check_progress",
+                    DupProgress {
+                        current: i + 1,
+                        total,
+                    },
+                );
+            }
+
+            if let Some(name) = PathBuf::from(path).file_name() {
+                let candidate = dest_base.join(folder).join(name);
+                if candidate.exists() {
+                    found.push(path.clone());
+                }
+            }
+        }
+
+        // Emit all duplicates in a single batch
+        let _ = app.emit("duplicate_found_batch", found);
+        let _ = app.emit("duplicate_check_done", ());
+    });
+
+    Ok(())
+}

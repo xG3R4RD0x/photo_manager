@@ -37,6 +37,7 @@ export function useImportFlow() {
       });
 
       usePhotoStore.getState().deselectAll();
+      useUIStore.getState().triggerDuplicateCheck();
     } catch (error) {
       useUIStore.setState({
         importResult: { success: false, message: `Import failed: ${error}` },

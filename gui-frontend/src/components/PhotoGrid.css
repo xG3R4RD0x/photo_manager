@@ -175,6 +175,16 @@
   background: #0a3a5f;
 }
 
+.grid-item.duplicate {
+  opacity: 0.4;
+  cursor: default;
+  border-color: #333;
+}
+
+.grid-item.duplicate .thumbnail-placeholder {
+  background: #1a1a1a;
+}
+
 .thumbnail-placeholder {
   width: 100%;
   aspect-ratio: 1;

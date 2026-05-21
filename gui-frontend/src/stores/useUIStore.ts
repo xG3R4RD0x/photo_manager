@@ -13,6 +13,8 @@ export interface UIStore {
   selectedTemplate: string;
   showImportModal: boolean;
   showPreviewModal: boolean;
+  duplicateCheckProgress: { current: number; total: number } | null;
+  duplicateCheckTrigger: number;
   previewImagePath: string | null;
   importProgress: number;
   importTotal: number;
@@ -28,6 +30,8 @@ export interface UIStore {
   setShowImportModal: (show: boolean) => void;
   setShowPreviewModal: (show: boolean, path?: string) => void;
   setImportProgress: (current: number, total: number) => void;
+  setDuplicateCheckProgress: (progress: { current: number; total: number } | null) => void;
+  triggerDuplicateCheck: () => void;
   setImportResult: (result: ImportResult | null) => void;
   setIsImporting: (importing: boolean) => void;
   setStatus: (status: string) => void;
@@ -42,6 +46,8 @@ export const useUIStore = create<UIStore>((set) => ({
   showImportModal: false,
   showPreviewModal: false,
   previewImagePath: null,
+  duplicateCheckProgress: null,
+  duplicateCheckTrigger: 0,
   importProgress: 0,
   importTotal: 0,
   importResult: null,
@@ -58,6 +64,8 @@ export const useUIStore = create<UIStore>((set) => ({
     set({ showPreviewModal: show, previewImagePath: path || null }),
   setImportProgress: (current, total) =>
     set({ importProgress: current, importTotal: total }),
+  setDuplicateCheckProgress: (progress) => set({ duplicateCheckProgress: progress }),
+  triggerDuplicateCheck: () => set((s) => ({ duplicateCheckTrigger: s.duplicateCheckTrigger + 1 })),
   setImportResult: (result) => set({ importResult: result }),
   setIsImporting: (importing) => set({ isImporting: importing }),
   setStatus: (status) => set({ status }),
