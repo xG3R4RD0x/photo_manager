@@ -13,7 +13,6 @@ export interface PhotoStore {
   duplicatePaths: Set<string>;
   setPhotos: (photos: PhotoInfo[]) => void;
   setDuplicatePaths: (paths: Set<string>) => void;
-  addDuplicatePath: (path: string) => void;
   toggleSelection: (path: string) => void;
   toggleGroup: (paths: string[]) => void;
   selectAll: () => void;
@@ -36,15 +35,6 @@ export const usePhotoStore = create<PhotoStore>((set) => ({
     return { duplicatePaths: paths, selectedPaths: selected };
   }),
 
-  addDuplicatePath: (path) => set((state) => {
-    if (state.duplicatePaths.has(path)) return state;
-    const newDups = new Set(state.duplicatePaths);
-    newDups.add(path);
-    const selected = new Set(state.selectedPaths);
-    selected.delete(path);
-    return { duplicatePaths: newDups, selectedPaths: selected };
-  }),
-  
   toggleSelection: (path) => set((state) => {
     if (state.duplicatePaths.has(path)) return state;
     const selected = new Set(state.selectedPaths);
