@@ -9,7 +9,6 @@ export default function DestinationTreeSection() {
   const { destFolder, defaultDestFolder, setDestFolder, resetDestFolder, selectedTemplate } = useUIStore();
   const photos = usePhotoStore((s) => s.photos);
   const selectedPaths = usePhotoStore((s) => s.selectedPaths);
-  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
   const [realRoot, setRealRoot] = useState<DirEntry | null>(null);
 
   const selectedPhotos = useMemo(
@@ -41,7 +40,7 @@ export default function DestinationTreeSection() {
     const realNodes = realRoot.children.map((c) => dirEntryToNode(c));
     if (!projectedRoot) return realNodes;
     return mergeTrees(realNodes, projectedRoot.children);
-  }, [realRoot, projectedRoot]);
+  }, [realRoot, projectedRoot, selectedPhotos]);
 
   const previewPath = useMemo(() => {
     if (selectedPhotos.length === 0) return "";
@@ -61,11 +60,37 @@ export default function DestinationTreeSection() {
     }
   };
 
+  const collectAllProjectedPaths = (nodes: TreeNode[], basePath: string): string[] => {
+    const paths: string[] = [];
+    for (const node of nodes) {
+      const nodePath = `${basePath}/${node.name}`;
+      paths.push(nodePath);
+      paths.push(...collectAllProjectedPaths(node.children, nodePath));
+    }
+    return paths;
+  };
+
+  const autoExpandSet = useMemo<Set<string>>(() => {
+    if (!projectedRoot) return new Set();
+    const paths = collectAllProjectedPaths(projectedRoot.children, destFolder || "");
+    console.log("COLLECTED PATHS (from projected):", paths);
+    return new Set(paths);
+  }, [projectedRoot, destFolder]);
+
+  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    console.log("setting expanded to:", [...autoExpandSet]);
+    setExpandedFolders(new Set(autoExpandSet));
+  }, [autoExpandSet]);
+
   const toggleFolder = (key: string) => {
+    console.log("toggleFolder:", key);
     setExpandedFolders((prev) => {
       const next = new Set(prev);
       if (next.has(key)) next.delete(key);
       else next.add(key);
+      console.log("expanded after toggle:", [...next]);
       return next;
     });
   };
@@ -91,9 +116,6 @@ export default function DestinationTreeSection() {
           </span>
           {node.count > 0 && (
             <span className="tree-count">{node.count}</span>
-          )}
-          {node.count === 0 && !node.isNew && (
-            <span className="tree-count-existing">0</span>
           )}
         </div>
         {isExpanded && hasChildren && (

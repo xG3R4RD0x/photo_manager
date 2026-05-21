@@ -22,6 +22,7 @@
 .metadata-section {
   padding: 10px 12px;
   border-bottom: 1px solid #2a2a2a;
+  min-height: 240px;
 }
 
 .metadata-section h3 {
