@@ -19,6 +19,8 @@ fn main() {
             commands::get_exif,
             commands::get_thumbnail,
             commands::import_photos,
+            commands::list_directory_tree,
+            commands::get_pictures_folder,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

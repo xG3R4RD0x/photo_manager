@@ -237,6 +237,53 @@ pub fn save_config_cmd(config: crate::gui::config::AppConfig) -> Result<(), Stri
 }
 
 #[tauri::command]
+pub fn get_pictures_folder() -> Result<String, String> {
+    dirs::picture_dir()
+        .map(|p| p.to_string_lossy().to_string())
+        .ok_or_else(|| "Could not determine pictures folder".to_string())
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DirEntry {
+    pub name: String,
+    pub children: Vec<DirEntry>,
+}
+
+#[tauri::command]
+pub fn list_directory_tree(path: String) -> Result<DirEntry, String> {
+    let root = std::path::PathBuf::from(&path);
+    let name = root.file_name()
+        .map(|n| n.to_string_lossy().to_string())
+        .unwrap_or_else(|| path.clone());
+
+    Ok(DirEntry {
+        name,
+        children: scan_dir(&root, 2),
+    })
+}
+
+fn scan_dir(dir: &std::path::PathBuf, depth: u32) -> Vec<DirEntry> {
+    if depth == 0 { return vec![]; }
+
+    let mut entries = Vec::new();
+    if let Ok(read_dir) = std::fs::read_dir(dir) {
+        for entry in read_dir.filter_map(|e| e.ok()) {
+            if let Ok(ftype) = entry.file_type() {
+                if ftype.is_dir() {
+                    let child_path = entry.path();
+                    entries.push(DirEntry {
+                        name: entry.file_name().to_string_lossy().to_string(),
+                        children: scan_dir(&child_path, depth - 1),
+                    });
+                }
+            }
+        }
+    }
+    entries.sort_by(|a, b| a.name.cmp(&b.name));
+    entries
+}
+
+#[tauri::command]
 pub fn import_photos(
     paths: Vec<String>,
     dest: String,

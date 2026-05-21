@@ -9,6 +9,7 @@ export interface ImportResult {
 export interface UIStore {
   sourceFolder: string | null;
   destFolder: string | null;
+  defaultDestFolder: string | null;
   selectedTemplate: string;
   showImportModal: boolean;
   showPreviewModal: boolean;
@@ -21,6 +22,8 @@ export interface UIStore {
   
   setSourceFolder: (folder: string | null) => void;
   setDestFolder: (folder: string | null) => void;
+  setDefaultDestFolder: (folder: string) => void;
+  resetDestFolder: () => void;
   setSelectedTemplate: (template: string) => void;
   setShowImportModal: (show: boolean) => void;
   setShowPreviewModal: (show: boolean, path?: string) => void;
@@ -34,6 +37,7 @@ export interface UIStore {
 export const useUIStore = create<UIStore>((set) => ({
   sourceFolder: null,
   destFolder: null,
+  defaultDestFolder: null,
   selectedTemplate: "YYYY/YYYY-MM-DD/",
   showImportModal: false,
   showPreviewModal: false,
@@ -46,6 +50,8 @@ export const useUIStore = create<UIStore>((set) => ({
   
   setSourceFolder: (folder) => set({ sourceFolder: folder }),
   setDestFolder: (folder) => set({ destFolder: folder }),
+  setDefaultDestFolder: (folder) => set({ defaultDestFolder: folder, destFolder: folder }),
+  resetDestFolder: () => set((state) => ({ destFolder: state.defaultDestFolder })),
   setSelectedTemplate: (template) => set({ selectedTemplate: template }),
   setShowImportModal: (show) => set({ showImportModal: show }),
   setShowPreviewModal: (show, path) =>

@@ -6,12 +6,25 @@
   padding: 0;
 }
 
-.panel-section {
-  padding: 12px;
+/* ── Section headers ── */
+
+.section-header {
+  padding: 10px 12px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #888;
+}
+
+/* ── Metadata ── */
+
+.metadata-section {
+  padding: 10px 12px;
   border-bottom: 1px solid #2a2a2a;
 }
 
-.panel-section h3 {
+.metadata-section h3 {
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 8px;
@@ -30,6 +43,143 @@
   color: #ccc;
 }
 
+/* ── Destination ── */
+
+.destination-section {
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 8px;
+}
+
+.dest-path-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 8px;
+}
+
+.dest-path-text {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dest-change-btn {
+  font-size: 11px;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+
+.dest-empty {
+  color: #666;
+  font-size: 12px;
+  padding: 12px;
+  margin: 0;
+}
+
+.tree-container {
+  background: #1a1a1a;
+  margin: 0 8px;
+  border-radius: 4px;
+  padding: 4px 0;
+  max-height: 220px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.tree-root {
+  /* tree container */
+}
+
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.tree-row:hover {
+  background: #2a2a2a;
+}
+
+.tree-toggle {
+  font-size: 8px;
+  width: 12px;
+  text-align: center;
+  flex-shrink: 0;
+  color: #888;
+}
+
+.tree-toggle-spacer {
+  width: 12px;
+  flex-shrink: 0;
+}
+
+.tree-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tree-name.tree-new {
+  color: #a0a0a0;
+}
+
+.tree-count {
+  color: #666;
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.tree-children {
+  /* nested children */
+}
+
+.dest-reset-bar {
+  padding: 0 12px 8px;
+}
+
+.dest-reset-btn {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: transparent;
+  border: none;
+  color: #4a9eff;
+  cursor: pointer;
+}
+
+.dest-reset-btn:hover {
+  text-decoration: underline;
+}
+
+.dest-preview {
+  font-size: 11px;
+  color: #555;
+  padding: 6px 12px 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Format ── */
+
+.format-section {
+  padding: 10px 12px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.format-section h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
 .format-section select {
   background: #2a2a2a;
   color: #e0e0e0;
@@ -40,7 +190,31 @@
   font-size: 12px;
 }
 
-.destination-section {
+/* ── Import button ── */
+
+.import-section {
   padding: 12px;
-  border-bottom: 1px solid #2a2a2a;
+  margin-top: auto;
+}
+
+.import-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #4a9eff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.import-btn:hover {
+  background: #3a8eef;
+}
+
+.import-btn:disabled {
+  background: #2a5a8f;
+  color: #888;
+  cursor: default;
 }

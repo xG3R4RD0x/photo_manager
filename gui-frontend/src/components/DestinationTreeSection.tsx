@@ -1,31 +1,54 @@
-import { ReactNode, useState } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
 import { useUIStore } from "../stores/useUIStore";
 import { usePhotoStore } from "../stores/usePhotoStore";
-
-interface TreeNode {
-  name: string;
-  count: number;
-  isNew: boolean;
-  children: TreeNode[];
-}
+import { applyTemplate, buildDestinationTree, TreeNode, DirEntry, dirEntryToNode, mergeTrees } from "../utils/applyTemplate";
 
 export default function DestinationTreeSection() {
-  const { destFolder, setDestFolder } = useUIStore();
-  const selectedCount = usePhotoStore((s) => s.selectedPaths.size);
-  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(
-    new Set()
+  const { destFolder, defaultDestFolder, setDestFolder, resetDestFolder, selectedTemplate } = useUIStore();
+  const photos = usePhotoStore((s) => s.photos);
+  const selectedPaths = usePhotoStore((s) => s.selectedPaths);
+  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
+  const [realRoot, setRealRoot] = useState<DirEntry | null>(null);
+
+  const selectedPhotos = useMemo(
+    () => photos.filter((p) => selectedPaths.has(p.path)),
+    [photos, selectedPaths],
   );
 
-  const toggleFolder = (path: string) => {
-    const updated = new Set(expandedFolders);
-    if (updated.has(path)) {
-      updated.delete(path);
-    } else {
-      updated.add(path);
+  const projectedRoot = useMemo<TreeNode | null>(
+    () => selectedPhotos.length > 0 ? buildDestinationTree(selectedPhotos, selectedTemplate) : null,
+    [selectedPhotos, selectedTemplate],
+  );
+
+  const fetchRealTree = useCallback(async () => {
+    if (!destFolder) return;
+    try {
+      const root = await invoke<DirEntry>("list_directory_tree", { path: destFolder });
+      setRealRoot(root);
+    } catch (err) {
+      console.error("Failed to list directory tree:", err);
     }
-    setExpandedFolders(updated);
-  };
+  }, [destFolder]);
+
+  useEffect(() => {
+    fetchRealTree();
+  }, [fetchRealTree]);
+
+  const mergedChildren = useMemo<TreeNode[]>(() => {
+    if (!realRoot) return projectedRoot?.children || [];
+    const realNodes = realRoot.children.map((c) => dirEntryToNode(c));
+    if (!projectedRoot) return realNodes;
+    return mergeTrees(realNodes, projectedRoot.children);
+  }, [realRoot, projectedRoot]);
+
+  const previewPath = useMemo(() => {
+    if (selectedPhotos.length === 0) return "";
+    const sample = selectedPhotos[0];
+    const rel = sample.date ? applyTemplate(selectedTemplate, sample.date) : "SinFecha";
+    return `${destFolder}/${rel}/`;
+  }, [selectedPhotos, selectedTemplate, destFolder]);
 
   const selectDestination = async () => {
     const selected = await open({
@@ -33,105 +56,94 @@ export default function DestinationTreeSection() {
       multiple: false,
       title: "Select destination folder for imports",
     });
-
     if (selected && typeof selected === "string") {
       setDestFolder(selected);
     }
   };
 
-  // Mock destination tree structure based on template
-  const mockTree: TreeNode = {
-    name: destFolder || "D:/Photos",
-    count: selectedCount,
-    isNew: false,
-    children: selectedCount > 0 
-      ? [
-          {
-            name: "2026",
-            count: selectedCount,
-            isNew: true,
-            children: [
-              {
-                name: "2026-05-20",
-                count: Math.floor(selectedCount / 2),
-                isNew: true,
-                children: [],
-              },
-              {
-                name: "2026-05-21",
-                count: Math.ceil(selectedCount / 2),
-                isNew: true,
-                children: [],
-              },
-            ],
-          },
-          {
-            name: "SinFecha",
-            count: 0,
-            isNew: true,
-            children: [],
-          },
-        ]
-      : [],
+  const toggleFolder = (key: string) => {
+    setExpandedFolders((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
   };
 
-  const renderNode = (node: TreeNode, level: number = 0): ReactNode => {
-    const nodeKey = `${level}-${node.name}`;
+  const renderNode = (node: TreeNode, path: string, level: number = 0): React.ReactNode => {
+    const nodeKey = `${path}/${node.name}`;
     const isExpanded = expandedFolders.has(nodeKey);
+    const hasChildren = node.children.length > 0;
 
     return (
-      <div key={nodeKey} style={{ marginLeft: `${level * 16}px`, fontSize: "12px" }}>
+      <div key={nodeKey}>
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
-            cursor: node.children.length > 0 ? "pointer" : "default",
-            padding: "4px 0",
-            color: node.isNew ? "#999" : "#ccc",
-            fontStyle: node.isNew ? "italic" : "normal",
-          }}
-          onClick={() => {
-            if (node.children.length > 0) {
-              toggleFolder(nodeKey);
-            }
-          }}
+          className="tree-row"
+          style={{ paddingLeft: `${level * 16 + 8}px` }}
+          onClick={() => hasChildren && toggleFolder(nodeKey)}
         >
-          {node.children.length > 0 && (
-            <span>{isExpanded ? "▼" : "▶"}</span>
+          {hasChildren && (
+            <span className="tree-toggle">{isExpanded ? "▼" : "▶"}</span>
           )}
-          <span>📁 {node.name}</span>
-          <span style={{ marginLeft: "auto", color: "#666" }}>
-            ({node.count})
+          {!hasChildren && <span className="tree-toggle-spacer" />}
+          <span className={`tree-name ${node.isNew ? "tree-new" : ""}`}>
+            {node.name}
           </span>
+          {node.count > 0 && (
+            <span className="tree-count">{node.count}</span>
+          )}
+          {node.count === 0 && !node.isNew && (
+            <span className="tree-count-existing">0</span>
+          )}
         </div>
-        {isExpanded &&
-          node.children.map((child) => renderNode(child, level + 1))}
+        {isExpanded && hasChildren && (
+          <div className="tree-children">
+            {node.children.map((child) => renderNode(child, nodeKey, level + 1))}
+          </div>
+        )}
       </div>
     );
   };
 
   return (
     <div className="destination-section">
-      <h3>📂 Destination</h3>
-      <button
-        style={{ width: "100%", marginBottom: "8px" }}
-        onClick={selectDestination}
-      >
-        📁 Change...
-      </button>
-      <div
-        style={{
-          background: "#2a2a2a",
-          padding: "8px",
-          borderRadius: "4px",
-          fontSize: "12px",
-          maxHeight: "200px",
-          overflowY: "auto",
-        }}
-      >
-        {renderNode(mockTree)}
+      <div className="section-header">
+        <span>Destination</span>
       </div>
+
+      <div className="dest-path-bar">
+        <span className="dest-path-text">{destFolder}</span>
+        <button className="dest-change-btn" onClick={selectDestination}>
+          Change...
+        </button>
+      </div>
+
+      {defaultDestFolder && destFolder !== defaultDestFolder && (
+        <div className="dest-reset-bar">
+          <button className="dest-reset-btn" onClick={resetDestFolder}>
+            ↺ Reset to default
+          </button>
+        </div>
+      )}
+
+      <div className="tree-container">
+        <div className="tree-root">
+          <div className="tree-row" style={{ paddingLeft: "8px", fontWeight: 500 }}>
+            <span className="tree-toggle-spacer" />
+            <span className="tree-name">{destFolder}</span>
+            {selectedPhotos.length > 0 && (
+              <span className="tree-count">{selectedPhotos.length}</span>
+            )}
+          </div>
+          {mergedChildren.map((child) => renderNode(child, destFolder || "", 1))}
+        </div>
+      </div>
+
+      {selectedPhotos.length > 0 && (
+        <p className="dest-preview">
+          e.g. {previewPath}
+        </p>
+      )}
     </div>
   );
 }

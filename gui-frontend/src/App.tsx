@@ -14,6 +14,14 @@ import "./App.css";
 export default function App() {
   // Auto-detect devices on startup
   useDeviceDetection();
+  const { setDefaultDestFolder } = useUIStore();
+
+  // Initialize default pictures folder on startup
+  useEffect(() => {
+    invoke<string>("get_pictures_folder")
+      .then(setDefaultDestFolder)
+      .catch(() => setDefaultDestFolder("/Pictures"));
+  }, [setDefaultDestFolder]);
 
   return (
     <div className="app-container">

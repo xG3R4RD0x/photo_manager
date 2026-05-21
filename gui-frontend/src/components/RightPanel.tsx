@@ -23,21 +23,12 @@ export default function RightPanel() {
   return (
     <div className="right-panel">
       <MetadataSection />
-      <FormatSection />
       <DestinationTreeSection />
+      <FormatSection />
 
-      <div className="panel-section" style={{ marginTop: "auto" }}>
-        <button
-          style={{
-            width: "100%",
-            padding: "10px",
-            fontSize: "14px",
-            fontWeight: "500",
-          }}
-          onClick={handleImport}
-          disabled={isImporting}
-        >
-          📥 Import ({selectedCount} photos)
+      <div className="import-section">
+        <button className="import-btn" onClick={handleImport} disabled={isImporting}>
+          Import ({selectedCount} photos)
         </button>
       </div>
     </div>
