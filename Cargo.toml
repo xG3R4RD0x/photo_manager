@@ -3,13 +3,13 @@ name = "photo_manager"
 version = "0.1.0"
 edition = "2021"
 
-[lib]
-name = "photo_manager"
-path = "src/lib.rs"
-
 [[bin]]
 name = "photo_manager"
 path = "src/main.rs"
+
+[lib]
+name = "photo_manager_lib"
+path = "src/lib.rs"
 
 [dependencies]
 walkdir = "2.5"
@@ -22,13 +22,15 @@ image = "0.25"
 blake3 = "1.5"
 base64 = "0.22"
 lazy_static = "1.4"
-
-[target.'cfg(windows)'.dependencies]
 tauri = { version = "2", features = [] }
 tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"
 
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[target.'cfg(windows)'.dependencies]
+
 [target.'cfg(not(windows))'.dependencies]
-tauri = { version = "2", features = [] }
 
 [dev-dependencies]
