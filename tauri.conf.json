@@ -11,6 +11,7 @@
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "Photo Manager",
         "width": 1400,
         "height": 900,

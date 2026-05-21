@@ -10,7 +10,7 @@
     "build": "cd gui-frontend && npm run build",
     "tauri": "tauri",
     "tauri:build": "tauri build",
-    "tauri:dev": "tauri dev"
+    "tauri:dev": "tauri dev --no-watch"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0"
