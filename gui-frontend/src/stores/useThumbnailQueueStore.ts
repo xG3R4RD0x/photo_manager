@@ -68,6 +68,10 @@ export interface ThumbnailQueueActions {
   // Cancellation
   cancelOutOfViewport: (visiblePaths: Set<string>) => void;
 
+  // Queue management
+  clearQueues: () => void;
+  fullReset: () => void;
+
   // Work tracking
   markInProgress: (path: string, tier: 'high' | 'secondary' | 'low') => AbortController;
   markCompleted: (path: string) => void;
@@ -185,6 +189,34 @@ export const useThumbnailQueueStore = create<ThumbnailQueueStore>((set, get) => 
       }
 
       return { inProgress: newInProgress };
+    });
+  },
+
+  // Queue management
+  clearQueues: () => {
+    // Clear pending queues but keep in-progress items running
+    set({
+      highPriority: [],
+      secondaryPriority: [],
+      lowPriority: [],
+    });
+  },
+
+  fullReset: () => {
+    set((state) => {
+      // Abort all in-progress
+      for (const [, task] of state.inProgress) {
+        task.abortController.abort();
+      }
+      return {
+        highPriority: [],
+        secondaryPriority: [],
+        lowPriority: [],
+        inProgress: new Map(),
+        thumbnails: new Map(),
+        failedRetries: new Map(),
+        visiblePhotoPaths: new Set(),
+      };
     });
   },
 

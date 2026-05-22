@@ -2,11 +2,16 @@ import { useEffect, useRef, useCallback } from 'react';
 import { listen } from '@tauri-apps/api/event';
 import { invoke } from '@tauri-apps/api/core';
 import { useThumbnailQueueStore } from '../stores/useThumbnailQueueStore';
+import { usePhotoStore } from '../stores/usePhotoStore';
 
 export function useThumbnailGenerator() {
   const isInitialized = useThumbnailQueueStore((s) => s.isInitialized);
   const initializeStore = useThumbnailQueueStore((s) => s.initializeStore);
   const batchObserveInterval = useThumbnailQueueStore((s) => s.config.batchObserveInterval);
+
+  // Wait for all photos to have dates before starting generation
+  const photos = usePhotoStore((s) => s.photos);
+  const allDated = photos.length > 0 && photos.every((p) => p.date !== null);
 
   const observerRef = useRef<IntersectionObserver | null>(null);
   const mutationObserverRef = useRef<MutationObserver | null>(null);
@@ -14,6 +19,29 @@ export function useThumbnailGenerator() {
   const unlistenersRef = useRef<(() => void)[]>([]);
   const debounceTimerRef = useRef<number | null>(null);
   const retryTimerRef = useRef<number | null>(null);
+  const initialLoadRef = useRef(false);
+  const prevAllDatedRef = useRef(false);
+
+  // Reset queue when metadata enrichment completes (photos get dates)
+  useEffect(() => {
+    if (photos.length > 0 && allDated && !prevAllDatedRef.current) {
+      const store = useThumbnailQueueStore.getState();
+      store.fullReset();
+      initialLoadRef.current = false;
+    }
+    prevAllDatedRef.current = allDated;
+  }, [allDated, photos.length]);
+
+  // Reset when photos count changes (new folder loaded)
+  const prevPhotoCountRef = useRef(0);
+  useEffect(() => {
+    if (photos.length > 0 && prevPhotoCountRef.current !== photos.length && prevPhotoCountRef.current > 0) {
+      const store = useThumbnailQueueStore.getState();
+      store.fullReset();
+      initialLoadRef.current = false;
+    }
+    prevPhotoCountRef.current = photos.length;
+  }, [photos.length]);
 
   useEffect(() => {
     if (!isInitialized) {
@@ -148,7 +176,6 @@ export function useThumbnailGenerator() {
     if (isGeneratingRef.current) return;
     const store = useThumbnailQueueStore.getState();
 
-    // Prefer non-RAW files to keep UI fast; fall back to RAW if no JPEGs left
     let nextPath: string | null =
       store.highPriority.find((p) => !isRawFile(p)) ||
       store.highPriority[0] ||
@@ -192,6 +219,7 @@ export function useThumbnailGenerator() {
     }
   }, []);
 
+  // Scroll debounce: clear queues, cancel off-screen, add visible items
   useEffect(() => {
     const scrollContainer = document.querySelector('.grid-content');
     if (!scrollContainer) return;
@@ -203,14 +231,16 @@ export function useThumbnailGenerator() {
 
       debounceTimerRef.current = window.setTimeout(() => {
         const store = useThumbnailQueueStore.getState();
+
+        // Clear all queues so only current visible items get prioritized
+        store.clearQueues();
+
         store.resortQueue(store.visiblePhotoPaths, store.config.bufferPixels);
         store.cancelOutOfViewport(store.visiblePhotoPaths);
 
-        if (!isGeneratingRef.current && store.highPriority.length === 0) {
-          const visibleArray = Array.from(store.visiblePhotoPaths);
-          if (visibleArray.length > 0) {
-            store.addToHighPriority(visibleArray);
-          }
+        const visibleArray = Array.from(store.visiblePhotoPaths);
+        if (visibleArray.length > 0) {
+          store.addToHighPriority(visibleArray);
         }
 
         generateNextThumbnail();
@@ -242,23 +272,21 @@ export function useThumbnailGenerator() {
     };
   }, []);
 
-  // Trigger initial generation when visible items are detected
+  // Trigger initial generation only when metadata is complete (all photos have dates)
   const visibleSize = useThumbnailQueueStore((s) => s.visiblePhotoPaths.size);
-  const initialLoadRef = useRef(false);
 
   useEffect(() => {
-    if (visibleSize > 0 && !initialLoadRef.current) {
+    if (visibleSize > 0 && allDated && !initialLoadRef.current) {
       initialLoadRef.current = true;
       const store = useThumbnailQueueStore.getState();
-      if (store.highPriority.length === 0) {
-        const visibleArray = Array.from(store.visiblePhotoPaths);
-        if (visibleArray.length > 0) {
-          store.addToHighPriority(visibleArray);
-        }
+      store.clearQueues();
+      const visibleArray = Array.from(store.visiblePhotoPaths);
+      if (visibleArray.length > 0) {
+        store.addToHighPriority(visibleArray);
       }
       generateNextThumbnail();
     }
-  }, [visibleSize, generateNextThumbnail]);
+  }, [visibleSize, allDated, generateNextThumbnail]);
 
   return { startGeneration: generateNextThumbnail };
 }
