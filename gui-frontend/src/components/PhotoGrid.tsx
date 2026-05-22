@@ -1,6 +1,9 @@
 import { useState, useMemo, useEffect } from "react";
 import { usePhotoStore, PhotoInfo } from "../stores/usePhotoStore";
 import { useUIStore } from "../stores/useUIStore";
+import { useThumbnailGenerator } from "../hooks/useThumbnailGenerator";
+import { useThumbnail } from "../hooks/useThumbnail";
+import ThumbnailLoader from "./ThumbnailLoader";
 import "./PhotoGrid.css";
 
 interface DayGroup {
@@ -18,12 +21,79 @@ interface YearGroup {
   months: MonthGroup[];
 }
 
+/**
+ * PhotoGridItem
+ * 
+ * Individual photo item with thumbnail loader
+ */
+interface PhotoGridItemProps {
+  photo: PhotoInfo;
+  isSelected: boolean;
+  isDuplicate: boolean;
+  onToggleSelection: (path: string) => void;
+  onDoubleClick: (path: string) => void;
+}
+
+function PhotoGridItem({
+  photo,
+  isSelected,
+  isDuplicate,
+  onToggleSelection,
+  onDoubleClick,
+}: PhotoGridItemProps) {
+  const { thumbnail, isLoading, isFailed } = useThumbnail(photo.path);
+
+  return (
+    <ThumbnailLoader photoPath={photo.path}>
+      <div
+        className={`grid-item ${isSelected ? "selected" : ""} ${
+          isDuplicate ? "duplicate" : ""
+        }`}
+        onClick={() => {
+          if (!isDuplicate) onToggleSelection(photo.path);
+        }}
+        onDoubleClick={() => {
+          if (!isDuplicate) onDoubleClick(photo.path);
+        }}
+        data-photo-path={photo.path}
+      >
+        <div className="thumbnail-container">
+          {thumbnail ? (
+            <img src={thumbnail} alt={photo.filename} className="thumbnail-image" />
+          ) : isLoading ? (
+            <div className="thumbnail-placeholder thumbnail-placeholder--loading">
+              <div className="spinner"></div>
+            </div>
+          ) : isFailed ? (
+            <div className="thumbnail-placeholder thumbnail-placeholder--failed" title="Failed to load thumbnail" />
+          ) : (
+            <div className="thumbnail-placeholder" />
+          )}
+        </div>
+        <div className="filename">{photo.filename}</div>
+        {!isDuplicate && (
+          <input
+            type="checkbox"
+            className="grid-checkbox"
+            checked={isSelected}
+            onChange={() => onToggleSelection(photo.path)}
+            onClick={(e) => e.stopPropagation()}
+          />
+        )}
+      </div>
+    </ThumbnailLoader>
+  );
+}
+
 export default function PhotoGrid() {
   const photos = usePhotoStore((s) => s.photos);
   const selectedPaths = usePhotoStore((s) => s.selectedPaths);
   const duplicatePaths = usePhotoStore((s) => s.duplicatePaths);
   const { toggleSelection, toggleGroup } = usePhotoStore();
   const { setShowPreviewModal } = useUIStore();
+
+  // Initialize thumbnail generation system
+  useThumbnailGenerator();
 
   const isDup = (path: string) => duplicatePaths.has(path);
   const nonDups = (paths: string[]) => paths.filter((p) => !isDup(p));
@@ -250,39 +320,25 @@ export default function PhotoGrid() {
                                         </span>
                                       </div>
 
-                                      {dayExpanded && (
-                                        <div className="grid-items">
-                                          {dayGroup.photos.map((photo) => {
-                                            const dup = isDup(photo.path);
-                                            return (
-                                            <div
-                                              key={photo.path}
-                                              className={`grid-item ${
-                                                selectedPaths.has(photo.path) ? "selected" : ""
-                                              } ${dup ? "duplicate" : ""}`}
-                                              onClick={() => {
-                                                if (!dup) toggleSelection(photo.path);
-                                              }}
-                                              onDoubleClick={() => {
-                                                if (!dup) setShowPreviewModal(true, photo.path);
-                                              }}
-                                            >
-                                              <div className="thumbnail-placeholder" />
-                                              <div className="filename">{photo.filename}</div>
-                                              {!dup && (
-                                                <input
-                                                  type="checkbox"
-                                                  className="grid-checkbox"
-                                                  checked={selectedPaths.has(photo.path)}
-                                                  onChange={() => toggleSelection(photo.path)}
-                                                  onClick={(e) => e.stopPropagation()}
-                                                />
-                                              )}
-                                            </div>
-                                            );
-                                          })}
-                                        </div>
-                                      )}
+                                       {dayExpanded && (
+                                         <div className="grid-items">
+                                           {dayGroup.photos.map((photo) => {
+                                             const dup = isDup(photo.path);
+                                             return (
+                                               <PhotoGridItem
+                                                 key={photo.path}
+                                                 photo={photo}
+                                                 isSelected={selectedPaths.has(photo.path)}
+                                                 isDuplicate={dup}
+                                                 onToggleSelection={toggleSelection}
+                                                 onDoubleClick={(path) =>
+                                                   setShowPreviewModal(true, path)
+                                                 }
+                                               />
+                                             );
+                                           })}
+                                         </div>
+                                       )}
                                     </div>
                                   );
                                 })}

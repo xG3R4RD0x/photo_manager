@@ -37,7 +37,10 @@ export function useImportFlow() {
       });
 
       usePhotoStore.getState().deselectAll();
+      
+      // Trigger both duplicate check and thumbnail generation
       useUIStore.getState().triggerDuplicateCheck();
+      useUIStore.getState().triggerThumbnailGeneration();
     } catch (error) {
       useUIStore.setState({
         importResult: { success: false, message: `Import failed: ${error}` },

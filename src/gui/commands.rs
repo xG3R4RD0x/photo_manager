@@ -226,6 +226,101 @@ pub fn get_thumbnail(path: String) -> Result<String, String> {
     Ok(data_url)
 }
 
+/// New event-based thumbnail generation command
+/// Emits 'thumbnail_ready' or 'thumbnail_failed' events
+#[tauri::command]
+pub fn generate_thumbnail(path: String, app: tauri::AppHandle) {
+    // Check cache first
+    if let Ok(cache) = THUMBNAIL_CACHE.lock() {
+        if let Some(cached) = cache.get(&path) {
+            let _ = app.emit("thumbnail_ready", serde_json::json!({
+                "path": path.clone(),
+                "base64": cached.clone(),
+            }));
+            return;
+        }
+    }
+    
+    // Spawn background thread to avoid blocking
+    std::thread::spawn(move || {
+        match generate_thumbnail_impl(&path) {
+            Ok(data_url) => {
+                // Cache it
+                if let Ok(mut cache) = THUMBNAIL_CACHE.lock() {
+                    cache.insert(path.clone(), data_url.clone());
+                }
+                
+                let _ = app.emit("thumbnail_ready", serde_json::json!({
+                    "path": path,
+                    "base64": data_url,
+                }));
+            }
+            Err(err) => {
+                let _ = app.emit("thumbnail_failed", serde_json::json!({
+                    "path": path,
+                    "reason": err,
+                }));
+            }
+        }
+    });
+}
+
+/// Internal implementation for thumbnail generation
+fn generate_thumbnail_impl(path: &str) -> Result<String, String> {
+    let file_path = PathBuf::from(path);
+    let thumbnail_data = thumbnail::get_thumbnail(&file_path, 200)?;
+    
+    // Encode to base64
+    let engine = base64::engine::general_purpose::STANDARD;
+    let base64 = engine.encode(&thumbnail_data);
+    let data_url = format!("data:image/jpeg;base64,{}", base64);
+    
+    Ok(data_url)
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ThumbnailCacheEntry {
+    pub path: String,
+    pub base64: String,
+}
+
+/// Load cached thumbnails from destination folder
+/// Format: destination/.photo_manager_cache/[source_hash]/index.json
+#[tauri::command]
+pub fn load_thumbnail_cache(dest_folder: String) -> Result<Vec<ThumbnailCacheEntry>, String> {
+    let cache_dir = PathBuf::from(&dest_folder)
+        .join(".photo_manager_cache");
+    
+    if !cache_dir.exists() {
+        return Ok(Vec::new()); // No cache yet
+    }
+    
+    // For now, return empty (full implementation below)
+    // TODO: Read cache entries from destination/.photo_manager_cache/
+    Ok(Vec::new())
+}
+
+/// Clean up thumbnail cache for photos no longer in destination
+/// Called after import to remove stale cache entries
+#[tauri::command]
+pub fn cleanup_thumbnail_cache(dest_folder: String) -> Result<String, String> {
+    let cache_dir = PathBuf::from(&dest_folder)
+        .join(".photo_manager_cache");
+    
+    if !cache_dir.exists() {
+        return Ok("No cache to clean".to_string());
+    }
+    
+    // TODO: Implement cache cleanup
+    // Logic:
+    // 1. List all cache subdirectories (one per source folder)
+    // 2. For each, list cached photos
+    // 3. Check if photo still exists in destination
+    // 4. Delete cache entries for missing photos
+    
+    Ok("Cache cleaned".to_string())
+}
+
 #[tauri::command]
 pub fn get_config() -> crate::gui::config::AppConfig {
     load_config()

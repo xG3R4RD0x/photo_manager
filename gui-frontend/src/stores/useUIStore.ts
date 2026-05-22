@@ -21,6 +21,7 @@ export interface UIStore {
   importResult: ImportResult | null;
   isImporting: boolean;
   status: string;
+  thumbnailGenerationTrigger: number;
   
   setSourceFolder: (folder: string | null) => void;
   setDestFolder: (folder: string | null) => void;
@@ -32,6 +33,7 @@ export interface UIStore {
   setImportProgress: (current: number, total: number) => void;
   setDuplicateCheckProgress: (progress: { current: number; total: number } | null) => void;
   triggerDuplicateCheck: () => void;
+  triggerThumbnailGeneration: () => void;
   setImportResult: (result: ImportResult | null) => void;
   setIsImporting: (importing: boolean) => void;
   setStatus: (status: string) => void;
@@ -53,6 +55,7 @@ export const useUIStore = create<UIStore>((set) => ({
   importResult: null,
   isImporting: false,
   status: "Ready",
+  thumbnailGenerationTrigger: 0,
   
   setSourceFolder: (folder) => set({ sourceFolder: folder }),
   setDestFolder: (folder) => set({ destFolder: folder }),
@@ -66,6 +69,7 @@ export const useUIStore = create<UIStore>((set) => ({
     set({ importProgress: current, importTotal: total }),
   setDuplicateCheckProgress: (progress) => set({ duplicateCheckProgress: progress }),
   triggerDuplicateCheck: () => set((s) => ({ duplicateCheckTrigger: s.duplicateCheckTrigger + 1 })),
+  triggerThumbnailGeneration: () => set((s) => ({ thumbnailGenerationTrigger: s.thumbnailGenerationTrigger + 1 })),
   setImportResult: (result) => set({ importResult: result }),
   setIsImporting: (importing) => set({ isImporting: importing }),
   setStatus: (status) => set({ status }),

@@ -4,8 +4,7 @@
   "description": "Grants access to core events, dialog, and filesystem for the main window",
   "windows": ["main"],
   "permissions": [
-    "core:event:allow-listen",
-    "core:event:allow-emit",
+    "core:event:default",
     "dialog:allow-open",
     "fs:allow-read",
     "fs:allow-read-dir",

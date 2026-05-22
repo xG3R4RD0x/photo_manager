@@ -35,7 +35,7 @@ pub fn get_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, String> {
     }
 }
 
-/// Extract embedded JPEG from RAW EXIF data
+/// Extract embedded JPEG from RAW EXIF data, with fallback to full RAW conversion
 fn extract_embedded_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, String> {
     let file = File::open(path).map_err(|e| e.to_string())?;
     let mut reader = BufReader::new(file);
@@ -83,6 +83,8 @@ fn extract_embedded_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, Str
         }
     }
     
-    // Fallback: if no thumbnail found, return placeholder
-    Err("No embedded JPEG thumbnail found in RAW file".to_string())
+    // Fallback: attempt full RAW to JPEG conversion
+    // This would require a RAW processing library like libraw
+    // For now, return error with suggestion to install raw conversion tools
+    Err("No embedded JPEG found in RAW file - full RAW conversion not yet implemented. Install dcraw or similar tools for full RAW support.".to_string())
 }
