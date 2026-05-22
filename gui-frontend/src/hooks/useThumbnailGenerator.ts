@@ -9,9 +9,9 @@ export function useThumbnailGenerator() {
   const initializeStore = useThumbnailQueueStore((s) => s.initializeStore);
   const batchObserveInterval = useThumbnailQueueStore((s) => s.config.batchObserveInterval);
 
-  // Wait for all photos to have dates before starting generation
+  // Wait for metadata enrichment to start before triggering generation
   const photos = usePhotoStore((s) => s.photos);
-  const allDated = photos.length > 0 && photos.every((p) => p.date !== null);
+  const hasSomeDates = photos.length > 0 && photos.some((p) => p.date !== null);
 
   const observerRef = useRef<IntersectionObserver | null>(null);
   const mutationObserverRef = useRef<MutationObserver | null>(null);
@@ -19,18 +19,18 @@ export function useThumbnailGenerator() {
   const unlistenersRef = useRef<(() => void)[]>([]);
   const debounceTimerRef = useRef<number | null>(null);
   const retryTimerRef = useRef<number | null>(null);
+  const fallbackTimerRef = useRef<number | null>(null);
   const initialLoadRef = useRef(false);
-  const prevAllDatedRef = useRef(false);
+  const prevHasDatesRef = useRef(false);
 
-  // Reset queue when metadata enrichment completes (photos get dates)
+  // When metadata enrichment completes (some photos get dates), reset queue
   useEffect(() => {
-    if (photos.length > 0 && allDated && !prevAllDatedRef.current) {
-      const store = useThumbnailQueueStore.getState();
-      store.fullReset();
+    if (photos.length > 0 && hasSomeDates && !prevHasDatesRef.current) {
+      useThumbnailQueueStore.getState().fullReset();
       initialLoadRef.current = false;
     }
-    prevAllDatedRef.current = allDated;
-  }, [allDated, photos.length]);
+    prevHasDatesRef.current = hasSomeDates;
+  }, [hasSomeDates, photos.length]);
 
   // Reset when photos count changes (new folder loaded)
   const prevPhotoCountRef = useRef(0);
@@ -272,11 +272,11 @@ export function useThumbnailGenerator() {
     };
   }, []);
 
-  // Trigger initial generation only when metadata is complete (all photos have dates)
+  // Trigger initial generation when metadata is available (some photos have dates)
   const visibleSize = useThumbnailQueueStore((s) => s.visiblePhotoPaths.size);
 
   useEffect(() => {
-    if (visibleSize > 0 && allDated && !initialLoadRef.current) {
+    if (visibleSize > 0 && hasSomeDates && !initialLoadRef.current) {
       initialLoadRef.current = true;
       const store = useThumbnailQueueStore.getState();
       store.clearQueues();
@@ -286,7 +286,28 @@ export function useThumbnailGenerator() {
       }
       generateNextThumbnail();
     }
-  }, [visibleSize, allDated, generateNextThumbnail]);
+  }, [visibleSize, hasSomeDates, generateNextThumbnail]);
+
+  // Fallback: if photos loaded but no dates arrive (no EXIF), start generation after 5s
+  useEffect(() => {
+    if (photos.length > 0 && !hasSomeDates && !initialLoadRef.current) {
+      fallbackTimerRef.current = window.setTimeout(() => {
+        const store = useThumbnailQueueStore.getState();
+        if (store.visiblePhotoPaths.size > 0) {
+          initialLoadRef.current = true;
+          store.clearQueues();
+          const visibleArray = Array.from(store.visiblePhotoPaths);
+          if (visibleArray.length > 0) {
+            store.addToHighPriority(visibleArray);
+            generateNextThumbnail();
+          }
+        }
+      }, 5000);
+    }
+    return () => {
+      if (fallbackTimerRef.current !== null) clearTimeout(fallbackTimerRef.current);
+    };
+  }, [photos.length, hasSomeDates, generateNextThumbnail]);
 
   return { startGeneration: generateNextThumbnail };
 }

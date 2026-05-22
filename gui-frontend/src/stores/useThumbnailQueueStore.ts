@@ -265,6 +265,9 @@ export const useThumbnailQueueStore = create<ThumbnailQueueStore>((set, get) => 
       return {
         inProgress: newInProgress,
         failedRetries: newFailedRetries,
+        highPriority: state.highPriority.filter((p) => p !== path),
+        secondaryPriority: state.secondaryPriority.filter((p) => p !== path),
+        lowPriority: state.lowPriority.filter((p) => p !== path),
       };
     });
   },
