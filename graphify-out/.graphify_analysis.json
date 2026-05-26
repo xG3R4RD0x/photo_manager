@@ -1,0 +1,1168 @@
+{
+  "communities": {
+    "0": [
+      "components_destinationtreesection_destinationtreesection",
+      "components_duplicatecheckbar_duplicatecheckbar",
+      "components_formatsection_formatsection",
+      "components_formatsection_templates",
+      "components_importmodal_importmodal",
+      "components_metadatasection_exifdata",
+      "components_metadatasection_metadatasection",
+      "components_photogrid_daygroup",
+      "components_photogrid_monthgroup",
+      "components_photogrid_photogrid",
+      "components_photogrid_photogriditem",
+      "components_photogrid_photogriditemprops",
+      "components_photogrid_yeargroup",
+      "components_previewmodal_previewmodal",
+      "components_rightpanel_rightpanel",
+      "components_sourcetree_removabledrive",
+      "components_sourcetree_sourcetree",
+      "components_thumbnailloader_thumbnailloader",
+      "components_thumbnailloader_thumbnailloaderprops",
+      "components_toolbar_toolbar",
+      "gui_frontend_src_app_tsx",
+      "gui_frontend_src_components_destinationtreesection_tsx",
+      "gui_frontend_src_components_duplicatecheckbar_tsx",
+      "gui_frontend_src_components_formatsection_tsx",
+      "gui_frontend_src_components_importmodal_tsx",
+      "gui_frontend_src_components_metadatasection_tsx",
+      "gui_frontend_src_components_photogrid_tsx",
+      "gui_frontend_src_components_previewmodal_tsx",
+      "gui_frontend_src_components_rightpanel_tsx",
+      "gui_frontend_src_components_sourcetree_tsx",
+      "gui_frontend_src_components_thumbnailloader_tsx",
+      "gui_frontend_src_components_toolbar_tsx",
+      "gui_frontend_src_hooks_usedevicedetection_ts",
+      "gui_frontend_src_hooks_useduplicatecheck_ts",
+      "gui_frontend_src_hooks_usefolderbrowse_ts",
+      "gui_frontend_src_hooks_useimportflow_ts",
+      "gui_frontend_src_hooks_usetestdata_ts",
+      "gui_frontend_src_hooks_usethumbnail_ts",
+      "gui_frontend_src_hooks_usethumbnailgenerator_ts",
+      "gui_frontend_src_main_tsx",
+      "gui_frontend_src_stores_usephotostore_ts",
+      "gui_frontend_src_stores_usethumbnailqueuestore_ts",
+      "gui_frontend_src_stores_useuistore_ts",
+      "gui_frontend_src_utils_applytemplate_ts",
+      "hooks_usedevicedetection_removabledrive",
+      "hooks_usedevicedetection_usedevicedetection",
+      "hooks_useduplicatecheck_useduplicatecheck",
+      "hooks_usefolderbrowse_usefolderbrowse",
+      "hooks_useimportflow_useimportflow",
+      "hooks_usetestdata_usetestdata",
+      "hooks_usethumbnail_usethumbnail",
+      "hooks_usethumbnail_usethumbnailresult",
+      "hooks_usethumbnailgenerator_usethumbnailgenerator",
+      "src_app_app",
+      "stores_usephotostore_photoinfo",
+      "stores_usephotostore_photostore",
+      "stores_usephotostore_usephotostore",
+      "stores_usethumbnailqueuestore_default_config",
+      "stores_usethumbnailqueuestore_thumbnailinprogress",
+      "stores_usethumbnailqueuestore_thumbnailqueueactions",
+      "stores_usethumbnailqueuestore_thumbnailqueueconfig",
+      "stores_usethumbnailqueuestore_thumbnailqueuestate",
+      "stores_usethumbnailqueuestore_thumbnailqueuestore",
+      "stores_usethumbnailqueuestore_usethumbnailqueuestore",
+      "stores_useuistore_importresult",
+      "stores_useuistore_uistore",
+      "stores_useuistore_useuistore",
+      "utils_applytemplate_applytemplate",
+      "utils_applytemplate_builddestinationtree",
+      "utils_applytemplate_direntry",
+      "utils_applytemplate_direntrytonode",
+      "utils_applytemplate_mergetrees",
+      "utils_applytemplate_month_names_en",
+      "utils_applytemplate_month_names_es",
+      "utils_applytemplate_treenode"
+    ],
+    "1": [
+      "schemas_acl_manifests_allow_from_bytes_commands",
+      "schemas_acl_manifests_allow_from_bytes_description",
+      "schemas_acl_manifests_allow_from_bytes_identifier",
+      "schemas_acl_manifests_allow_from_path_commands",
+      "schemas_acl_manifests_allow_from_path_description",
+      "schemas_acl_manifests_allow_from_path_identifier",
+      "schemas_acl_manifests_allow_new_commands",
+      "schemas_acl_manifests_allow_new_description",
+      "schemas_acl_manifests_allow_new_identifier",
+      "schemas_acl_manifests_allow_rgba_commands",
+      "schemas_acl_manifests_allow_rgba_description",
+      "schemas_acl_manifests_allow_rgba_identifier",
+      "schemas_acl_manifests_allow_size_commands",
+      "schemas_acl_manifests_allow_size_description",
+      "schemas_acl_manifests_allow_size_identifier",
+      "schemas_acl_manifests_core_image_permissions",
+      "schemas_acl_manifests_deny_from_bytes_commands",
+      "schemas_acl_manifests_deny_from_bytes_description",
+      "schemas_acl_manifests_deny_from_bytes_identifier",
+      "schemas_acl_manifests_deny_from_path_commands",
+      "schemas_acl_manifests_deny_from_path_description",
+      "schemas_acl_manifests_deny_from_path_identifier",
+      "schemas_acl_manifests_deny_new_commands",
+      "schemas_acl_manifests_deny_new_description",
+      "schemas_acl_manifests_deny_new_identifier",
+      "schemas_acl_manifests_deny_rgba_commands",
+      "schemas_acl_manifests_deny_rgba_description",
+      "schemas_acl_manifests_deny_rgba_identifier",
+      "schemas_acl_manifests_deny_size_commands",
+      "schemas_acl_manifests_deny_size_description",
+      "schemas_acl_manifests_deny_size_identifier",
+      "schemas_acl_manifests_permissions_allow_from_bytes",
+      "schemas_acl_manifests_permissions_allow_from_path",
+      "schemas_acl_manifests_permissions_allow_new",
+      "schemas_acl_manifests_permissions_allow_rgba",
+      "schemas_acl_manifests_permissions_allow_size",
+      "schemas_acl_manifests_permissions_deny_from_bytes",
+      "schemas_acl_manifests_permissions_deny_from_path",
+      "schemas_acl_manifests_permissions_deny_new",
+      "schemas_acl_manifests_permissions_deny_rgba",
+      "schemas_acl_manifests_permissions_deny_size"
+    ],
+    "2": [
+      "schemas_acl_manifests_allow_emit_commands",
+      "schemas_acl_manifests_allow_emit_description",
+      "schemas_acl_manifests_allow_emit_identifier",
+      "schemas_acl_manifests_allow_emit_to_commands",
+      "schemas_acl_manifests_allow_emit_to_description",
+      "schemas_acl_manifests_allow_emit_to_identifier",
+      "schemas_acl_manifests_allow_listen_commands",
+      "schemas_acl_manifests_allow_listen_description",
+      "schemas_acl_manifests_allow_listen_identifier",
+      "schemas_acl_manifests_allow_unlisten_commands",
+      "schemas_acl_manifests_allow_unlisten_description",
+      "schemas_acl_manifests_allow_unlisten_identifier",
+      "schemas_acl_manifests_core_event_permissions",
+      "schemas_acl_manifests_deny_emit_commands",
+      "schemas_acl_manifests_deny_emit_description",
+      "schemas_acl_manifests_deny_emit_identifier",
+      "schemas_acl_manifests_deny_emit_to_commands",
+      "schemas_acl_manifests_deny_emit_to_description",
+      "schemas_acl_manifests_deny_emit_to_identifier",
+      "schemas_acl_manifests_deny_listen_commands",
+      "schemas_acl_manifests_deny_listen_description",
+      "schemas_acl_manifests_deny_listen_identifier",
+      "schemas_acl_manifests_deny_unlisten_commands",
+      "schemas_acl_manifests_deny_unlisten_description",
+      "schemas_acl_manifests_deny_unlisten_identifier",
+      "schemas_acl_manifests_permissions_allow_emit",
+      "schemas_acl_manifests_permissions_allow_emit_to",
+      "schemas_acl_manifests_permissions_allow_listen",
+      "schemas_acl_manifests_permissions_allow_unlisten",
+      "schemas_acl_manifests_permissions_deny_emit",
+      "schemas_acl_manifests_permissions_deny_emit_to",
+      "schemas_acl_manifests_permissions_deny_listen",
+      "schemas_acl_manifests_permissions_deny_unlisten"
+    ],
+    "3": [
+      "gui_commands_cleanup_thumbnail_cache",
+      "gui_commands_detect_camera",
+      "gui_commands_direntry",
+      "gui_commands_dupprogress",
+      "gui_commands_enrich_photos_metadata_fast",
+      "gui_commands_exifdata",
+      "gui_commands_find_photo_folder",
+      "gui_commands_generate_thumbnail",
+      "gui_commands_generate_thumbnail_impl",
+      "gui_commands_get_config",
+      "gui_commands_get_exif",
+      "gui_commands_get_pictures_folder",
+      "gui_commands_get_thumbnail",
+      "gui_commands_import_photos",
+      "gui_commands_list_all_removable_drives",
+      "gui_commands_list_directory_tree",
+      "gui_commands_load_thumbnail_cache",
+      "gui_commands_photoinfo",
+      "gui_commands_save_config_cmd",
+      "gui_commands_scan_dir",
+      "gui_commands_scan_photos",
+      "gui_commands_scan_photos_quick",
+      "gui_commands_start_duplicate_check",
+      "gui_commands_thumbnailcacheentry",
+      "gui_config_appconfig",
+      "gui_config_appconfig_default",
+      "gui_config_get_config_path",
+      "gui_config_load_config",
+      "gui_config_save_config",
+      "src_gui_commands_rs",
+      "src_gui_config_rs"
+    ],
+    "4": [
+      "gui_frontend_tsconfig_compileroptions",
+      "gui_frontend_tsconfig_compileroptions_allowsyntheticdefaultimports",
+      "gui_frontend_tsconfig_compileroptions_alwaysstrict",
+      "gui_frontend_tsconfig_compileroptions_esmoduleinterop",
+      "gui_frontend_tsconfig_compileroptions_isolatedmodules",
+      "gui_frontend_tsconfig_compileroptions_jsx",
+      "gui_frontend_tsconfig_compileroptions_lib",
+      "gui_frontend_tsconfig_compileroptions_module",
+      "gui_frontend_tsconfig_compileroptions_moduleresolution",
+      "gui_frontend_tsconfig_compileroptions_noemit",
+      "gui_frontend_tsconfig_compileroptions_nofallthroughcasesinswitch",
+      "gui_frontend_tsconfig_compileroptions_noimplicitany",
+      "gui_frontend_tsconfig_compileroptions_noimplicitreturns",
+      "gui_frontend_tsconfig_compileroptions_noimplicitthis",
+      "gui_frontend_tsconfig_compileroptions_nounusedlocals",
+      "gui_frontend_tsconfig_compileroptions_nounusedparameters",
+      "gui_frontend_tsconfig_compileroptions_resolvejsonmodule",
+      "gui_frontend_tsconfig_compileroptions_skiplibcheck",
+      "gui_frontend_tsconfig_compileroptions_strict",
+      "gui_frontend_tsconfig_compileroptions_strictfunctiontypes",
+      "gui_frontend_tsconfig_compileroptions_strictnullchecks",
+      "gui_frontend_tsconfig_compileroptions_strictpropertyinitialization",
+      "gui_frontend_tsconfig_compileroptions_target",
+      "gui_frontend_tsconfig_compileroptions_usedefineforclassfields",
+      "gui_frontend_tsconfig_exclude",
+      "gui_frontend_tsconfig_include",
+      "gui_frontend_tsconfig_json"
+    ],
+    "5": [
+      "gui_frontend_package_dependencies",
+      "gui_frontend_package_dependencies_react",
+      "gui_frontend_package_dependencies_react_dom",
+      "gui_frontend_package_dependencies_react_window",
+      "gui_frontend_package_dependencies_tauri_apps_api",
+      "gui_frontend_package_dependencies_tauri_apps_plugin_dialog",
+      "gui_frontend_package_dependencies_tauri_apps_plugin_fs",
+      "gui_frontend_package_dependencies_zustand",
+      "gui_frontend_package_devdependencies",
+      "gui_frontend_package_devdependencies_types_node",
+      "gui_frontend_package_devdependencies_types_react",
+      "gui_frontend_package_devdependencies_types_react_dom",
+      "gui_frontend_package_devdependencies_types_react_window",
+      "gui_frontend_package_devdependencies_typescript",
+      "gui_frontend_package_devdependencies_vite",
+      "gui_frontend_package_devdependencies_vitejs_plugin_react",
+      "gui_frontend_package_devdependencies_vitest",
+      "gui_frontend_package_json",
+      "gui_frontend_package_name",
+      "gui_frontend_package_scripts",
+      "gui_frontend_package_scripts_build",
+      "gui_frontend_package_scripts_dev",
+      "gui_frontend_package_scripts_preview",
+      "gui_frontend_package_scripts_test",
+      "gui_frontend_package_type",
+      "gui_frontend_package_version"
+    ],
+    "6": [
+      "gen_schemas_acl_manifests_json",
+      "schemas_acl_manifests_core",
+      "schemas_acl_manifests_core_app",
+      "schemas_acl_manifests_core_app_default_permission",
+      "schemas_acl_manifests_core_app_global_scope_schema",
+      "schemas_acl_manifests_core_app_permission_sets",
+      "schemas_acl_manifests_core_default_permission",
+      "schemas_acl_manifests_core_event",
+      "schemas_acl_manifests_core_event_default_permission",
+      "schemas_acl_manifests_core_event_global_scope_schema",
+      "schemas_acl_manifests_core_event_permission_sets",
+      "schemas_acl_manifests_core_global_scope_schema",
+      "schemas_acl_manifests_core_image",
+      "schemas_acl_manifests_core_image_default_permission",
+      "schemas_acl_manifests_core_image_global_scope_schema",
+      "schemas_acl_manifests_core_image_permission_sets",
+      "schemas_acl_manifests_core_menu",
+      "schemas_acl_manifests_core_menu_default_permission",
+      "schemas_acl_manifests_core_permission_sets",
+      "schemas_acl_manifests_core_permissions",
+      "schemas_acl_manifests_default_permission_description",
+      "schemas_acl_manifests_default_permission_identifier",
+      "schemas_acl_manifests_default_permission_permissions"
+    ],
+    "7": [
+      "photo_manager_tauri_conf_app",
+      "photo_manager_tauri_conf_app_security",
+      "photo_manager_tauri_conf_app_windows",
+      "photo_manager_tauri_conf_build",
+      "photo_manager_tauri_conf_build_beforebuildcommand",
+      "photo_manager_tauri_conf_build_beforedevcommand",
+      "photo_manager_tauri_conf_build_devurl",
+      "photo_manager_tauri_conf_build_frontenddist",
+      "photo_manager_tauri_conf_bundle",
+      "photo_manager_tauri_conf_bundle_active",
+      "photo_manager_tauri_conf_bundle_icon",
+      "photo_manager_tauri_conf_bundle_targets",
+      "photo_manager_tauri_conf_bundle_windows",
+      "photo_manager_tauri_conf_identifier",
+      "photo_manager_tauri_conf_productname",
+      "photo_manager_tauri_conf_security_csp",
+      "photo_manager_tauri_conf_version",
+      "photo_manager_tauri_conf_windows_certificatethumbprint",
+      "photo_manager_tauri_conf_windows_digestalgorithm",
+      "photo_manager_tauri_conf_windows_wix",
+      "tauri_conf_json"
+    ],
+    "8": [
+      "package_json",
+      "photo_manager_package_devdependencies",
+      "photo_manager_package_devdependencies_tauri_apps_cli",
+      "photo_manager_package_name",
+      "photo_manager_package_scripts",
+      "photo_manager_package_scripts_build",
+      "photo_manager_package_scripts_dev",
+      "photo_manager_package_scripts_tauri",
+      "photo_manager_package_scripts_tauri_build",
+      "photo_manager_package_scripts_tauri_dev",
+      "photo_manager_package_type",
+      "photo_manager_package_version",
+      "photo_manager_package_workspaces"
+    ],
+    "9": [
+      "schemas_desktop_schema_definitions",
+      "schemas_desktop_schema_definitions_number",
+      "schemas_desktop_schema_definitions_permissionentry",
+      "schemas_desktop_schema_definitions_target",
+      "schemas_desktop_schema_definitions_value",
+      "schemas_desktop_schema_number_anyof",
+      "schemas_desktop_schema_number_description",
+      "schemas_desktop_schema_permissionentry_anyof",
+      "schemas_desktop_schema_permissionentry_description",
+      "schemas_desktop_schema_target_description",
+      "schemas_desktop_schema_target_oneof",
+      "schemas_desktop_schema_value_anyof",
+      "schemas_desktop_schema_value_description"
+    ],
+    "10": [
+      "schemas_windows_schema_definitions",
+      "schemas_windows_schema_definitions_number",
+      "schemas_windows_schema_definitions_permissionentry",
+      "schemas_windows_schema_definitions_target",
+      "schemas_windows_schema_definitions_value",
+      "schemas_windows_schema_number_anyof",
+      "schemas_windows_schema_number_description",
+      "schemas_windows_schema_permissionentry_anyof",
+      "schemas_windows_schema_permissionentry_description",
+      "schemas_windows_schema_target_description",
+      "schemas_windows_schema_target_oneof",
+      "schemas_windows_schema_value_anyof",
+      "schemas_windows_schema_value_description"
+    ],
+    "11": [
+      "media_management_metadata_clear_exif_cache",
+      "media_management_metadata_extract_date_with_fallback",
+      "media_management_metadata_extract_exif_date",
+      "media_management_metadata_extract_exif_date_fast",
+      "media_management_metadata_extract_exif_from_partial_read",
+      "media_management_metadata_get_cache_key",
+      "media_management_metadata_get_file_modification_date",
+      "media_management_metadata_parse_exif_date",
+      "media_management_metadata_photometadata",
+      "media_management_metadata_photometadata_formatted_day",
+      "media_management_metadata_photometadata_year",
+      "src_media_management_metadata_rs"
+    ],
+    "12": [
+      "schemas_acl_manifests_allow_insert_commands",
+      "schemas_acl_manifests_allow_insert_description",
+      "schemas_acl_manifests_allow_insert_identifier",
+      "schemas_acl_manifests_allow_set_as_windows_menu_for_nsapp_commands",
+      "schemas_acl_manifests_allow_set_as_windows_menu_for_nsapp_description",
+      "schemas_acl_manifests_allow_set_as_windows_menu_for_nsapp_identifier",
+      "schemas_acl_manifests_deny_create_default_commands",
+      "schemas_acl_manifests_deny_create_default_description",
+      "schemas_acl_manifests_deny_create_default_identifier",
+      "schemas_acl_manifests_permissions_allow_insert",
+      "schemas_acl_manifests_permissions_allow_set_as_windows_menu_for_nsapp",
+      "schemas_acl_manifests_permissions_deny_create_default"
+    ],
+    "13": [
+      "schemas_desktop_schema_items_ref",
+      "schemas_desktop_schema_permissions_description",
+      "schemas_desktop_schema_permissions_items",
+      "schemas_desktop_schema_permissions_type",
+      "schemas_desktop_schema_permissions_uniqueitems",
+      "schemas_desktop_schema_platforms_description",
+      "schemas_desktop_schema_platforms_items",
+      "schemas_desktop_schema_platforms_type",
+      "schemas_desktop_schema_properties_permissions",
+      "schemas_desktop_schema_properties_platforms"
+    ],
+    "14": [
+      "schemas_desktop_schema_capability_properties",
+      "schemas_desktop_schema_identifier_type",
+      "schemas_desktop_schema_local_default",
+      "schemas_desktop_schema_local_description",
+      "schemas_desktop_schema_local_type",
+      "schemas_desktop_schema_properties_identifier",
+      "schemas_desktop_schema_properties_local",
+      "schemas_desktop_schema_properties_remote",
+      "schemas_desktop_schema_remote_anyof",
+      "schemas_desktop_schema_remote_description"
+    ],
+    "15": [
+      "schemas_desktop_schema_items_type",
+      "schemas_desktop_schema_properties_webviews",
+      "schemas_desktop_schema_properties_windows",
+      "schemas_desktop_schema_urls_items",
+      "schemas_desktop_schema_webviews_description",
+      "schemas_desktop_schema_webviews_items",
+      "schemas_desktop_schema_webviews_type",
+      "schemas_desktop_schema_windows_description",
+      "schemas_desktop_schema_windows_items",
+      "schemas_desktop_schema_windows_type"
+    ],
+    "16": [
+      "schemas_windows_schema_capability_properties",
+      "schemas_windows_schema_identifier_type",
+      "schemas_windows_schema_local_default",
+      "schemas_windows_schema_local_description",
+      "schemas_windows_schema_local_type",
+      "schemas_windows_schema_properties_identifier",
+      "schemas_windows_schema_properties_local",
+      "schemas_windows_schema_properties_remote",
+      "schemas_windows_schema_remote_anyof",
+      "schemas_windows_schema_remote_description"
+    ],
+    "17": [
+      "schemas_windows_schema_items_ref",
+      "schemas_windows_schema_permissions_description",
+      "schemas_windows_schema_permissions_items",
+      "schemas_windows_schema_permissions_type",
+      "schemas_windows_schema_permissions_uniqueitems",
+      "schemas_windows_schema_platforms_description",
+      "schemas_windows_schema_platforms_items",
+      "schemas_windows_schema_platforms_type",
+      "schemas_windows_schema_properties_permissions",
+      "schemas_windows_schema_properties_platforms"
+    ],
+    "18": [
+      "schemas_windows_schema_items_type",
+      "schemas_windows_schema_properties_webviews",
+      "schemas_windows_schema_properties_windows",
+      "schemas_windows_schema_urls_items",
+      "schemas_windows_schema_webviews_description",
+      "schemas_windows_schema_webviews_items",
+      "schemas_windows_schema_webviews_type",
+      "schemas_windows_schema_windows_description",
+      "schemas_windows_schema_windows_items",
+      "schemas_windows_schema_windows_type"
+    ],
+    "19": [
+      "schemas_acl_manifests_allow_append_commands",
+      "schemas_acl_manifests_allow_append_description",
+      "schemas_acl_manifests_allow_append_identifier",
+      "schemas_acl_manifests_commands_deny",
+      "schemas_acl_manifests_deny_tauri_version_commands",
+      "schemas_acl_manifests_deny_tauri_version_description",
+      "schemas_acl_manifests_deny_tauri_version_identifier",
+      "schemas_acl_manifests_permissions_allow_append",
+      "schemas_acl_manifests_permissions_deny_tauri_version"
+    ],
+    "20": [
+      "schemas_acl_manifests_allow_set_app_theme_description",
+      "schemas_acl_manifests_allow_set_app_theme_identifier",
+      "schemas_acl_manifests_core_app_permissions",
+      "schemas_acl_manifests_deny_fetch_data_store_identifiers_commands",
+      "schemas_acl_manifests_deny_fetch_data_store_identifiers_description",
+      "schemas_acl_manifests_deny_fetch_data_store_identifiers_identifier",
+      "schemas_acl_manifests_permissions_allow_set_app_theme",
+      "schemas_acl_manifests_permissions_deny_fetch_data_store_identifiers"
+    ],
+    "21": [
+      "schemas_desktop_schema_capabilityremote_description",
+      "schemas_desktop_schema_capabilityremote_properties",
+      "schemas_desktop_schema_capabilityremote_required",
+      "schemas_desktop_schema_capabilityremote_type",
+      "schemas_desktop_schema_definitions_capabilityremote",
+      "schemas_desktop_schema_properties_urls",
+      "schemas_desktop_schema_urls_description",
+      "schemas_desktop_schema_urls_type"
+    ],
+    "22": [
+      "schemas_windows_schema_capabilityremote_description",
+      "schemas_windows_schema_capabilityremote_properties",
+      "schemas_windows_schema_capabilityremote_required",
+      "schemas_windows_schema_capabilityremote_type",
+      "schemas_windows_schema_definitions_capabilityremote",
+      "schemas_windows_schema_properties_urls",
+      "schemas_windows_schema_urls_description",
+      "schemas_windows_schema_urls_type"
+    ],
+    "23": [
+      "gen_schemas_capabilities_json",
+      "schemas_capabilities_main_window",
+      "schemas_capabilities_main_window_description",
+      "schemas_capabilities_main_window_identifier",
+      "schemas_capabilities_main_window_local",
+      "schemas_capabilities_main_window_permissions",
+      "schemas_capabilities_main_window_windows"
+    ],
+    "24": [
+      "media_management_storage_count_photos",
+      "media_management_storage_detect_camera_drive",
+      "media_management_storage_find_photo_folder",
+      "media_management_storage_list_all_removable_drives",
+      "media_management_storage_list_photos",
+      "media_management_storage_removabledrive",
+      "src_media_management_storage_rs"
+    ],
+    "25": [
+      "capabilities_main_window_description",
+      "capabilities_main_window_identifier",
+      "capabilities_main_window_json",
+      "capabilities_main_window_permissions",
+      "capabilities_main_window_schema",
+      "capabilities_main_window_windows"
+    ],
+    "26": [
+      "schemas_acl_manifests_allow_set_app_theme_commands",
+      "schemas_acl_manifests_commands_allow",
+      "schemas_acl_manifests_deny_identifier_commands",
+      "schemas_acl_manifests_deny_identifier_description",
+      "schemas_acl_manifests_deny_identifier_identifier",
+      "schemas_acl_manifests_permissions_deny_identifier"
+    ],
+    "27": [
+      "import_planner_apply_template",
+      "import_planner_build_destination_tree",
+      "import_planner_group_photos_by_date",
+      "import_planner_treenode",
+      "src_import_planner_rs"
+    ],
+    "28": [
+      "schemas_acl_manifests_allow_items_commands",
+      "schemas_acl_manifests_allow_items_description",
+      "schemas_acl_manifests_allow_items_identifier",
+      "schemas_acl_manifests_core_menu_permissions",
+      "schemas_acl_manifests_permissions_allow_items"
+    ],
+    "29": [
+      "gen_schemas_desktop_schema_json",
+      "schemas_desktop_schema_anyof",
+      "schemas_desktop_schema_description",
+      "schemas_desktop_schema_schema",
+      "schemas_desktop_schema_title"
+    ],
+    "30": [
+      "gen_schemas_windows_schema_json",
+      "schemas_windows_schema_anyof",
+      "schemas_windows_schema_description",
+      "schemas_windows_schema_schema",
+      "schemas_windows_schema_title"
+    ],
+    "31": [
+      "import_copier_apply_template",
+      "import_copier_copy_with_template",
+      "import_copier_importjob",
+      "import_copier_importprogress",
+      "src_import_copier_rs"
+    ],
+    "32": [
+      "schemas_acl_manifests_allow_app_show_commands",
+      "schemas_acl_manifests_allow_app_show_description",
+      "schemas_acl_manifests_allow_app_show_identifier",
+      "schemas_acl_manifests_permissions_allow_app_show"
+    ],
+    "33": [
+      "schemas_acl_manifests_allow_default_window_icon_commands",
+      "schemas_acl_manifests_allow_default_window_icon_description",
+      "schemas_acl_manifests_allow_default_window_icon_identifier",
+      "schemas_acl_manifests_permissions_allow_default_window_icon"
+    ],
+    "34": [
+      "schemas_acl_manifests_allow_identifier_commands",
+      "schemas_acl_manifests_allow_identifier_description",
+      "schemas_acl_manifests_allow_identifier_identifier",
+      "schemas_acl_manifests_permissions_allow_identifier"
+    ],
+    "35": [
+      "schemas_acl_manifests_allow_name_commands",
+      "schemas_acl_manifests_allow_name_description",
+      "schemas_acl_manifests_allow_name_identifier",
+      "schemas_acl_manifests_permissions_allow_name"
+    ],
+    "36": [
+      "schemas_acl_manifests_allow_remove_data_store_commands",
+      "schemas_acl_manifests_allow_remove_data_store_description",
+      "schemas_acl_manifests_allow_remove_data_store_identifier",
+      "schemas_acl_manifests_permissions_allow_remove_data_store"
+    ],
+    "37": [
+      "schemas_acl_manifests_allow_supports_multiple_windows_commands",
+      "schemas_acl_manifests_allow_supports_multiple_windows_description",
+      "schemas_acl_manifests_allow_supports_multiple_windows_identifier",
+      "schemas_acl_manifests_permissions_allow_supports_multiple_windows"
+    ],
+    "38": [
+      "schemas_acl_manifests_deny_remove_listener_commands",
+      "schemas_acl_manifests_deny_remove_listener_description",
+      "schemas_acl_manifests_deny_remove_listener_identifier",
+      "schemas_acl_manifests_permissions_deny_remove_listener"
+    ],
+    "39": [
+      "schemas_acl_manifests_deny_version_commands",
+      "schemas_acl_manifests_deny_version_description",
+      "schemas_acl_manifests_deny_version_identifier",
+      "schemas_acl_manifests_permissions_deny_version"
+    ],
+    "40": [
+      "schemas_acl_manifests_allow_app_hide_commands",
+      "schemas_acl_manifests_allow_app_hide_description",
+      "schemas_acl_manifests_allow_app_hide_identifier",
+      "schemas_acl_manifests_permissions_allow_app_hide"
+    ],
+    "41": [
+      "schemas_acl_manifests_allow_bundle_type_commands",
+      "schemas_acl_manifests_allow_bundle_type_description",
+      "schemas_acl_manifests_allow_bundle_type_identifier",
+      "schemas_acl_manifests_permissions_allow_bundle_type"
+    ],
+    "42": [
+      "schemas_acl_manifests_allow_fetch_data_store_identifiers_commands",
+      "schemas_acl_manifests_allow_fetch_data_store_identifiers_description",
+      "schemas_acl_manifests_allow_fetch_data_store_identifiers_identifier",
+      "schemas_acl_manifests_permissions_allow_fetch_data_store_identifiers"
+    ],
+    "43": [
+      "schemas_acl_manifests_allow_register_listener_commands",
+      "schemas_acl_manifests_allow_register_listener_description",
+      "schemas_acl_manifests_allow_register_listener_identifier",
+      "schemas_acl_manifests_permissions_allow_register_listener"
+    ],
+    "44": [
+      "schemas_acl_manifests_allow_remove_listener_commands",
+      "schemas_acl_manifests_allow_remove_listener_description",
+      "schemas_acl_manifests_allow_remove_listener_identifier",
+      "schemas_acl_manifests_permissions_allow_remove_listener"
+    ],
+    "45": [
+      "schemas_acl_manifests_allow_set_dock_visibility_commands",
+      "schemas_acl_manifests_allow_set_dock_visibility_description",
+      "schemas_acl_manifests_allow_set_dock_visibility_identifier",
+      "schemas_acl_manifests_permissions_allow_set_dock_visibility"
+    ],
+    "46": [
+      "schemas_acl_manifests_allow_tauri_version_commands",
+      "schemas_acl_manifests_allow_tauri_version_description",
+      "schemas_acl_manifests_allow_tauri_version_identifier",
+      "schemas_acl_manifests_permissions_allow_tauri_version"
+    ],
+    "47": [
+      "schemas_acl_manifests_allow_version_commands",
+      "schemas_acl_manifests_allow_version_description",
+      "schemas_acl_manifests_allow_version_identifier",
+      "schemas_acl_manifests_permissions_allow_version"
+    ],
+    "48": [
+      "schemas_acl_manifests_deny_app_hide_commands",
+      "schemas_acl_manifests_deny_app_hide_description",
+      "schemas_acl_manifests_deny_app_hide_identifier",
+      "schemas_acl_manifests_permissions_deny_app_hide"
+    ],
+    "49": [
+      "schemas_acl_manifests_deny_app_show_commands",
+      "schemas_acl_manifests_deny_app_show_description",
+      "schemas_acl_manifests_deny_app_show_identifier",
+      "schemas_acl_manifests_permissions_deny_app_show"
+    ],
+    "50": [
+      "schemas_acl_manifests_deny_bundle_type_commands",
+      "schemas_acl_manifests_deny_bundle_type_description",
+      "schemas_acl_manifests_deny_bundle_type_identifier",
+      "schemas_acl_manifests_permissions_deny_bundle_type"
+    ],
+    "51": [
+      "schemas_acl_manifests_deny_default_window_icon_commands",
+      "schemas_acl_manifests_deny_default_window_icon_description",
+      "schemas_acl_manifests_deny_default_window_icon_identifier",
+      "schemas_acl_manifests_permissions_deny_default_window_icon"
+    ],
+    "52": [
+      "schemas_acl_manifests_deny_name_commands",
+      "schemas_acl_manifests_deny_name_description",
+      "schemas_acl_manifests_deny_name_identifier",
+      "schemas_acl_manifests_permissions_deny_name"
+    ],
+    "53": [
+      "schemas_acl_manifests_deny_register_listener_commands",
+      "schemas_acl_manifests_deny_register_listener_description",
+      "schemas_acl_manifests_deny_register_listener_identifier",
+      "schemas_acl_manifests_permissions_deny_register_listener"
+    ],
+    "54": [
+      "schemas_acl_manifests_deny_remove_data_store_commands",
+      "schemas_acl_manifests_deny_remove_data_store_description",
+      "schemas_acl_manifests_deny_remove_data_store_identifier",
+      "schemas_acl_manifests_permissions_deny_remove_data_store"
+    ],
+    "55": [
+      "schemas_acl_manifests_deny_set_app_theme_commands",
+      "schemas_acl_manifests_deny_set_app_theme_description",
+      "schemas_acl_manifests_deny_set_app_theme_identifier",
+      "schemas_acl_manifests_permissions_deny_set_app_theme"
+    ],
+    "56": [
+      "schemas_acl_manifests_deny_set_dock_visibility_commands",
+      "schemas_acl_manifests_deny_set_dock_visibility_description",
+      "schemas_acl_manifests_deny_set_dock_visibility_identifier",
+      "schemas_acl_manifests_permissions_deny_set_dock_visibility"
+    ],
+    "57": [
+      "schemas_acl_manifests_deny_supports_multiple_windows_commands",
+      "schemas_acl_manifests_deny_supports_multiple_windows_description",
+      "schemas_acl_manifests_deny_supports_multiple_windows_identifier",
+      "schemas_acl_manifests_permissions_deny_supports_multiple_windows"
+    ],
+    "58": [
+      "schemas_acl_manifests_allow_get_commands",
+      "schemas_acl_manifests_allow_get_description",
+      "schemas_acl_manifests_allow_get_identifier",
+      "schemas_acl_manifests_permissions_allow_get"
+    ],
+    "59": [
+      "schemas_acl_manifests_allow_set_accelerator_commands",
+      "schemas_acl_manifests_allow_set_accelerator_description",
+      "schemas_acl_manifests_allow_set_accelerator_identifier",
+      "schemas_acl_manifests_permissions_allow_set_accelerator"
+    ],
+    "60": [
+      "schemas_acl_manifests_allow_set_as_window_menu_commands",
+      "schemas_acl_manifests_allow_set_as_window_menu_description",
+      "schemas_acl_manifests_allow_set_as_window_menu_identifier",
+      "schemas_acl_manifests_permissions_allow_set_as_window_menu"
+    ],
+    "61": [
+      "schemas_acl_manifests_allow_create_default_commands",
+      "schemas_acl_manifests_allow_create_default_description",
+      "schemas_acl_manifests_allow_create_default_identifier",
+      "schemas_acl_manifests_permissions_allow_create_default"
+    ],
+    "62": [
+      "schemas_acl_manifests_allow_is_checked_commands",
+      "schemas_acl_manifests_allow_is_checked_description",
+      "schemas_acl_manifests_allow_is_checked_identifier",
+      "schemas_acl_manifests_permissions_allow_is_checked"
+    ],
+    "63": [
+      "schemas_acl_manifests_allow_is_enabled_commands",
+      "schemas_acl_manifests_allow_is_enabled_description",
+      "schemas_acl_manifests_allow_is_enabled_identifier",
+      "schemas_acl_manifests_permissions_allow_is_enabled"
+    ],
+    "64": [
+      "schemas_acl_manifests_allow_popup_commands",
+      "schemas_acl_manifests_allow_popup_description",
+      "schemas_acl_manifests_allow_popup_identifier",
+      "schemas_acl_manifests_permissions_allow_popup"
+    ],
+    "65": [
+      "schemas_acl_manifests_allow_prepend_commands",
+      "schemas_acl_manifests_allow_prepend_description",
+      "schemas_acl_manifests_allow_prepend_identifier",
+      "schemas_acl_manifests_permissions_allow_prepend"
+    ],
+    "66": [
+      "schemas_acl_manifests_allow_remove_commands",
+      "schemas_acl_manifests_allow_remove_description",
+      "schemas_acl_manifests_allow_remove_identifier",
+      "schemas_acl_manifests_permissions_allow_remove"
+    ],
+    "67": [
+      "schemas_acl_manifests_allow_remove_at_commands",
+      "schemas_acl_manifests_allow_remove_at_description",
+      "schemas_acl_manifests_allow_remove_at_identifier",
+      "schemas_acl_manifests_permissions_allow_remove_at"
+    ],
+    "68": [
+      "schemas_acl_manifests_allow_set_as_app_menu_commands",
+      "schemas_acl_manifests_allow_set_as_app_menu_description",
+      "schemas_acl_manifests_allow_set_as_app_menu_identifier",
+      "schemas_acl_manifests_permissions_allow_set_as_app_menu"
+    ],
+    "69": [
+      "schemas_acl_manifests_allow_set_as_help_menu_for_nsapp_commands",
+      "schemas_acl_manifests_allow_set_as_help_menu_for_nsapp_description",
+      "schemas_acl_manifests_allow_set_as_help_menu_for_nsapp_identifier",
+      "schemas_acl_manifests_permissions_allow_set_as_help_menu_for_nsapp"
+    ],
+    "70": [
+      "schemas_acl_manifests_allow_set_checked_commands",
+      "schemas_acl_manifests_allow_set_checked_description",
+      "schemas_acl_manifests_allow_set_checked_identifier",
+      "schemas_acl_manifests_permissions_allow_set_checked"
+    ],
+    "71": [
+      "schemas_acl_manifests_allow_set_enabled_commands",
+      "schemas_acl_manifests_allow_set_enabled_description",
+      "schemas_acl_manifests_allow_set_enabled_identifier",
+      "schemas_acl_manifests_permissions_allow_set_enabled"
+    ],
+    "72": [
+      "schemas_acl_manifests_allow_set_icon_commands",
+      "schemas_acl_manifests_allow_set_icon_description",
+      "schemas_acl_manifests_allow_set_icon_identifier",
+      "schemas_acl_manifests_permissions_allow_set_icon"
+    ],
+    "73": [
+      "schemas_acl_manifests_allow_set_text_commands",
+      "schemas_acl_manifests_allow_set_text_description",
+      "schemas_acl_manifests_allow_set_text_identifier",
+      "schemas_acl_manifests_permissions_allow_set_text"
+    ],
+    "74": [
+      "schemas_acl_manifests_allow_text_commands",
+      "schemas_acl_manifests_allow_text_description",
+      "schemas_acl_manifests_allow_text_identifier",
+      "schemas_acl_manifests_permissions_allow_text"
+    ],
+    "75": [
+      "schemas_acl_manifests_deny_append_commands",
+      "schemas_acl_manifests_deny_append_description",
+      "schemas_acl_manifests_deny_append_identifier",
+      "schemas_acl_manifests_permissions_deny_append"
+    ],
+    "76": [
+      "schemas_acl_manifests_deny_get_commands",
+      "schemas_acl_manifests_deny_get_description",
+      "schemas_acl_manifests_deny_get_identifier",
+      "schemas_acl_manifests_permissions_deny_get"
+    ],
+    "77": [
+      "schemas_acl_manifests_deny_insert_commands",
+      "schemas_acl_manifests_deny_insert_description",
+      "schemas_acl_manifests_deny_insert_identifier",
+      "schemas_acl_manifests_permissions_deny_insert"
+    ],
+    "78": [
+      "schemas_acl_manifests_deny_is_checked_commands",
+      "schemas_acl_manifests_deny_is_checked_description",
+      "schemas_acl_manifests_deny_is_checked_identifier",
+      "schemas_acl_manifests_permissions_deny_is_checked"
+    ],
+    "79": [
+      "schemas_acl_manifests_deny_is_enabled_commands",
+      "schemas_acl_manifests_deny_is_enabled_description",
+      "schemas_acl_manifests_deny_is_enabled_identifier",
+      "schemas_acl_manifests_permissions_deny_is_enabled"
+    ],
+    "80": [
+      "schemas_acl_manifests_deny_items_commands",
+      "schemas_acl_manifests_deny_items_description",
+      "schemas_acl_manifests_deny_items_identifier",
+      "schemas_acl_manifests_permissions_deny_items"
+    ],
+    "81": [
+      "schemas_desktop_schema_capability_description",
+      "schemas_desktop_schema_capability_required",
+      "schemas_desktop_schema_capability_type",
+      "schemas_desktop_schema_definitions_capability"
+    ],
+    "82": [
+      "schemas_desktop_schema_description_default",
+      "schemas_desktop_schema_description_description",
+      "schemas_desktop_schema_description_type",
+      "schemas_desktop_schema_properties_description"
+    ],
+    "83": [
+      "schemas_windows_schema_capability_description",
+      "schemas_windows_schema_capability_required",
+      "schemas_windows_schema_capability_type",
+      "schemas_windows_schema_definitions_capability"
+    ],
+    "84": [
+      "schemas_windows_schema_description_default",
+      "schemas_windows_schema_description_description",
+      "schemas_windows_schema_description_type",
+      "schemas_windows_schema_properties_description"
+    ],
+    "85": [
+      "media_management_thumbnail_extract_embedded_thumbnail",
+      "media_management_thumbnail_get_thumbnail",
+      "src_media_management_thumbnail_rs"
+    ],
+    "86": [
+      "opencode_opencode_json",
+      "opencode_opencode_plugin",
+      "opencode_opencode_schema"
+    ],
+    "87": [
+      "schemas_desktop_schema_definitions_identifier",
+      "schemas_desktop_schema_identifier_description",
+      "schemas_desktop_schema_identifier_oneof"
+    ],
+    "88": [
+      "schemas_windows_schema_definitions_identifier",
+      "schemas_windows_schema_identifier_description",
+      "schemas_windows_schema_identifier_oneof"
+    ],
+    "89": [
+      "import_dedup_compute_dedup_key",
+      "import_dedup_is_duplicate",
+      "src_import_dedup_rs"
+    ],
+    "90": [
+      "build_rs",
+      "photo_manager_build_main"
+    ],
+    "91": [
+      "opencode_plugins_graphify_js",
+      "plugins_graphify_graphifyplugin"
+    ],
+    "92": [
+      "src_main_main",
+      "src_main_rs"
+    ],
+    "93": [
+      "gui_frontend_vite_config_ts"
+    ],
+    "94": [
+      "src_lib_rs"
+    ],
+    "95": [
+      "src_gui_mod_rs"
+    ],
+    "96": [
+      "src_import_mod_rs"
+    ],
+    "97": [
+      "src_media_management_mod_rs"
+    ]
+  },
+  "cohesion": {
+    "0": 0.06522522522522523,
+    "1": 0.04878048780487805,
+    "2": 0.06060606060606061,
+    "3": 0.07956989247311828,
+    "4": 0.07407407407407407,
+    "5": 0.07692307692307693,
+    "6": 0.13438735177865613,
+    "7": 0.09523809523809523,
+    "8": 0.15384615384615385,
+    "9": 0.15384615384615385,
+    "10": 0.15384615384615385,
+    "11": 0.25757575757575757,
+    "12": 0.13636363636363635,
+    "13": 0.2,
+    "14": 0.2,
+    "15": 0.2,
+    "16": 0.2,
+    "17": 0.2,
+    "18": 0.2,
+    "19": 0.2222222222222222,
+    "20": 0.25,
+    "21": 0.25,
+    "22": 0.25,
+    "23": 0.2857142857142857,
+    "24": 0.3333333333333333,
+    "25": 0.3333333333333333,
+    "26": 0.3333333333333333,
+    "27": 0.5,
+    "28": 0.4,
+    "29": 0.4,
+    "30": 0.4,
+    "31": 0.5,
+    "32": 0.5,
+    "33": 0.5,
+    "34": 0.5,
+    "35": 0.5,
+    "36": 0.5,
+    "37": 0.5,
+    "38": 0.5,
+    "39": 0.5,
+    "40": 0.5,
+    "41": 0.5,
+    "42": 0.5,
+    "43": 0.5,
+    "44": 0.5,
+    "45": 0.5,
+    "46": 0.5,
+    "47": 0.5,
+    "48": 0.5,
+    "49": 0.5,
+    "50": 0.5,
+    "51": 0.5,
+    "52": 0.5,
+    "53": 0.5,
+    "54": 0.5,
+    "55": 0.5,
+    "56": 0.5,
+    "57": 0.5,
+    "58": 0.5,
+    "59": 0.5,
+    "60": 0.5,
+    "61": 0.5,
+    "62": 0.5,
+    "63": 0.5,
+    "64": 0.5,
+    "65": 0.5,
+    "66": 0.5,
+    "67": 0.5,
+    "68": 0.5,
+    "69": 0.5,
+    "70": 0.5,
+    "71": 0.5,
+    "72": 0.5,
+    "73": 0.5,
+    "74": 0.5,
+    "75": 0.5,
+    "76": 0.5,
+    "77": 0.5,
+    "78": 0.5,
+    "79": 0.5,
+    "80": 0.5,
+    "81": 0.5,
+    "82": 0.5,
+    "83": 0.5,
+    "84": 0.5,
+    "85": 1.0,
+    "86": 0.6666666666666666,
+    "87": 0.6666666666666666,
+    "88": 0.6666666666666666,
+    "89": 0.6666666666666666,
+    "90": 1.0,
+    "91": 1.0,
+    "92": 1.0,
+    "93": 1.0,
+    "94": 1.0,
+    "95": 1.0,
+    "96": 1.0,
+    "97": 1.0
+  },
+  "gods": [
+    {
+      "id": "schemas_acl_manifests_commands_allow",
+      "label": "allow",
+      "degree": 76
+    },
+    {
+      "id": "schemas_acl_manifests_commands_deny",
+      "label": "deny",
+      "degree": 76
+    },
+    {
+      "id": "schemas_acl_manifests_core_app_permissions",
+      "label": "permissions",
+      "degree": 31
+    },
+    {
+      "id": "schemas_acl_manifests_core_menu_permissions",
+      "label": "permissions",
+      "degree": 30
+    },
+    {
+      "id": "stores_useuistore_useuistore",
+      "label": "useUIStore",
+      "degree": 29
+    },
+    {
+      "id": "gui_frontend_tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 24
+    },
+    {
+      "id": "stores_usephotostore_usephotostore",
+      "label": "usePhotoStore",
+      "degree": 21
+    },
+    {
+      "id": "schemas_acl_manifests_core_image_permissions",
+      "label": "permissions",
+      "degree": 11
+    },
+    {
+      "id": "schemas_acl_manifests_core_event_permissions",
+      "label": "permissions",
+      "degree": 9
+    },
+    {
+      "id": "hooks_usefolderbrowse_usefolderbrowse",
+      "label": "useFolderBrowse()",
+      "degree": 9
+    }
+  ],
+  "surprises": [
+    {
+      "source": "DuplicateCheckBar()",
+      "target": "useUIStore",
+      "source_files": [
+        "gui-frontend/src/components/DuplicateCheckBar.tsx",
+        "gui-frontend/src/stores/useUIStore.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "peripheral node `DuplicateCheckBar()` unexpectedly reaches hub `useUIStore`"
+    },
+    {
+      "source": "FormatSection()",
+      "target": "useUIStore",
+      "source_files": [
+        "gui-frontend/src/components/FormatSection.tsx",
+        "gui-frontend/src/stores/useUIStore.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "peripheral node `FormatSection()` unexpectedly reaches hub `useUIStore`"
+    },
+    {
+      "source": "ImportModal()",
+      "target": "useUIStore",
+      "source_files": [
+        "gui-frontend/src/components/ImportModal.tsx",
+        "gui-frontend/src/stores/useUIStore.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "peripheral node `ImportModal()` unexpectedly reaches hub `useUIStore`"
+    },
+    {
+      "source": "MetadataSection()",
+      "target": "usePhotoStore",
+      "source_files": [
+        "gui-frontend/src/components/MetadataSection.tsx",
+        "gui-frontend/src/stores/usePhotoStore.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "peripheral node `MetadataSection()` unexpectedly reaches hub `usePhotoStore`"
+    },
+    {
+      "source": "PreviewModal()",
+      "target": "useUIStore",
+      "source_files": [
+        "gui-frontend/src/components/PreviewModal.tsx",
+        "gui-frontend/src/stores/useUIStore.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "peripheral node `PreviewModal()` unexpectedly reaches hub `useUIStore`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `allow` connect `Community 26` to `Community 1`, `Community 2`, `Community 12`, `Community 19`, `Community 20`, `Community 28`, `Community 32`, `Community 33`, `Community 34`, `Community 35`, `Community 36`, `Community 37`, `Community 38`, `Community 39`, `Community 40`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 45`, `Community 46`, `Community 47`, `Community 48`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 53`, `Community 54`, `Community 55`, `Community 56`, `Community 57`, `Community 58`, `Community 59`, `Community 60`, `Community 61`, `Community 62`, `Community 63`, `Community 64`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 80`?",
+      "why": "High betweenness centrality (0.070) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `deny` connect `Community 19` to `Community 1`, `Community 2`, `Community 12`, `Community 20`, `Community 26`, `Community 28`, `Community 32`, `Community 33`, `Community 34`, `Community 35`, `Community 36`, `Community 37`, `Community 38`, `Community 39`, `Community 40`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 45`, `Community 46`, `Community 47`, `Community 48`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 53`, `Community 54`, `Community 55`, `Community 56`, `Community 57`, `Community 58`, `Community 59`, `Community 60`, `Community 61`, `Community 62`, `Community 63`, `Community 64`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 80`?",
+      "why": "High betweenness centrality (0.070) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `permissions` connect `Community 28` to `Community 1`, `Community 6`, `Community 12`, `Community 19`, `Community 58`, `Community 59`, `Community 60`, `Community 61`, `Community 62`, `Community 63`, `Community 64`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 80`?",
+      "why": "High betweenness centrality (0.030) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `name`, `version`, `type` to the rest of the system?",
+      "why": "353 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06522522522522523 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 2` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
