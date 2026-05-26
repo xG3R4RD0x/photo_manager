@@ -49,12 +49,8 @@ function PhotoGridItem({
         className={`grid-item ${isSelected ? "selected" : ""} ${
           isDuplicate ? "duplicate" : ""
         }`}
-        onClick={() => {
-          if (!isDuplicate) onToggleSelection(photo.path);
-        }}
-        onDoubleClick={() => {
-          if (!isDuplicate) onDoubleClick(photo.path);
-        }}
+        onClick={() => onToggleSelection(photo.path)}
+        onDoubleClick={() => onDoubleClick(photo.path)}
         data-photo-path={photo.path}
       >
         <div className="thumbnail-container">
@@ -175,7 +171,7 @@ export default function PhotoGrid() {
     monthGroup.days.flatMap((d) => d.photos.map((p) => p.path));
 
   const yearSelectionState = (yearGroup: YearGroup): "none" | "some" | "all" => {
-    const paths = nonDups(yearPaths(yearGroup));
+    const paths = yearPaths(yearGroup);
     if (paths.length === 0) return "none";
     const all = paths.every((p) => selectedPaths.has(p));
     if (all) return "all";
@@ -183,7 +179,7 @@ export default function PhotoGrid() {
   };
 
   const monthSelectionState = (monthGroup: MonthGroup): "none" | "some" | "all" => {
-    const paths = nonDups(monthPaths(monthGroup));
+    const paths = monthPaths(monthGroup);
     if (paths.length === 0) return "none";
     const all = paths.every((p) => selectedPaths.has(p));
     if (all) return "all";
@@ -191,7 +187,7 @@ export default function PhotoGrid() {
   };
 
   const daySelectionState = (dayGroup: DayGroup): "none" | "some" | "all" => {
-    const paths = nonDups(dayGroup.photos.map((p) => p.path));
+    const paths = dayGroup.photos.map((p) => p.path);
     if (paths.length === 0) return "none";
     const all = paths.every((p) => selectedPaths.has(p));
     if (all) return "all";

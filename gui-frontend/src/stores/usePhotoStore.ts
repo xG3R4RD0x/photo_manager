@@ -27,16 +27,9 @@ export const usePhotoStore = create<PhotoStore>((set) => ({
   
   setPhotos: (photos) => set({ photos }),
   
-  setDuplicatePaths: (paths) => set((state) => {
-    const selected = new Set(state.selectedPaths);
-    for (const p of paths) {
-      selected.delete(p);
-    }
-    return { duplicatePaths: paths, selectedPaths: selected };
-  }),
+  setDuplicatePaths: (paths) => set({ duplicatePaths: paths }),
 
   toggleSelection: (path) => set((state) => {
-    if (state.duplicatePaths.has(path)) return state;
     const selected = new Set(state.selectedPaths);
     if (selected.has(path)) {
       selected.delete(path);
@@ -60,11 +53,7 @@ export const usePhotoStore = create<PhotoStore>((set) => ({
   }),
 
   selectAll: () => set((state) => ({
-    selectedPaths: new Set(
-      state.photos
-        .filter((p) => !state.duplicatePaths.has(p.path))
-        .map((p) => p.path)
-    ),
+    selectedPaths: new Set(state.photos.map((p) => p.path)),
   })),
   
   deselectAll: () => set({ selectedPaths: new Set() }),
@@ -72,11 +61,7 @@ export const usePhotoStore = create<PhotoStore>((set) => ({
   toggleGroupSelection: (selectedOnly) => {
     set((state) => ({
       selectedPaths: selectedOnly
-        ? new Set(
-            state.photos
-              .filter((p) => !state.duplicatePaths.has(p.path))
-              .map((p) => p.path)
-          )
+        ? new Set(state.photos.map((p) => p.path))
         : new Set(),
     }));
   },
