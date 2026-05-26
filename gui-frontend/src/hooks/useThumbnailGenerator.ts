@@ -266,35 +266,47 @@ export function useThumbnailGenerator() {
     };
   }, []);
 
-  // Trigger initial generation when metadata is available (some photos have dates)
-  const visibleSize = useThumbnailQueueStore((s) => s.visiblePhotoPaths.size);
-
+  // Trigger initial generation after grouped layout renders
   useEffect(() => {
-    if (visibleSize > 0 && hasSomeDates && !initialLoadRef.current) {
+    if (hasSomeDates && !initialLoadRef.current) {
       initialLoadRef.current = true;
-      const store = useThumbnailQueueStore.getState();
-      store.clearQueues();
-      const visibleArray = Array.from(store.visiblePhotoPaths);
-      if (visibleArray.length > 0) {
-        store.addToHighPriority(visibleArray);
-      }
-      generateNextThumbnail();
+      requestAnimationFrame(() => {
+        const store = useThumbnailQueueStore.getState();
+        store.clearQueues();
+
+        const items = document.querySelectorAll('[data-photo-path]');
+        const paths = Array.from(items)
+          .map(el => el.getAttribute('data-photo-path'))
+          .filter((p): p is string => p !== null);
+
+        if (paths.length > 0) {
+          store.addToHighPriority(paths);
+          generateNextThumbnail();
+        }
+      });
     }
-  }, [visibleSize, hasSomeDates, generateNextThumbnail]);
+  }, [hasSomeDates, generateNextThumbnail]);
 
   // Fallback: if photos loaded but no dates arrive (no EXIF), start generation after 5s
   useEffect(() => {
     if (photos.length > 0 && !hasSomeDates && !initialLoadRef.current) {
       fallbackTimerRef.current = window.setTimeout(() => {
-        const store = useThumbnailQueueStore.getState();
-        if (store.visiblePhotoPaths.size > 0) {
+        if (!initialLoadRef.current) {
           initialLoadRef.current = true;
-          store.clearQueues();
-          const visibleArray = Array.from(store.visiblePhotoPaths);
-          if (visibleArray.length > 0) {
-            store.addToHighPriority(visibleArray);
-            generateNextThumbnail();
-          }
+          requestAnimationFrame(() => {
+            const store = useThumbnailQueueStore.getState();
+            store.clearQueues();
+
+            const items = document.querySelectorAll('[data-photo-path]');
+            const paths = Array.from(items)
+              .map(el => el.getAttribute('data-photo-path'))
+              .filter((p): p is string => p !== null);
+
+            if (paths.length > 0) {
+              store.addToHighPriority(paths);
+              generateNextThumbnail();
+            }
+          });
         }
       }, 5000);
     }

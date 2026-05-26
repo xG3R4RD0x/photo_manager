@@ -177,8 +177,27 @@
 
 .grid-item.duplicate {
   opacity: 0.4;
-  cursor: default;
   border-color: #333;
+}
+
+.grid-item.inspected {
+  border-color: #5a8eff;
+  background: #0a2a4f;
+}
+
+.grid-item.selected {
+  border-color: #4a9eff;
+  background: #0a3a5f;
+}
+
+.grid-item.selected.inspected {
+  border-color: #4a9eff;
+  background: #0a3a5f;
+}
+
+.grid-item.inspected {
+  border-color: #4a9eff;
+  background: #0a2a4f;
 }
 
 .grid-item.duplicate .thumbnail-placeholder {

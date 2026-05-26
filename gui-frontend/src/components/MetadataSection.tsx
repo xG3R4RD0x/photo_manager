@@ -16,40 +16,28 @@ interface EXIFData {
 }
 
 export default function MetadataSection() {
-  const selectedPaths = usePhotoStore((s) => s.selectedPaths);
+  const inspectedPath = usePhotoStore((s) => s.inspectedPath);
   const [exif, setExif] = useState<EXIFData | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (selectedPaths.size === 1) {
-      const path = Array.from(selectedPaths)[0];
+    if (inspectedPath) {
       setLoading(true);
-      invoke<EXIFData>("get_exif", { path })
+      invoke<EXIFData>("get_exif", { path: inspectedPath })
         .then(setExif)
         .catch((err) => console.error("EXIF fetch failed:", err))
         .finally(() => setLoading(false));
     } else {
       setExif(null);
     }
-  }, [selectedPaths]);
+  }, [inspectedPath]);
 
-  if (selectedPaths.size === 0) {
+  if (!inspectedPath) {
     return (
       <div className="metadata-section">
         <h3>📷 Metadata</h3>
         <p style={{ color: "#666", fontSize: "12px" }}>
           Select a photo to view EXIF data
-        </p>
-      </div>
-    );
-  }
-
-  if (selectedPaths.size > 1) {
-    return (
-      <div className="metadata-section">
-        <h3>📷 Metadata</h3>
-        <p style={{ color: "#666", fontSize: "12px" }}>
-          {selectedPaths.size} photos selected
         </p>
       </div>
     );

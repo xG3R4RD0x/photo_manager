@@ -30,7 +30,9 @@ interface PhotoGridItemProps {
   photo: PhotoInfo;
   isSelected: boolean;
   isDuplicate: boolean;
+  isInspected: boolean;
   onToggleSelection: (path: string) => void;
+  onInspect: (path: string) => void;
   onDoubleClick: (path: string) => void;
 }
 
@@ -38,7 +40,9 @@ function PhotoGridItem({
   photo,
   isSelected,
   isDuplicate,
+  isInspected,
   onToggleSelection,
+  onInspect,
   onDoubleClick,
 }: PhotoGridItemProps) {
   const { thumbnail, isLoading, isFailed } = useThumbnail(photo.path);
@@ -48,8 +52,8 @@ function PhotoGridItem({
       <div
         className={`grid-item ${isSelected ? "selected" : ""} ${
           isDuplicate ? "duplicate" : ""
-        }`}
-        onClick={() => onToggleSelection(photo.path)}
+        } ${isInspected ? "inspected" : ""}`}
+        onClick={() => onInspect(photo.path)}
         onDoubleClick={() => onDoubleClick(photo.path)}
         data-photo-path={photo.path}
       >
@@ -85,7 +89,8 @@ export default function PhotoGrid() {
   const photos = usePhotoStore((s) => s.photos);
   const selectedPaths = usePhotoStore((s) => s.selectedPaths);
   const duplicatePaths = usePhotoStore((s) => s.duplicatePaths);
-  const { toggleSelection, toggleGroup } = usePhotoStore();
+  const inspectedPath = usePhotoStore((s) => s.inspectedPath);
+  const { toggleSelection, toggleGroup, setInspectedPath } = usePhotoStore();
   const { setShowPreviewModal } = useUIStore();
 
   // Initialize thumbnail generation system
@@ -321,16 +326,18 @@ export default function PhotoGrid() {
                                            {dayGroup.photos.map((photo) => {
                                              const dup = isDup(photo.path);
                                              return (
-                                               <PhotoGridItem
-                                                 key={photo.path}
-                                                 photo={photo}
-                                                 isSelected={selectedPaths.has(photo.path)}
-                                                 isDuplicate={dup}
-                                                 onToggleSelection={toggleSelection}
-                                                 onDoubleClick={(path) =>
-                                                   setShowPreviewModal(true, path)
-                                                 }
-                                               />
+                                                <PhotoGridItem
+                                                  key={photo.path}
+                                                  photo={photo}
+                                                  isSelected={selectedPaths.has(photo.path)}
+                                                  isDuplicate={dup}
+                                                  isInspected={inspectedPath === photo.path}
+                                                  onToggleSelection={toggleSelection}
+                                                  onInspect={setInspectedPath}
+                                                  onDoubleClick={(path) =>
+                                                    setShowPreviewModal(true, path)
+                                                  }
+                                                />
                                              );
                                            })}
                                          </div>
