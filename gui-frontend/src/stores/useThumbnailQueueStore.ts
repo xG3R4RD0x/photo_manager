@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { invoke } from '@tauri-apps/api/core';
 
 export interface ThumbnailQueueConfig {
   debounceMs: number;           // Default 300ms
@@ -120,8 +121,11 @@ export const useThumbnailQueueStore = create<ThumbnailQueueStore>((set, get) => 
 
   loadCacheFromDisk: async (cachePath) => {
     try {
-      // TODO: Implement cache loading from destination/.photo_manager_cache/
-      console.log('[ThumbnailQueue] Loading cache from:', cachePath);
+      const entries = await invoke<{ path: string; base64: string }[]>('load_thumbnail_cache', { destFolder: cachePath });
+      if (entries.length > 0) {
+        const newThumbnails = new Map(entries.map(e => [e.path, e.base64]));
+        get().mergeCache(newThumbnails);
+      }
     } catch (error) {
       console.error('[ThumbnailQueue] Failed to load cache:', error);
     }
@@ -293,14 +297,8 @@ export const useThumbnailQueueStore = create<ThumbnailQueueStore>((set, get) => 
     });
   },
 
-  saveCache: async (cachePath) => {
-    try {
-      // TODO: Implement cache saving to destination/.photo_manager_cache/
-      console.log('[ThumbnailQueue] Saving cache to:', cachePath);
-      // Placeholder for now
-    } catch (error) {
-      console.error('[ThumbnailQueue] Failed to save cache:', error);
-    }
+  saveCache: async () => {
+    // Thumbnails saved to disk during generation (Rust side). No-op.
   },
 
   mergeCache: (newThumbnails) => {

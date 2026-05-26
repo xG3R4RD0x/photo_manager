@@ -5,6 +5,7 @@ use std::collections::HashMap;
 use base64::Engine;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
+use std::fs;
 use rayon::prelude::*;
 use tauri::Emitter;
 
@@ -122,17 +123,17 @@ pub async fn enrich_photos_metadata_fast(
         })
         .collect();
 
-    // Sort results: by date (newest first), then "Sin fecha" at end
+    // Sort results: by date (newest first), tie-break by filename
     let mut results = results;
     results.sort_by(|a, b| {
-        let date_a = &a.date;
-        let date_b = &b.date;
-
-        match (date_a, date_b) {
-            (Some(da), Some(db)) => db.cmp(da), // Newest first
-            (None, None) => std::cmp::Ordering::Equal,
-            (Some(_), None) => std::cmp::Ordering::Less, // Dates before "Sin fecha"
-            (None, Some(_)) => std::cmp::Ordering::Greater, // "Sin fecha" at end
+        match (&a.date, &b.date) {
+            (Some(da), Some(db)) => match db.cmp(da) {
+                std::cmp::Ordering::Equal => a.filename.cmp(&b.filename),
+                other => other,
+            },
+            (None, None) => a.filename.cmp(&b.filename),
+            (Some(_), None) => std::cmp::Ordering::Less,
+            (None, Some(_)) => std::cmp::Ordering::Greater,
         }
     });
 
@@ -171,58 +172,63 @@ pub fn scan_photos(folder: String) -> Vec<PhotoInfo> {
 #[tauri::command]
 pub fn get_exif(path: String) -> Option<EXIFData> {
     let file_path = PathBuf::from(&path);
-    let metadata = metadata::extract_exif_date(&file_path)?;
-    
-    let _filename = file_path.file_name()
-        .map(|n| n.to_string_lossy().to_string())
-        .unwrap_or_default();
-    
+    let full = metadata::extract_full_exif(&file_path)?;
+
     let ext = file_path.extension()
         .map(|e| e.to_string_lossy().to_string())
         .unwrap_or_default()
         .to_uppercase();
-    
+
     let file_size = std::fs::metadata(&file_path)
         .map(|m| m.len())
         .unwrap_or(0);
-    
+
     Some(EXIFData {
-        camera: Some("Canon EOS R5".to_string()), // TODO: extract from EXIF
-        lens: Some("Canon RF 24-70mm f/2.8L IS USM".to_string()), // TODO
-        aperture: Some("f/2.8".to_string()), // TODO
-        shutter: Some("1/500s".to_string()), // TODO
-        iso: Some("400".to_string()), // TODO
-        focal_length: Some("50mm".to_string()), // TODO
-        date: Some(metadata.format("%Y-%m-%d %H:%M:%S").to_string()),
+        camera: full.camera,
+        lens: full.lens,
+        aperture: full.aperture,
+        shutter: full.shutter,
+        iso: full.iso,
+        focal_length: full.focal_length,
+        date: full.date,
         file_type: ext,
         file_size,
-        gps: None, // TODO: extract from EXIF
+        gps: full.gps,
     })
 }
 
 #[tauri::command]
 pub fn get_thumbnail(path: String) -> Result<String, String> {
-    // Check cache first
     if let Ok(cache) = THUMBNAIL_CACHE.lock() {
         if let Some(cached) = cache.get(&path) {
             return Ok(cached.clone());
         }
     }
-    
-    // Generate thumbnail
+
     let file_path = PathBuf::from(&path);
-    let thumbnail_data = thumbnail::get_thumbnail(&file_path, 200)?;
-    
-    // Encode to base64
+    let width = 200u32;
+
+    if let Some(disk_data) = thumbnail::read_from_disk_cache(&file_path, width) {
+        let engine = base64::engine::general_purpose::STANDARD;
+        let base64 = engine.encode(&disk_data);
+        let data_url = format!("data:image/jpeg;base64,{}", base64);
+        if let Ok(mut cache) = THUMBNAIL_CACHE.lock() {
+            cache.insert(path, data_url.clone());
+        }
+        return Ok(data_url);
+    }
+
+    let thumbnail_data = thumbnail::get_thumbnail(&file_path, width)?;
+    let _ = thumbnail::write_to_disk_cache(&file_path, width, &thumbnail_data);
+
     let engine = base64::engine::general_purpose::STANDARD;
     let base64 = engine.encode(&thumbnail_data);
     let data_url = format!("data:image/jpeg;base64,{}", base64);
-    
-    // Cache it
+
     if let Ok(mut cache) = THUMBNAIL_CACHE.lock() {
         cache.insert(path, data_url.clone());
     }
-    
+
     Ok(data_url)
 }
 
@@ -265,17 +271,22 @@ pub fn generate_thumbnail(path: String, app: tauri::AppHandle) {
     });
 }
 
-/// Internal implementation for thumbnail generation
 fn generate_thumbnail_impl(path: &str) -> Result<String, String> {
     let file_path = PathBuf::from(path);
-    let thumbnail_data = thumbnail::get_thumbnail(&file_path, 200)?;
-    
-    // Encode to base64
+    let width = 200u32;
+
+    if let Some(disk_data) = thumbnail::read_from_disk_cache(&file_path, width) {
+        let engine = base64::engine::general_purpose::STANDARD;
+        let base64 = engine.encode(&disk_data);
+        return Ok(format!("data:image/jpeg;base64,{}", base64));
+    }
+
+    let thumbnail_data = thumbnail::get_thumbnail(&file_path, width)?;
+    let _ = thumbnail::write_to_disk_cache(&file_path, width, &thumbnail_data);
+
     let engine = base64::engine::general_purpose::STANDARD;
     let base64 = engine.encode(&thumbnail_data);
-    let data_url = format!("data:image/jpeg;base64,{}", base64);
-    
-    Ok(data_url)
+    Ok(format!("data:image/jpeg;base64,{}", base64))
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -284,41 +295,68 @@ pub struct ThumbnailCacheEntry {
     pub base64: String,
 }
 
-/// Load cached thumbnails from destination folder
-/// Format: destination/.photo_manager_cache/[source_hash]/index.json
 #[tauri::command]
 pub fn load_thumbnail_cache(dest_folder: String) -> Result<Vec<ThumbnailCacheEntry>, String> {
-    let cache_dir = PathBuf::from(&dest_folder)
-        .join(".photo_manager_cache");
-    
-    if !cache_dir.exists() {
-        return Ok(Vec::new()); // No cache yet
+    let folder_path = PathBuf::from(&dest_folder);
+    let paths = storage::list_photos(&folder_path);
+
+    let mut entries = Vec::new();
+    let engine = base64::engine::general_purpose::STANDARD;
+
+    for path in paths {
+        if let Some(disk_data) = thumbnail::read_from_disk_cache(&path, 200) {
+            let base64 = engine.encode(&disk_data);
+            let data_url = format!("data:image/jpeg;base64,{}", base64);
+            entries.push(ThumbnailCacheEntry {
+                path: path.to_string_lossy().to_string(),
+                base64: data_url,
+            });
+        }
     }
-    
-    // For now, return empty (full implementation below)
-    // TODO: Read cache entries from destination/.photo_manager_cache/
-    Ok(Vec::new())
+
+    Ok(entries)
 }
 
-/// Clean up thumbnail cache for photos no longer in destination
-/// Called after import to remove stale cache entries
 #[tauri::command]
 pub fn cleanup_thumbnail_cache(dest_folder: String) -> Result<String, String> {
-    let cache_dir = PathBuf::from(&dest_folder)
-        .join(".photo_manager_cache");
-    
+    let folder_path = PathBuf::from(&dest_folder);
+    let paths = storage::list_photos(&folder_path);
+
+    let valid_keys: std::collections::HashSet<String> = paths.iter()
+        .map(|p| thumbnail::cache_key(p, 200))
+        .collect();
+
+    let cache_dir = thumbnail::get_cache_dir();
     if !cache_dir.exists() {
         return Ok("No cache to clean".to_string());
     }
-    
-    // TODO: Implement cache cleanup
-    // Logic:
-    // 1. List all cache subdirectories (one per source folder)
-    // 2. For each, list cached photos
-    // 3. Check if photo still exists in destination
-    // 4. Delete cache entries for missing photos
-    
-    Ok("Cache cleaned".to_string())
+
+    let mut cleaned = 0u32;
+
+    if let Ok(read_dir) = fs::read_dir(&cache_dir) {
+        for dir_entry in read_dir.filter_map(|e| e.ok()) {
+            if !dir_entry.file_type().map(|t| t.is_dir()).unwrap_or(false) {
+                continue;
+            }
+            if let Ok(files) = fs::read_dir(dir_entry.path()) {
+                for file in files.filter_map(|e| e.ok()) {
+                    let file_path = file.path();
+                    if file_path.extension().and_then(|e| e.to_str()) != Some("jpg") {
+                        continue;
+                    }
+                    let file_stem = file_path.file_stem()
+                        .and_then(|s| s.to_str())
+                        .unwrap_or("");
+                    if !valid_keys.contains(file_stem) {
+                        let _ = fs::remove_file(&file_path);
+                        cleaned += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    Ok(format!("Cleaned {} stale cache entries", cleaned))
 }
 
 #[tauri::command]

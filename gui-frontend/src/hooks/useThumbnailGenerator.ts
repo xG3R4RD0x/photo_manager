@@ -7,8 +7,6 @@ import { usePhotoStore } from '../stores/usePhotoStore';
 export function useThumbnailGenerator() {
   const isInitialized = useThumbnailQueueStore((s) => s.isInitialized);
   const initializeStore = useThumbnailQueueStore((s) => s.initializeStore);
-  const batchObserveInterval = useThumbnailQueueStore((s) => s.config.batchObserveInterval);
-
   // Wait for metadata enrichment to start before triggering generation
   const photos = usePhotoStore((s) => s.photos);
   const hasSomeDates = photos.length > 0 && photos.some((p) => p.date !== null);
@@ -88,11 +86,7 @@ export function useThumbnailGenerator() {
 
     const observeVisibleItems = () => {
       const photoItems = document.querySelectorAll('[data-photo-path]');
-      for (let i = 0; i < photoItems.length; i++) {
-        if (i % batchObserveInterval === 0) {
-          observerRef.current?.observe(photoItems[i]);
-        }
-      }
+      photoItems.forEach(item => observerRef.current?.observe(item));
     };
 
     observeVisibleItems();
@@ -111,7 +105,7 @@ export function useThumbnailGenerator() {
     return () => {
       mutationObserverRef.current?.disconnect();
     };
-  }, [batchObserveInterval]);
+  }, [isInitialized]);
 
   useEffect(() => {
     let active = true;

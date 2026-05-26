@@ -7,6 +7,7 @@ use chrono::{NaiveDateTime, Datelike};
 use exif::{Reader, Tag, In};
 use lazy_static::lazy_static;
 use std::sync::Mutex;
+use serde::{Serialize, Deserialize};
 
 lazy_static! {
     static ref EXIF_CACHE: Mutex<HashMap<String, Option<NaiveDateTime>>> = 
@@ -77,18 +78,7 @@ fn extract_date_with_fallback(path: &PathBuf) -> Option<NaiveDateTime> {
 
 /// Extract EXIF from first 64KB of file (EXIF is always at start)
 fn extract_exif_from_partial_read(path: &PathBuf) -> Option<NaiveDateTime> {
-    let file = File::open(path).ok()?;
-    
-    // Only read first 64KB (EXIF metadata is at start of file)
-    let mut limited_reader = file.take(65536);
-    let mut buffer = Vec::new();
-    limited_reader.read_to_end(&mut buffer).ok()?;
-
-    // Parse EXIF from buffer
-    let mut cursor = Cursor::new(buffer);
-    let exifreader = Reader::new()
-        .read_from_container(&mut cursor)
-        .ok()?;
+    let exifreader = read_exif(path)?;
 
     // Try tags in priority order
     for tag in [
@@ -121,6 +111,16 @@ fn parse_exif_date(raw: &str) -> Result<NaiveDateTime, Box<dyn std::error::Error
     Ok(NaiveDateTime::parse_from_str(raw, "%Y:%m:%d %H:%M:%S")?)
 }
 
+/// Shared: read first 64KB and parse EXIF
+fn read_exif(path: &PathBuf) -> Option<exif::Exif> {
+    let file = File::open(path).ok()?;
+    let mut limited_reader = file.take(65536);
+    let mut buffer = Vec::new();
+    limited_reader.read_to_end(&mut buffer).ok()?;
+    let mut cursor = Cursor::new(buffer);
+    Reader::new().read_from_container(&mut cursor).ok()
+}
+
 /// Deprecated: extract_exif_date (use extract_exif_date_fast instead)
 pub fn extract_exif_date(path: &PathBuf) -> Option<NaiveDateTime> {
     extract_exif_date_fast(path)
@@ -141,5 +141,90 @@ impl PhotoMetadata {
     pub fn formatted_day(&self) -> Option<String> {
         self.date_time
             .map(|d| format!("{:02}-{:02}-{}", d.day(), d.month(), d.year()))
+    }
+}
+
+// ── Full EXIF extraction ──────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FullExifData {
+    pub camera: Option<String>,
+    pub lens: Option<String>,
+    pub aperture: Option<String>,
+    pub shutter: Option<String>,
+    pub iso: Option<String>,
+    pub focal_length: Option<String>,
+    pub date: Option<String>,
+    pub gps: Option<(f64, f64)>,
+}
+
+pub fn extract_full_exif(path: &PathBuf) -> Option<FullExifData> {
+    let exif = read_exif(path)?;
+
+    let make = exif.get_field(Tag::Make, In::PRIMARY)
+        .map(|f| f.display_value().to_string().trim().to_string())
+        .filter(|s| !s.is_empty());
+    let model = exif.get_field(Tag::Model, In::PRIMARY)
+        .map(|f| f.display_value().to_string().trim().to_string())
+        .filter(|s| !s.is_empty());
+    let camera = match (make, model) {
+        (Some(m), Some(o)) => Some(format!("{} {}", m, o)),
+        (Some(m), None) => Some(m),
+        (None, Some(o)) => Some(o),
+        (None, None) => None,
+    };
+
+    let lens = exif.get_field(Tag::LensModel, In::PRIMARY)
+        .map(|f| f.display_value().to_string().trim().to_string())
+        .filter(|s| !s.is_empty());
+
+    let aperture = exif.get_field(Tag::FNumber, In::PRIMARY)
+        .map(|f| format!("f/{}", f.display_value().to_string().trim()));
+
+    let shutter = exif.get_field(Tag::ExposureTime, In::PRIMARY)
+        .map(|f| f.display_value().to_string().trim().to_string());
+
+    let iso = exif.get_field(Tag::PhotographicSensitivity, In::PRIMARY)
+        .map(|f| f.display_value().to_string().trim().to_string());
+
+    let focal_length = exif.get_field(Tag::FocalLength, In::PRIMARY)
+        .map(|f| f.display_value().to_string().trim().to_string());
+
+    let date = exif.get_field(Tag::DateTimeOriginal, In::PRIMARY)
+        .or_else(|| exif.get_field(Tag::DateTimeDigitized, In::PRIMARY))
+        .or_else(|| exif.get_field(Tag::DateTime, In::PRIMARY))
+        .and_then(|f| parse_exif_date(&f.display_value().to_string()).ok())
+        .map(|d| d.format("%Y-%m-%d %H:%M:%S").to_string());
+
+    let gps = extract_gps(&exif);
+
+    Some(FullExifData { camera, lens, aperture, shutter, iso, focal_length, date, gps })
+}
+
+fn extract_gps(exif: &exif::Exif) -> Option<(f64, f64)> {
+    let lat_f = exif.get_field(Tag::GPSLatitude, In::PRIMARY)?;
+    let lon_f = exif.get_field(Tag::GPSLongitude, In::PRIMARY)?;
+    let lat = parse_gps_value(lat_f)?;
+    let lon = parse_gps_value(lon_f)?;
+
+    let lat_ref = exif.get_field(Tag::GPSLatitudeRef, In::PRIMARY)
+        .map(|f| f.display_value().to_string().trim().to_string())
+        .unwrap_or_default();
+    let lon_ref = exif.get_field(Tag::GPSLongitudeRef, In::PRIMARY)
+        .map(|f| f.display_value().to_string().trim().to_string())
+        .unwrap_or_default();
+
+    let lat = if lat_ref == "S" { -lat } else { lat };
+    let lon = if lon_ref == "W" { -lon } else { lon };
+    Some((lat, lon))
+}
+
+fn parse_gps_value(field: &exif::Field) -> Option<f64> {
+    let s = field.display_value().to_string();
+    let parts: Vec<f64> = s.split(',').filter_map(|p| p.trim().parse().ok()).collect();
+    if parts.len() == 3 {
+        Some(parts[0] + parts[1] / 60.0 + parts[2] / 3600.0)
+    } else {
+        None
     }
 }
