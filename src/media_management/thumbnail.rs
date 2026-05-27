@@ -10,7 +10,7 @@ const RAW_EXTENSIONS: &[&str] = &[
     "rw2", "rwl", "sr2", "srf", "srw", "x3f",
 ];
 
-pub fn get_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, String> {
+pub fn get_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
     let ext = path.extension()
         .and_then(|e| e.to_str())
         .map(|s| s.to_lowercase())
@@ -24,7 +24,7 @@ pub fn get_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, String> {
     }
 }
 
-fn decode_jpeg_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, String> {
+fn decode_jpeg_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
     use jpeg_decoder::Decoder;
 
     let file = File::open(path).map_err(|e| e.to_string())?;
@@ -44,7 +44,7 @@ fn decode_jpeg_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, String> 
     encode_jpeg(&resized, 80)
 }
 
-fn decode_png_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, String> {
+fn decode_png_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
     let img = image::ImageReader::open(path)
         .map_err(|e| e.to_string())?
         .decode()
@@ -70,7 +70,7 @@ fn encode_jpeg(img: &image::DynamicImage, quality: u8) -> Result<Vec<u8>, String
     Ok(buf)
 }
 
-fn extract_embedded_thumbnail(path: &PathBuf, width: u32) -> Result<Vec<u8>, String> {
+fn extract_embedded_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
     let file = File::open(path).map_err(|e| e.to_string())?;
     let mut reader = BufReader::new(file);
 
@@ -138,4 +138,65 @@ pub fn write_to_disk_cache(path: &Path, width: u32, data: &[u8]) -> Result<(), S
     }
     let mut file = File::create(&file_path).map_err(|e| e.to_string())?;
     file.write_all(data).map_err(|e| e.to_string())
+}
+
+// ── Unified memory + disk cache ─────────────────────────────
+
+use std::sync::Mutex;
+use std::collections::HashMap;
+
+lazy_static::lazy_static! {
+    static ref THUMBNAIL_CACHE: ThumbnailCache = ThumbnailCache::new();
+}
+
+pub fn thumbnail_cache() -> &'static ThumbnailCache {
+    &THUMBNAIL_CACHE
+}
+
+pub struct ThumbnailCache {
+    memory: Mutex<HashMap<String, Vec<u8>>>,
+}
+
+impl ThumbnailCache {
+    pub fn new() -> Self {
+        ThumbnailCache {
+            memory: Mutex::new(HashMap::new()),
+        }
+    }
+
+    pub fn get(&self, path: &Path, width: u32) -> Option<Vec<u8>> {
+        let key = cache_key(path, width);
+
+        if let Ok(mem) = self.memory.lock() {
+            if let Some(data) = mem.get(&key) {
+                return Some(data.clone());
+            }
+        }
+
+        if let Some(data) = read_from_disk_cache(path, width) {
+            if let Ok(mut mem) = self.memory.lock() {
+                mem.insert(key, data.clone());
+            }
+            return Some(data);
+        }
+
+        None
+    }
+
+    pub fn insert(&self, path: &Path, width: u32, data: &[u8]) {
+        let key = cache_key(path, width);
+        if let Ok(mut mem) = self.memory.lock() {
+            mem.insert(key, data.to_vec());
+        }
+        let _ = write_to_disk_cache(path, width, data);
+    }
+
+    pub fn get_or_generate(&self, path: &Path, width: u32) -> Result<Vec<u8>, String> {
+        if let Some(cached) = self.get(path, width) {
+            return Ok(cached);
+        }
+        let data = get_thumbnail(path, width)?;
+        self.insert(path, width, &data);
+        Ok(data)
+    }
 }

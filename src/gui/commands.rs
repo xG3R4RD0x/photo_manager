@@ -1,7 +1,5 @@
 use std::path::PathBuf;
 use serde::{Serialize, Deserialize};
-use std::sync::Mutex;
-use std::collections::HashMap;
 use base64::Engine;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
@@ -10,7 +8,7 @@ use rayon::prelude::*;
 use tauri::Emitter;
 
 use crate::media_management::{storage, metadata, thumbnail};
-use crate::import::{dedup, copier};
+use crate::import::copier;
 use crate::gui::config::{load_config, save_config};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -33,11 +31,6 @@ pub struct EXIFData {
     pub file_type: String,
     pub file_size: u64,
     pub gps: Option<(f64, f64)>,
-}
-
-// Thumbnail cache: path -> base64 encoded JPEG
-lazy_static::lazy_static! {
-    static ref THUMBNAIL_CACHE: Mutex<HashMap<String, String>> = Mutex::new(HashMap::new());
 }
 
 #[tauri::command]
@@ -199,65 +192,43 @@ pub fn get_exif(path: String) -> Option<EXIFData> {
 
 #[tauri::command]
 pub fn get_thumbnail(path: String) -> Result<String, String> {
-    if let Ok(cache) = THUMBNAIL_CACHE.lock() {
-        if let Some(cached) = cache.get(&path) {
-            return Ok(cached.clone());
-        }
-    }
-
     let file_path = PathBuf::from(&path);
-    let width = 200u32;
-
-    if let Some(disk_data) = thumbnail::read_from_disk_cache(&file_path, width) {
-        let engine = base64::engine::general_purpose::STANDARD;
-        let base64 = engine.encode(&disk_data);
-        let data_url = format!("data:image/jpeg;base64,{}", base64);
-        if let Ok(mut cache) = THUMBNAIL_CACHE.lock() {
-            cache.insert(path, data_url.clone());
-        }
-        return Ok(data_url);
-    }
-
-    let thumbnail_data = thumbnail::get_thumbnail(&file_path, width)?;
-    let _ = thumbnail::write_to_disk_cache(&file_path, width, &thumbnail_data);
-
+    let cache = thumbnail::thumbnail_cache();
+    let data = cache.get_or_generate(&file_path, 200)?;
     let engine = base64::engine::general_purpose::STANDARD;
-    let base64 = engine.encode(&thumbnail_data);
-    let data_url = format!("data:image/jpeg;base64,{}", base64);
-
-    if let Ok(mut cache) = THUMBNAIL_CACHE.lock() {
-        cache.insert(path, data_url.clone());
-    }
-
-    Ok(data_url)
+    let base64 = engine.encode(&data);
+    Ok(format!("data:image/jpeg;base64,{}", base64))
 }
 
-/// New event-based thumbnail generation command
+/// Event-based thumbnail generation
 /// Emits 'thumbnail_ready' or 'thumbnail_failed' events
 #[tauri::command]
 pub fn generate_thumbnail(path: String, app: tauri::AppHandle) {
-    // Check cache first
-    if let Ok(cache) = THUMBNAIL_CACHE.lock() {
-        if let Some(cached) = cache.get(&path) {
-            let _ = app.emit("thumbnail_ready", serde_json::json!({
-                "path": path.clone(),
-                "base64": cached.clone(),
-            }));
-            return;
-        }
+    let file_path = PathBuf::from(&path);
+    let cache = thumbnail::thumbnail_cache();
+
+    // Check cache first (fast path, no thread needed)
+    if let Some(data) = cache.get(&file_path, 200) {
+        let engine = base64::engine::general_purpose::STANDARD;
+        let base64 = engine.encode(&data);
+        let data_url = format!("data:image/jpeg;base64,{}", base64);
+        let _ = app.emit("thumbnail_ready", serde_json::json!({
+            "path": path,
+            "base64": data_url,
+        }));
+        return;
     }
-    
+
     // Spawn background thread to avoid blocking
     std::thread::spawn(move || {
-        match generate_thumbnail_impl(&path) {
-            Ok(data_url) => {
-                // Cache it
-                if let Ok(mut cache) = THUMBNAIL_CACHE.lock() {
-                    cache.insert(path.clone(), data_url.clone());
-                }
-                
+        let cache = thumbnail::thumbnail_cache();
+        match cache.get_or_generate(&PathBuf::from(&path), 200) {
+            Ok(data) => {
+                let engine = base64::engine::general_purpose::STANDARD;
+                let base64 = engine.encode(&data);
+                let data_url = format!("data:image/jpeg;base64,{}", base64);
                 let _ = app.emit("thumbnail_ready", serde_json::json!({
-                    "path": path,
+                    "path": path.clone(),
                     "base64": data_url,
                 }));
             }
@@ -269,24 +240,6 @@ pub fn generate_thumbnail(path: String, app: tauri::AppHandle) {
             }
         }
     });
-}
-
-fn generate_thumbnail_impl(path: &str) -> Result<String, String> {
-    let file_path = PathBuf::from(path);
-    let width = 200u32;
-
-    if let Some(disk_data) = thumbnail::read_from_disk_cache(&file_path, width) {
-        let engine = base64::engine::general_purpose::STANDARD;
-        let base64 = engine.encode(&disk_data);
-        return Ok(format!("data:image/jpeg;base64,{}", base64));
-    }
-
-    let thumbnail_data = thumbnail::get_thumbnail(&file_path, width)?;
-    let _ = thumbnail::write_to_disk_cache(&file_path, width, &thumbnail_data);
-
-    let engine = base64::engine::general_purpose::STANDARD;
-    let base64 = engine.encode(&thumbnail_data);
-    Ok(format!("data:image/jpeg;base64,{}", base64))
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -302,14 +255,14 @@ pub fn load_thumbnail_cache(dest_folder: String) -> Result<Vec<ThumbnailCacheEnt
 
     let mut entries = Vec::new();
     let engine = base64::engine::general_purpose::STANDARD;
+    let cache = thumbnail::thumbnail_cache();
 
     for path in paths {
-        if let Some(disk_data) = thumbnail::read_from_disk_cache(&path, 200) {
-            let base64 = engine.encode(&disk_data);
-            let data_url = format!("data:image/jpeg;base64,{}", base64);
+        if let Some(data) = cache.get(&path, 200) {
+            let base64 = engine.encode(&data);
             entries.push(ThumbnailCacheEntry {
                 path: path.to_string_lossy().to_string(),
-                base64: data_url,
+                base64: format!("data:image/jpeg;base64,{}", base64),
             });
         }
     }
@@ -434,20 +387,15 @@ pub fn import_photos(
         // Extract EXIF date
         let date = metadata::extract_exif_date(&source_path);
         
-        // Check dedup
-        match dedup::compute_dedup_key(&source_path) {
-            Ok(key) => {
-                if dedup::is_duplicate(&key, &dedup_keys) {
-                    errors.push(format!("Skipped (duplicate): {}", source_path.file_name().unwrap_or_default().to_string_lossy()));
-                    continue;
-                }
-                dedup_keys.push(key);
-            }
-            Err(e) => {
-                errors.push(format!("Failed hash: {}", e));
-                continue;
-            }
+        // Check dedup by filename
+        let filename = source_path.file_name()
+            .map(|n| n.to_string_lossy().to_string())
+            .unwrap_or_default();
+        if dedup_keys.contains(&filename) {
+            errors.push(format!("Skipped (duplicate): {}", filename));
+            continue;
         }
+        dedup_keys.push(filename);
         
         // Copy with template
         match copier::copy_with_template(&source_path, &dest_path, &template, date) {

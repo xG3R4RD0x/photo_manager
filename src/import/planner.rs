@@ -102,19 +102,7 @@ pub fn build_destination_tree(
     }
 }
 
-/// Apply template string to date
+/// Apply template string to date (delegates to shared implementation)
 fn apply_template(template: &str, dt: chrono::NaiveDateTime) -> String {
-    let mut result = template.to_string();
-    
-    result = result.replace("YYYY", &dt.format("%Y").to_string());
-    result = result.replace("MM", &dt.format("%m").to_string());
-    result = result.replace("DD", &dt.format("%d").to_string());
-    result = result.replace("YY", &dt.format("%y").to_string());
-    result = result.replace("MONTH", &dt.format("%B").to_string());
-    result = result.replace("MONTH_EN", &dt.format("%B").to_string());
-    result = result.replace("MONTH_ES", "Mayo"); // TODO: actual month name mapping
-    result = result.replace("YYYY-MM-DD", &dt.format("%Y-%m-%d").to_string());
-    result = result.replace("YYYYMMDD", &dt.format("%Y%m%d").to_string());
-    
-    result
+    crate::media_management::template::apply_template(template, dt)
 }

@@ -110,20 +110,3 @@ pub fn list_photos(folder_path: &PathBuf) -> Vec<PathBuf> {
     }
     photos
 }
-
-pub fn count_photos(folder_path: &PathBuf) -> usize {
-    let mut count = 0;
-    for entry in WalkDir::new(folder_path)
-        .into_iter()
-        .filter_map(Result::ok)
-        .filter(|e| e.file_type().is_file())
-    {
-        if let Some(ext) = entry.path().extension().and_then(|e| e.to_str()) {
-            let ext_lower = ext.to_lowercase();
-            if matches!(ext_lower.as_str(), "jpg" | "jpeg" | "png" | "cr2" | "nef" | "arw" | "raf") {
-                count += 1;
-            }
-        }
-    }
-    count
-}

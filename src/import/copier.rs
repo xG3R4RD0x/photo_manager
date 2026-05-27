@@ -2,20 +2,6 @@ use std::path::PathBuf;
 use std::fs;
 use chrono::NaiveDateTime;
 
-pub struct ImportJob {
-    pub source_path: PathBuf,
-    pub dest_base: PathBuf,
-    pub template: String,
-    pub photos: Vec<(PathBuf, Option<NaiveDateTime>)>,
-}
-
-pub struct ImportProgress {
-    pub current_file: String,
-    pub total: usize,
-    pub completed: usize,
-    pub errors: Vec<String>,
-}
-
 /// Copy file from source to destination, organizing by template
 pub fn copy_with_template(
     source: &PathBuf,
@@ -42,15 +28,5 @@ pub fn copy_with_template(
 }
 
 fn apply_template(template: &str, dt: chrono::NaiveDateTime) -> String {
-    let mut result = template.to_string();
-    
-    result = result.replace("YYYY", &dt.format("%Y").to_string());
-    result = result.replace("MM", &dt.format("%m").to_string());
-    result = result.replace("DD", &dt.format("%d").to_string());
-    result = result.replace("YY", &dt.format("%y").to_string());
-    result = result.replace("MONTH", &dt.format("%B").to_string());
-    result = result.replace("YYYY-MM-DD", &dt.format("%Y-%m-%d").to_string());
-    result = result.replace("YYYYMMDD", &dt.format("%Y%m%d").to_string());
-    
-    result
+    crate::media_management::template::apply_template(template, dt)
 }
