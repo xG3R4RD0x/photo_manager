@@ -4,6 +4,7 @@ use base64::Engine;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
 use std::fs;
+use walkdir::WalkDir;
 use rayon::prelude::*;
 use tauri::Emitter;
 
@@ -273,43 +274,47 @@ pub fn load_thumbnail_cache(dest_folder: String) -> Result<Vec<ThumbnailCacheEnt
 #[tauri::command]
 pub fn cleanup_thumbnail_cache(dest_folder: String) -> Result<String, String> {
     let folder_path = PathBuf::from(&dest_folder);
-    let paths = storage::list_photos(&folder_path);
-
-    let valid_keys: std::collections::HashSet<String> = paths.iter()
-        .map(|p| thumbnail::cache_key(p, 200))
-        .collect();
-
-    let cache_dir = thumbnail::get_cache_dir();
-    if !cache_dir.exists() {
+    if !folder_path.exists() {
         return Ok("No cache to clean".to_string());
     }
 
+    let photos = storage::list_photos(&folder_path);
+
+    let valid_paths: std::collections::HashSet<PathBuf> = photos.iter()
+        .map(|p| thumbnail_path(p))
+        .collect();
+
     let mut cleaned = 0u32;
 
-    if let Ok(read_dir) = fs::read_dir(&cache_dir) {
-        for dir_entry in read_dir.filter_map(|e| e.ok()) {
-            if !dir_entry.file_type().map(|t| t.is_dir()).unwrap_or(false) {
-                continue;
-            }
-            if let Ok(files) = fs::read_dir(dir_entry.path()) {
-                for file in files.filter_map(|e| e.ok()) {
-                    let file_path = file.path();
-                    if file_path.extension().and_then(|e| e.to_str()) != Some("jpg") {
-                        continue;
-                    }
-                    let file_stem = file_path.file_stem()
-                        .and_then(|s| s.to_str())
-                        .unwrap_or("");
-                    if !valid_keys.contains(file_stem) {
-                        let _ = fs::remove_file(&file_path);
-                        cleaned += 1;
-                    }
+    for entry in WalkDir::new(&folder_path)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|e| e.file_type().is_dir() && e.file_name() == ".thumbnails")
+    {
+        if let Ok(files) = fs::read_dir(entry.path()) {
+            for file in files.filter_map(|e| e.ok()) {
+                let file_path = file.path();
+                if file_path.extension().and_then(|e| e.to_str()) != Some("jpg") {
+                    continue;
+                }
+                if !valid_paths.contains(&file_path) {
+                    let _ = fs::remove_file(&file_path);
+                    cleaned += 1;
                 }
             }
         }
     }
 
-    Ok(format!("Cleaned {} stale cache entries", cleaned))
+    if cleaned == 0 {
+        Ok("No stale cache entries".to_string())
+    } else {
+        Ok(format!("Cleaned {} stale cache entries", cleaned))
+    }
+}
+
+fn thumbnail_path(photo_path: &PathBuf) -> PathBuf {
+    thumbnail::thumbnail_dir(photo_path)
+        .join(format!("{}.jpg", thumbnail::cache_key(photo_path, 200)))
 }
 
 #[tauri::command]

@@ -110,32 +110,26 @@ fn extract_embedded_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String
     Err("No embedded JPEG found in RAW file. Full RAW conversion not yet implemented.".to_string())
 }
 
-pub fn get_cache_dir() -> PathBuf {
-    dirs::cache_dir()
-        .unwrap_or_else(|| PathBuf::from("."))
-        .join("photo_manager")
-        .join("thumbnail_cache")
-}
-
 pub fn cache_key(path: &Path, width: u32) -> String {
     let hash = blake3::hash(path.to_string_lossy().as_bytes());
     format!("{}_{}", hash.to_hex(), width)
 }
 
-fn cache_file_path(key: &str) -> PathBuf {
-    get_cache_dir().join(&key[..2]).join(format!("{}.jpg", key))
+pub fn thumbnail_dir(photo_path: &Path) -> PathBuf {
+    photo_path.parent()
+        .unwrap_or_else(|| Path::new("."))
+        .join(".thumbnails")
 }
 
 pub fn read_from_disk_cache(path: &Path, width: u32) -> Option<Vec<u8>> {
-    let file_path = cache_file_path(&cache_key(path, width));
+    let file_path = thumbnail_dir(path).join(format!("{}.jpg", cache_key(path, width)));
     fs::read(&file_path).ok()
 }
 
 pub fn write_to_disk_cache(path: &Path, width: u32, data: &[u8]) -> Result<(), String> {
-    let file_path = cache_file_path(&cache_key(path, width));
-    if let Some(parent) = file_path.parent() {
-        fs::create_dir_all(parent).map_err(|e| e.to_string())?;
-    }
+    let dir = thumbnail_dir(path);
+    fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    let file_path = dir.join(format!("{}.jpg", cache_key(path, width)));
     let mut file = File::create(&file_path).map_err(|e| e.to_string())?;
     file.write_all(data).map_err(|e| e.to_string())
 }

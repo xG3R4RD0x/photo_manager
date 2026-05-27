@@ -205,8 +205,8 @@
     "semantic_hash": "49d6f7093c56bfc9483fda05b1c03cc8"
   },
   "D:\\dev\\photo_manager\\src\\gui\\commands.rs": {
-    "mtime": 1779877312.0662124,
-    "ast_hash": "512adab2dbae3505b1ec887a987d20b7",
+    "mtime": 1779878158.9421115,
+    "ast_hash": "daeca285a8565b83aeba419285b7175a",
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\src\\gui\\config.rs": {
@@ -235,8 +235,8 @@
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\src\\media_management\\thumbnail.rs": {
-    "mtime": 1779877361.5529177,
-    "ast_hash": "9a18389ee1e862bd283903ea8d155f59",
+    "mtime": 1779878150.2346947,
+    "ast_hash": "e3fcfebd5c0532991e012903532cf872",
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\gui-frontend\\index.html": {
@@ -250,8 +250,8 @@
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\CONTEXT.md": {
-    "mtime": 1779876630.6223128,
-    "ast_hash": "ace0ce97786c7a080881c2b6b37a4fe9",
+    "mtime": 1779878178.2468772,
+    "ast_hash": "83ef5e72b4fd8561e9c3c32566ea4eae",
     "semantic_hash": ""
   }
 }

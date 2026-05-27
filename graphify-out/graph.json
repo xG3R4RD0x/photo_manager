@@ -513,7 +513,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_app",
-      "community": 33,
+      "community": 6,
       "norm_label": "core:app"
     },
     {
@@ -531,7 +531,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_app_permissions",
-      "community": 33,
+      "community": 43,
       "norm_label": "permissions"
     },
     {
@@ -576,7 +576,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_commands_allow",
-      "community": 67,
+      "community": 19,
       "norm_label": "allow"
     },
     {
@@ -585,7 +585,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_commands_deny",
-      "community": 35,
+      "community": 20,
       "norm_label": "deny"
     },
     {
@@ -594,7 +594,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_app_show",
-      "community": 32,
+      "community": 19,
       "norm_label": "allow-app-show"
     },
     {
@@ -603,7 +603,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_app_show_identifier",
-      "community": 32,
+      "community": 19,
       "norm_label": "identifier"
     },
     {
@@ -612,7 +612,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_app_show_description",
-      "community": 32,
+      "community": 19,
       "norm_label": "description"
     },
     {
@@ -621,7 +621,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_app_show_commands",
-      "community": 32,
+      "community": 19,
       "norm_label": "commands"
     },
     {
@@ -954,7 +954,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_set_dock_visibility",
-      "community": 45,
+      "community": 20,
       "norm_label": "allow-set-dock-visibility"
     },
     {
@@ -963,7 +963,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_dock_visibility_identifier",
-      "community": 45,
+      "community": 20,
       "norm_label": "identifier"
     },
     {
@@ -972,7 +972,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_dock_visibility_description",
-      "community": 45,
+      "community": 20,
       "norm_label": "description"
     },
     {
@@ -981,7 +981,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_dock_visibility_commands",
-      "community": 45,
+      "community": 20,
       "norm_label": "commands"
     },
     {
@@ -1638,7 +1638,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_app_permission_sets",
-      "community": 33,
+      "community": 6,
       "norm_label": "permission_sets"
     },
     {
@@ -1647,7 +1647,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_app_global_scope_schema",
-      "community": 33,
+      "community": 6,
       "norm_label": "global_scope_schema"
     },
     {
@@ -1989,7 +1989,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_image",
-      "community": 6,
+      "community": 1,
       "norm_label": "core:image"
     },
     {
@@ -2088,7 +2088,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_new",
-      "community": 1,
+      "community": 70,
       "norm_label": "allow-new"
     },
     {
@@ -2097,7 +2097,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_new_identifier",
-      "community": 1,
+      "community": 70,
       "norm_label": "identifier"
     },
     {
@@ -2106,7 +2106,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_new_description",
-      "community": 1,
+      "community": 70,
       "norm_label": "description"
     },
     {
@@ -2115,7 +2115,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_new_commands",
-      "community": 1,
+      "community": 70,
       "norm_label": "commands"
     },
     {
@@ -2376,7 +2376,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_image_permission_sets",
-      "community": 6,
+      "community": 1,
       "norm_label": "permission_sets"
     },
     {
@@ -2385,7 +2385,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_image_global_scope_schema",
-      "community": 6,
+      "community": 1,
       "norm_label": "global_scope_schema"
     },
     {
@@ -2412,7 +2412,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_menu_permissions",
-      "community": 63,
+      "community": 68,
       "norm_label": "permissions"
     },
     {
@@ -2493,7 +2493,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_get",
-      "community": 35,
+      "community": 45,
       "norm_label": "allow-get"
     },
     {
@@ -2502,7 +2502,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_get_identifier",
-      "community": 35,
+      "community": 45,
       "norm_label": "identifier"
     },
     {
@@ -2511,7 +2511,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_get_description",
-      "community": 35,
+      "community": 45,
       "norm_label": "description"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_get_commands",
-      "community": 35,
+      "community": 45,
       "norm_label": "commands"
     },
     {
@@ -2997,7 +2997,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_set_checked",
-      "community": 70,
+      "community": 68,
       "norm_label": "allow-set-checked"
     },
     {
@@ -3006,7 +3006,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_checked_identifier",
-      "community": 70,
+      "community": 68,
       "norm_label": "identifier"
     },
     {
@@ -3015,7 +3015,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_checked_description",
-      "community": 70,
+      "community": 68,
       "norm_label": "description"
     },
     {
@@ -3024,7 +3024,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_checked_commands",
-      "community": 70,
+      "community": 68,
       "norm_label": "commands"
     },
     {
@@ -3033,7 +3033,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_set_enabled",
-      "community": 67,
+      "community": 83,
       "norm_label": "allow-set-enabled"
     },
     {
@@ -3042,7 +3042,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_enabled_identifier",
-      "community": 67,
+      "community": 83,
       "norm_label": "identifier"
     },
     {
@@ -3051,7 +3051,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_enabled_description",
-      "community": 67,
+      "community": 83,
       "norm_label": "description"
     },
     {
@@ -3060,7 +3060,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_enabled_commands",
-      "community": 67,
+      "community": 83,
       "norm_label": "commands"
     },
     {
@@ -3492,7 +3492,7 @@
       "source_file": "gen/schemas/desktop-schema.json",
       "source_location": "L1",
       "id": "gen_schemas_desktop_schema_json",
-      "community": 9,
+      "community": 32,
       "norm_label": "desktop-schema.json"
     },
     {
@@ -3501,7 +3501,7 @@
       "source_file": "gen/schemas/desktop-schema.json",
       "source_location": "L2",
       "id": "schemas_desktop_schema_schema",
-      "community": 9,
+      "community": 32,
       "norm_label": "$schema"
     },
     {
@@ -3510,7 +3510,7 @@
       "source_file": "gen/schemas/desktop-schema.json",
       "source_location": "L3",
       "id": "schemas_desktop_schema_title",
-      "community": 9,
+      "community": 32,
       "norm_label": "title"
     },
     {
@@ -3519,7 +3519,7 @@
       "source_file": "gen/schemas/desktop-schema.json",
       "source_location": "L4",
       "id": "schemas_desktop_schema_description",
-      "community": 9,
+      "community": 32,
       "norm_label": "description"
     },
     {
@@ -3528,7 +3528,7 @@
       "source_file": "gen/schemas/desktop-schema.json",
       "source_location": "L5",
       "id": "schemas_desktop_schema_anyof",
-      "community": 9,
+      "community": 32,
       "norm_label": "anyof"
     },
     {
@@ -4014,7 +4014,7 @@
       "source_file": "gen/schemas/desktop-schema.json",
       "source_location": "L5839",
       "id": "schemas_desktop_schema_definitions_value",
-      "community": 101,
+      "community": 9,
       "norm_label": "value"
     },
     {
@@ -4023,7 +4023,7 @@
       "source_file": "gen/schemas/desktop-schema.json",
       "source_location": "L5840",
       "id": "schemas_desktop_schema_value_description",
-      "community": 101,
+      "community": 9,
       "norm_label": "description"
     },
     {
@@ -4032,7 +4032,7 @@
       "source_file": "gen/schemas/desktop-schema.json",
       "source_location": "L5841",
       "id": "schemas_desktop_schema_value_anyof",
-      "community": 101,
+      "community": 9,
       "norm_label": "anyof"
     },
     {
@@ -4149,7 +4149,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L39",
       "id": "schemas_windows_schema_definitions_capability",
-      "community": 83,
+      "community": 16,
       "norm_label": "capability"
     },
     {
@@ -4158,7 +4158,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L40",
       "id": "schemas_windows_schema_capability_description",
-      "community": 83,
+      "community": 16,
       "norm_label": "description"
     },
     {
@@ -4167,7 +4167,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L41",
       "id": "schemas_windows_schema_capability_type",
-      "community": 83,
+      "community": 16,
       "norm_label": "type"
     },
     {
@@ -4176,7 +4176,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L42",
       "id": "schemas_windows_schema_capability_required",
-      "community": 83,
+      "community": 16,
       "norm_label": "required"
     },
     {
@@ -4203,7 +4203,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L48",
       "id": "schemas_windows_schema_identifier_description",
-      "community": 88,
+      "community": 16,
       "norm_label": "description"
     },
     {
@@ -4284,7 +4284,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L67",
       "id": "schemas_windows_schema_properties_local",
-      "community": 16,
+      "community": 88,
       "norm_label": "local"
     },
     {
@@ -4293,7 +4293,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L68",
       "id": "schemas_windows_schema_local_description",
-      "community": 16,
+      "community": 88,
       "norm_label": "description"
     },
     {
@@ -4302,7 +4302,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L69",
       "id": "schemas_windows_schema_local_default",
-      "community": 16,
+      "community": 88,
       "norm_label": "default"
     },
     {
@@ -4311,7 +4311,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L70",
       "id": "schemas_windows_schema_local_type",
-      "community": 16,
+      "community": 88,
       "norm_label": "type"
     },
     {
@@ -4599,7 +4599,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L2000",
       "id": "schemas_windows_schema_definitions_identifier",
-      "community": 88,
+      "community": 10,
       "norm_label": "identifier"
     },
     {
@@ -4608,7 +4608,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L2002",
       "id": "schemas_windows_schema_identifier_oneof",
-      "community": 88,
+      "community": 10,
       "norm_label": "oneof"
     },
     {
@@ -5875,7 +5875,7 @@
       "label": "PhotoInfo",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L15",
+      "source_location": "L16",
       "id": "gui_commands_photoinfo",
       "community": 3,
       "norm_label": "photoinfo"
@@ -5884,7 +5884,7 @@
       "label": "EXIFData",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L23",
+      "source_location": "L24",
       "id": "gui_commands_exifdata",
       "community": 3,
       "norm_label": "exifdata"
@@ -5893,7 +5893,7 @@
       "label": "detect_camera()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L37",
+      "source_location": "L38",
       "id": "gui_commands_detect_camera",
       "community": 3,
       "norm_label": "detect_camera()"
@@ -5902,7 +5902,7 @@
       "label": "find_photo_folder()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L42",
+      "source_location": "L43",
       "id": "gui_commands_find_photo_folder",
       "community": 3,
       "norm_label": "find_photo_folder()"
@@ -5911,7 +5911,7 @@
       "label": "list_all_removable_drives()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L48",
+      "source_location": "L49",
       "id": "gui_commands_list_all_removable_drives",
       "community": 3,
       "norm_label": "list_all_removable_drives()"
@@ -5920,7 +5920,7 @@
       "label": "scan_photos_quick()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L54",
+      "source_location": "L55",
       "id": "gui_commands_scan_photos_quick",
       "community": 3,
       "norm_label": "scan_photos_quick()"
@@ -5929,7 +5929,7 @@
       "label": "enrich_photos_metadata_fast()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L78",
+      "source_location": "L79",
       "id": "gui_commands_enrich_photos_metadata_fast",
       "community": 3,
       "norm_label": "enrich_photos_metadata_fast()"
@@ -5938,7 +5938,7 @@
       "label": "scan_photos()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L140",
+      "source_location": "L141",
       "id": "gui_commands_scan_photos",
       "community": 3,
       "norm_label": "scan_photos()"
@@ -5947,7 +5947,7 @@
       "label": "get_exif()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L166",
+      "source_location": "L167",
       "id": "gui_commands_get_exif",
       "community": 3,
       "norm_label": "get_exif()"
@@ -5956,7 +5956,7 @@
       "label": "get_thumbnail()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L194",
+      "source_location": "L195",
       "id": "gui_commands_get_thumbnail",
       "community": 3,
       "norm_label": "get_thumbnail()"
@@ -5965,7 +5965,7 @@
       "label": "generate_thumbnail()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L206",
+      "source_location": "L207",
       "id": "gui_commands_generate_thumbnail",
       "community": 3,
       "norm_label": "generate_thumbnail()"
@@ -5974,7 +5974,7 @@
       "label": "ThumbnailCacheEntry",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L246",
+      "source_location": "L247",
       "id": "gui_commands_thumbnailcacheentry",
       "community": 3,
       "norm_label": "thumbnailcacheentry"
@@ -5983,7 +5983,7 @@
       "label": "load_thumbnail_cache()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L252",
+      "source_location": "L253",
       "id": "gui_commands_load_thumbnail_cache",
       "community": 3,
       "norm_label": "load_thumbnail_cache()"
@@ -5992,16 +5992,25 @@
       "label": "cleanup_thumbnail_cache()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L274",
+      "source_location": "L275",
       "id": "gui_commands_cleanup_thumbnail_cache",
       "community": 3,
       "norm_label": "cleanup_thumbnail_cache()"
     },
     {
+      "label": "thumbnail_path()",
+      "file_type": "code",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L315",
+      "id": "gui_commands_thumbnail_path",
+      "community": 3,
+      "norm_label": "thumbnail_path()"
+    },
+    {
       "label": "get_config()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L316",
+      "source_location": "L321",
       "id": "gui_commands_get_config",
       "community": 3,
       "norm_label": "get_config()"
@@ -6010,7 +6019,7 @@
       "label": "save_config_cmd()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L321",
+      "source_location": "L326",
       "id": "gui_commands_save_config_cmd",
       "community": 3,
       "norm_label": "save_config_cmd()"
@@ -6019,7 +6028,7 @@
       "label": "get_pictures_folder()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L326",
+      "source_location": "L331",
       "id": "gui_commands_get_pictures_folder",
       "community": 3,
       "norm_label": "get_pictures_folder()"
@@ -6028,7 +6037,7 @@
       "label": "DirEntry",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L333",
+      "source_location": "L338",
       "id": "gui_commands_direntry",
       "community": 3,
       "norm_label": "direntry"
@@ -6037,7 +6046,7 @@
       "label": "list_directory_tree()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L339",
+      "source_location": "L344",
       "id": "gui_commands_list_directory_tree",
       "community": 3,
       "norm_label": "list_directory_tree()"
@@ -6046,7 +6055,7 @@
       "label": "scan_dir()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L351",
+      "source_location": "L356",
       "id": "gui_commands_scan_dir",
       "community": 3,
       "norm_label": "scan_dir()"
@@ -6055,7 +6064,7 @@
       "label": "import_photos()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L373",
+      "source_location": "L378",
       "id": "gui_commands_import_photos",
       "community": 3,
       "norm_label": "import_photos()"
@@ -6064,7 +6073,7 @@
       "label": "DupProgress",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L417",
+      "source_location": "L422",
       "id": "gui_commands_dupprogress",
       "community": 3,
       "norm_label": "dupprogress"
@@ -6073,7 +6082,7 @@
       "label": "start_duplicate_check()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L423",
+      "source_location": "L428",
       "id": "gui_commands_start_duplicate_check",
       "community": 3,
       "norm_label": "start_duplicate_check()"
@@ -6520,37 +6529,28 @@
       "norm_label": "extract_embedded_thumbnail()"
     },
     {
-      "label": "get_cache_dir()",
-      "file_type": "code",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L113",
-      "id": "media_management_thumbnail_get_cache_dir",
-      "community": 85,
-      "norm_label": "get_cache_dir()"
-    },
-    {
       "label": "cache_key()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L120",
+      "source_location": "L113",
       "id": "media_management_thumbnail_cache_key",
       "community": 85,
       "norm_label": "cache_key()"
     },
     {
-      "label": "cache_file_path()",
+      "label": "thumbnail_dir()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L125",
-      "id": "media_management_thumbnail_cache_file_path",
+      "source_location": "L118",
+      "id": "media_management_thumbnail_thumbnail_dir",
       "community": 85,
-      "norm_label": "cache_file_path()"
+      "norm_label": "thumbnail_dir()"
     },
     {
       "label": "read_from_disk_cache()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L129",
+      "source_location": "L124",
       "id": "media_management_thumbnail_read_from_disk_cache",
       "community": 85,
       "norm_label": "read_from_disk_cache()"
@@ -6559,7 +6559,7 @@
       "label": "write_to_disk_cache()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L134",
+      "source_location": "L129",
       "id": "media_management_thumbnail_write_to_disk_cache",
       "community": 85,
       "norm_label": "write_to_disk_cache()"
@@ -6568,7 +6568,7 @@
       "label": "thumbnail_cache()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L152",
+      "source_location": "L146",
       "id": "media_management_thumbnail_thumbnail_cache",
       "community": 85,
       "norm_label": "thumbnail_cache()"
@@ -6577,7 +6577,7 @@
       "label": "ThumbnailCache",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L156",
+      "source_location": "L150",
       "id": "media_management_thumbnail_thumbnailcache",
       "community": 85,
       "norm_label": "thumbnailcache"
@@ -6586,7 +6586,7 @@
       "label": ".new()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L161",
+      "source_location": "L155",
       "id": "media_management_thumbnail_thumbnailcache_new",
       "community": 85,
       "norm_label": ".new()"
@@ -6595,7 +6595,7 @@
       "label": ".get()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L167",
+      "source_location": "L161",
       "id": "media_management_thumbnail_thumbnailcache_get",
       "community": 85,
       "norm_label": ".get()"
@@ -6604,7 +6604,7 @@
       "label": ".insert()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L186",
+      "source_location": "L180",
       "id": "media_management_thumbnail_thumbnailcache_insert",
       "community": 85,
       "norm_label": ".insert()"
@@ -6613,7 +6613,7 @@
       "label": ".get_or_generate()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L194",
+      "source_location": "L188",
       "id": "media_management_thumbnail_thumbnailcache_get_or_generate",
       "community": 85,
       "norm_label": ".get_or_generate()"
@@ -6653,6 +6653,33 @@
       "id": "photo_manager_context_tokens",
       "community": 30,
       "norm_label": "tokens"
+    },
+    {
+      "label": "Thumbnail Cache",
+      "file_type": "document",
+      "source_file": "CONTEXT.md",
+      "source_location": "L26",
+      "id": "photo_manager_context_thumbnail_cache",
+      "community": 30,
+      "norm_label": "thumbnail cache"
+    },
+    {
+      "label": "get_cache_dir()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L113",
+      "community": 85,
+      "norm_label": "get_cache_dir()",
+      "id": "media_management_thumbnail_get_cache_dir"
+    },
+    {
+      "label": "cache_file_path()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L125",
+      "community": 85,
+      "norm_label": "cache_file_path()",
+      "id": "media_management_thumbnail_cache_file_path"
     },
     {
       "label": "generate_thumbnail_impl()",
@@ -16151,6 +16178,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/gui/commands.rs",
+      "source_location": "L315",
+      "weight": 1.0,
+      "source": "src_gui_commands_rs",
+      "target": "gui_commands_thumbnail_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/gui/commands.rs",
       "source_location": "L325",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -16268,6 +16305,17 @@
       "confidence_score": 1.0,
       "source": "gui_commands_generate_thumbnail",
       "target": "gui_commands_generate_thumbnail_impl"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L284",
+      "weight": 1.0,
+      "source": "gui_commands_cleanup_thumbnail_cache",
+      "target": "gui_commands_thumbnail_path",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -16845,9 +16893,9 @@
       "source_file": "src/media_management/template.rs",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_template_rs",
-      "target": "media_management_template_apply_template",
-      "confidence_score": 1.0
+      "target": "media_management_template_apply_template"
     },
     {
       "relation": "contains",
@@ -16855,9 +16903,9 @@
       "source_file": "src/media_management/template.rs",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_template_rs",
-      "target": "media_management_template_spanish_month_name",
-      "confidence_score": 1.0
+      "target": "media_management_template_spanish_month_name"
     },
     {
       "relation": "calls",
@@ -16866,9 +16914,9 @@
       "source_file": "src/media_management/template.rs",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_template_apply_template",
-      "target": "media_management_template_spanish_month_name",
-      "confidence_score": 1.0
+      "target": "media_management_template_spanish_month_name"
     },
     {
       "relation": "contains",
@@ -16924,16 +16972,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L113",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_get_cache_dir"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L120",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -16944,11 +16982,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L125",
+      "source_location": "L118",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_cache_file_path"
+      "target": "media_management_thumbnail_thumbnail_dir",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -16976,9 +17014,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L152",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_thumbnail_cache",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_thumbnail_cache"
     },
     {
       "relation": "contains",
@@ -16986,9 +17024,29 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L156",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_thumbnailcache",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_thumbnailcache"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_get_cache_dir"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L125",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_cache_file_path"
     },
     {
       "relation": "calls",
@@ -17030,9 +17088,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L198",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_thumbnailcache_get_or_generate",
-      "target": "media_management_thumbnail_get_thumbnail",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_get_thumbnail"
     },
     {
       "relation": "calls",
@@ -17041,9 +17099,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_decode_jpeg_thumbnail",
-      "target": "media_management_thumbnail_thumbnailcache_new",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_thumbnailcache_new"
     },
     {
       "relation": "calls",
@@ -17074,9 +17132,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_encode_jpeg",
-      "target": "media_management_thumbnail_thumbnailcache_new",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_thumbnailcache_new"
     },
     {
       "relation": "calls",
@@ -17096,9 +17154,243 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L75",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_extract_embedded_thumbnail",
+      "target": "media_management_thumbnail_thumbnailcache_new"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L168",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache_get",
+      "target": "media_management_thumbnail_cache_key"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L187",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache_insert",
+      "target": "media_management_thumbnail_cache_key"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L130",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_read_from_disk_cache",
+      "target": "media_management_thumbnail_cache_key"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L135",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_write_to_disk_cache",
+      "target": "media_management_thumbnail_cache_key"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L120",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_thumbnail_dir",
       "target": "media_management_thumbnail_thumbnailcache_new",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_read_from_disk_cache",
+      "target": "media_management_thumbnail_thumbnail_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L130",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_write_to_disk_cache",
+      "target": "media_management_thumbnail_thumbnail_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L176",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache_get",
+      "target": "media_management_thumbnail_read_from_disk_cache"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L130",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_read_from_disk_cache",
+      "target": "media_management_thumbnail_cache_file_path"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L191",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache_insert",
+      "target": "media_management_thumbnail_write_to_disk_cache"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L135",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_write_to_disk_cache",
+      "target": "media_management_thumbnail_cache_file_path"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L161",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache",
+      "target": "media_management_thumbnail_thumbnailcache_new"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L167",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache",
+      "target": "media_management_thumbnail_thumbnailcache_get"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L186",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache",
+      "target": "media_management_thumbnail_thumbnailcache_insert"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L194",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache",
+      "target": "media_management_thumbnail_thumbnailcache_get_or_generate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L178",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache_get",
+      "target": "media_management_thumbnail_thumbnailcache_insert"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L195",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache_get_or_generate",
+      "target": "media_management_thumbnail_thumbnailcache_get"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L199",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_thumbnailcache_get_or_generate",
+      "target": "media_management_thumbnail_thumbnailcache_insert"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTEXT.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "context_md",
+      "target": "photo_manager_context_photo_manager_domain_glossary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTEXT.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "photo_manager_context_photo_manager_domain_glossary",
+      "target": "photo_manager_context_date_template"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTEXT.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "photo_manager_context_photo_manager_domain_glossary",
+      "target": "photo_manager_context_thumbnail_cache",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTEXT.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "photo_manager_context_date_template",
+      "target": "photo_manager_context_tokens"
     },
     {
       "relation": "calls",
@@ -17110,197 +17402,6 @@
       "confidence_score": 1.0,
       "source": "media_management_thumbnail_cache_file_path",
       "target": "media_management_thumbnail_get_cache_dir"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L130",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "media_management_thumbnail_read_from_disk_cache",
-      "target": "media_management_thumbnail_cache_key"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L135",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "media_management_thumbnail_write_to_disk_cache",
-      "target": "media_management_thumbnail_cache_key"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L168",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache_get",
-      "target": "media_management_thumbnail_cache_key",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L187",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache_insert",
-      "target": "media_management_thumbnail_cache_key",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L130",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "media_management_thumbnail_read_from_disk_cache",
-      "target": "media_management_thumbnail_cache_file_path"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L135",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "media_management_thumbnail_write_to_disk_cache",
-      "target": "media_management_thumbnail_cache_file_path"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L176",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache_get",
-      "target": "media_management_thumbnail_read_from_disk_cache",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L191",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache_insert",
-      "target": "media_management_thumbnail_write_to_disk_cache",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L161",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache",
-      "target": "media_management_thumbnail_thumbnailcache_new",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L167",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache",
-      "target": "media_management_thumbnail_thumbnailcache_get",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L186",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache",
-      "target": "media_management_thumbnail_thumbnailcache_insert",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L194",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache",
-      "target": "media_management_thumbnail_thumbnailcache_get_or_generate",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L178",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache_get",
-      "target": "media_management_thumbnail_thumbnailcache_insert",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L195",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache_get_or_generate",
-      "target": "media_management_thumbnail_thumbnailcache_get",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L199",
-      "weight": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache_get_or_generate",
-      "target": "media_management_thumbnail_thumbnailcache_insert",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CONTEXT.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "context_md",
-      "target": "photo_manager_context_photo_manager_domain_glossary",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CONTEXT.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "source": "photo_manager_context_photo_manager_domain_glossary",
-      "target": "photo_manager_context_date_template",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CONTEXT.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "source": "photo_manager_context_date_template",
-      "target": "photo_manager_context_tokens",
-      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -17334,5 +17435,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "fd123f9e3b992270c02d6c6f5852d652b3d83b5b"
+  "built_at_commit": "d3b972460294457e2aba189ba06462b134c21502"
 }
