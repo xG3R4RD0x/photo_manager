@@ -4095,7 +4095,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L1",
       "id": "gen_schemas_windows_schema_json",
-      "community": 30,
+      "community": 10,
       "norm_label": "windows-schema.json"
     },
     {
@@ -4104,7 +4104,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L2",
       "id": "schemas_windows_schema_schema",
-      "community": 30,
+      "community": 10,
       "norm_label": "$schema"
     },
     {
@@ -4113,7 +4113,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L3",
       "id": "schemas_windows_schema_title",
-      "community": 30,
+      "community": 10,
       "norm_label": "title"
     },
     {
@@ -4122,7 +4122,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L4",
       "id": "schemas_windows_schema_description",
-      "community": 30,
+      "community": 10,
       "norm_label": "description"
     },
     {
@@ -4131,7 +4131,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L5",
       "id": "schemas_windows_schema_anyof",
-      "community": 30,
+      "community": 10,
       "norm_label": "anyof"
     },
     {
@@ -4617,7 +4617,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L5839",
       "id": "schemas_windows_schema_definitions_value",
-      "community": 10,
+      "community": 30,
       "norm_label": "value"
     },
     {
@@ -4626,7 +4626,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L5840",
       "id": "schemas_windows_schema_value_description",
-      "community": 10,
+      "community": 30,
       "norm_label": "description"
     },
     {
@@ -4635,7 +4635,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L5841",
       "id": "schemas_windows_schema_value_anyof",
-      "community": 10,
+      "community": 30,
       "norm_label": "anyof"
     },
     {
@@ -5362,7 +5362,7 @@
       "label": "PhotoGridItem()",
       "file_type": "code",
       "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
-      "source_location": "L37",
+      "source_location": "L39",
       "id": "components_photogrid_photogriditem",
       "community": 0,
       "norm_label": "photogriditem()"
@@ -5566,24 +5566,6 @@
       "norm_label": "useimportflow()"
     },
     {
-      "label": "useTestData.ts",
-      "file_type": "code",
-      "source_file": "gui-frontend/src/hooks/useTestData.ts",
-      "source_location": "L1",
-      "id": "gui_frontend_src_hooks_usetestdata_ts",
-      "community": 0,
-      "norm_label": "usetestdata.ts"
-    },
-    {
-      "label": "useTestData()",
-      "file_type": "code",
-      "source_file": "gui-frontend/src/hooks/useTestData.ts",
-      "source_location": "L4",
-      "id": "hooks_usetestdata_usetestdata",
-      "community": 0,
-      "norm_label": "usetestdata()"
-    },
-    {
       "label": "useThumbnail.ts",
       "file_type": "code",
       "source_file": "gui-frontend/src/hooks/useThumbnail.ts",
@@ -5659,7 +5641,7 @@
       "label": "usePhotoStore",
       "file_type": "code",
       "source_file": "gui-frontend/src/stores/usePhotoStore.ts",
-      "source_location": "L23",
+      "source_location": "L25",
       "id": "stores_usephotostore_usephotostore",
       "community": 0,
       "norm_label": "usephotostore"
@@ -6617,6 +6599,24 @@
       "id": "media_management_thumbnail_write_to_disk_cache",
       "community": 85,
       "norm_label": "write_to_disk_cache()"
+    },
+    {
+      "label": "useTestData.ts",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/hooks/useTestData.ts",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "usetestdata.ts",
+      "id": "gui_frontend_src_hooks_usetestdata_ts"
+    },
+    {
+      "label": "useTestData()",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/hooks/useTestData.ts",
+      "source_location": "L4",
+      "community": 0,
+      "norm_label": "usetestdata()",
+      "id": "hooks_usetestdata_usetestdata"
     }
   ],
   "links": [
@@ -15064,6 +15064,16 @@
       "target": "hooks_usefolderbrowse_usefolderbrowse"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/Toolbar.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_toolbar_tsx",
+      "target": "components_toolbar_toolbar"
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -15084,16 +15094,6 @@
       "confidence_score": 1.0,
       "source": "gui_frontend_src_components_toolbar_tsx",
       "target": "hooks_usetestdata_usetestdata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/components/Toolbar.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_components_toolbar_tsx",
-      "target": "components_toolbar_toolbar"
     },
     {
       "relation": "calls",
@@ -15457,71 +15457,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/hooks/useTestData.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_hooks_usetestdata_ts",
-      "target": "gui_frontend_src_stores_usephotostore_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/hooks/useTestData.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_hooks_usetestdata_ts",
-      "target": "stores_usephotostore_usephotostore"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/hooks/useTestData.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_hooks_usetestdata_ts",
-      "target": "gui_frontend_src_stores_useuistore_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/hooks/useTestData.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_hooks_usetestdata_ts",
-      "target": "stores_useuistore_useuistore"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/hooks/useTestData.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_hooks_usetestdata_ts",
-      "target": "hooks_usetestdata_usetestdata"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "gui-frontend/src/hooks/useTestData.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "source": "hooks_usetestdata_usetestdata",
-      "target": "stores_usephotostore_usephotostore"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "gui-frontend/src/hooks/useThumbnail.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -15689,6 +15624,17 @@
       "target": "gui_frontend_src_stores_usephotostore_ts"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/hooks/useTestData.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_hooks_usetestdata_ts",
+      "target": "gui_frontend_src_stores_usephotostore_ts"
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -15697,6 +15643,28 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "gui_frontend_src_stores_useuistore_ts",
+      "target": "stores_usephotostore_usephotostore"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/hooks/useTestData.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_hooks_usetestdata_ts",
+      "target": "stores_usephotostore_usephotostore"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "gui-frontend/src/hooks/useTestData.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "hooks_usetestdata_usetestdata",
       "target": "stores_usephotostore_usephotostore"
     },
     {
@@ -15797,6 +15765,28 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "gui_frontend_src_stores_useuistore_ts",
+      "target": "stores_useuistore_useuistore"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/hooks/useTestData.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_hooks_usetestdata_ts",
+      "target": "gui_frontend_src_stores_useuistore_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/hooks/useTestData.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_hooks_usetestdata_ts",
       "target": "stores_useuistore_useuistore"
     },
     {
@@ -16476,9 +16466,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L115",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_metadata_rs",
-      "target": "media_management_metadata_read_exif",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_read_exif"
     },
     {
       "relation": "contains",
@@ -16506,9 +16496,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L150",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_metadata_rs",
-      "target": "media_management_metadata_fullexifdata",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_fullexifdata"
     },
     {
       "relation": "contains",
@@ -16516,9 +16506,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L161",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_metadata_rs",
-      "target": "media_management_metadata_extract_full_exif",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_extract_full_exif"
     },
     {
       "relation": "contains",
@@ -16526,9 +16516,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L204",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_metadata_rs",
-      "target": "media_management_metadata_extract_gps",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_extract_gps"
     },
     {
       "relation": "contains",
@@ -16536,9 +16526,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L222",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_metadata_rs",
-      "target": "media_management_metadata_parse_gps_value",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_parse_gps_value"
     },
     {
       "relation": "calls",
@@ -16602,9 +16592,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_metadata_extract_exif_from_partial_read",
-      "target": "media_management_metadata_read_exif",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_read_exif"
     },
     {
       "relation": "calls",
@@ -16624,9 +16614,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L196",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_metadata_extract_full_exif",
-      "target": "media_management_metadata_parse_exif_date",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_parse_exif_date"
     },
     {
       "relation": "calls",
@@ -16635,9 +16625,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L162",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_metadata_extract_full_exif",
-      "target": "media_management_metadata_read_exif",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_read_exif"
     },
     {
       "relation": "method",
@@ -16666,9 +16656,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L199",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_metadata_extract_full_exif",
-      "target": "media_management_metadata_extract_gps",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_extract_gps"
     },
     {
       "relation": "calls",
@@ -16677,9 +16667,9 @@
       "source_file": "src/media_management/metadata.rs",
       "source_location": "L207",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_metadata_extract_gps",
-      "target": "media_management_metadata_parse_gps_value",
-      "confidence_score": 1.0
+      "target": "media_management_metadata_parse_gps_value"
     },
     {
       "relation": "contains",
@@ -16768,9 +16758,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_decode_jpeg_thumbnail",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_decode_jpeg_thumbnail"
     },
     {
       "relation": "contains",
@@ -16778,9 +16768,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_decode_png_thumbnail",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_decode_png_thumbnail"
     },
     {
       "relation": "contains",
@@ -16788,9 +16778,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_encode_jpeg",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_encode_jpeg"
     },
     {
       "relation": "contains",
@@ -16808,9 +16798,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_get_cache_dir",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_get_cache_dir"
     },
     {
       "relation": "contains",
@@ -16818,9 +16808,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L120",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_cache_key",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_cache_key"
     },
     {
       "relation": "contains",
@@ -16828,9 +16818,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L125",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_cache_file_path",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_cache_file_path"
     },
     {
       "relation": "contains",
@@ -16838,9 +16828,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L129",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_read_from_disk_cache",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_read_from_disk_cache"
     },
     {
       "relation": "contains",
@@ -16848,9 +16838,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L134",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_write_to_disk_cache",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_write_to_disk_cache"
     },
     {
       "relation": "calls",
@@ -16859,9 +16849,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_get_thumbnail",
-      "target": "media_management_thumbnail_decode_jpeg_thumbnail",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_decode_jpeg_thumbnail"
     },
     {
       "relation": "calls",
@@ -16870,9 +16860,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_get_thumbnail",
-      "target": "media_management_thumbnail_decode_png_thumbnail",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_decode_png_thumbnail"
     },
     {
       "relation": "calls",
@@ -16892,9 +16882,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_decode_jpeg_thumbnail",
-      "target": "media_management_thumbnail_encode_jpeg",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_encode_jpeg"
     },
     {
       "relation": "calls",
@@ -16903,9 +16893,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_decode_png_thumbnail",
-      "target": "media_management_thumbnail_encode_jpeg",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_encode_jpeg"
     },
     {
       "relation": "calls",
@@ -16914,9 +16904,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L106",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_extract_embedded_thumbnail",
-      "target": "media_management_thumbnail_encode_jpeg",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_encode_jpeg"
     },
     {
       "relation": "calls",
@@ -16925,9 +16915,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_cache_file_path",
-      "target": "media_management_thumbnail_get_cache_dir",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_get_cache_dir"
     },
     {
       "relation": "calls",
@@ -16936,9 +16926,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_read_from_disk_cache",
-      "target": "media_management_thumbnail_cache_key",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_cache_key"
     },
     {
       "relation": "calls",
@@ -16947,9 +16937,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L135",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_write_to_disk_cache",
-      "target": "media_management_thumbnail_cache_key",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_cache_key"
     },
     {
       "relation": "calls",
@@ -16958,9 +16948,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_read_from_disk_cache",
-      "target": "media_management_thumbnail_cache_file_path",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_cache_file_path"
     },
     {
       "relation": "calls",
@@ -16969,11 +16959,20 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L135",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_write_to_disk_cache",
-      "target": "media_management_thumbnail_cache_file_path",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_cache_file_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/hooks/useTestData.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_hooks_usetestdata_ts",
+      "target": "hooks_usetestdata_usetestdata"
     }
   ],
-  "hyperedges": [],
-  "built_at_commit": "4cdfb66b7077016ecc94ab5194a1af914f5adfe4"
+  "hyperedges": []
 }

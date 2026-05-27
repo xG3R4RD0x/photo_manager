@@ -1,18 +1,13 @@
-# Graph Report - photo_manager  (2026-05-26)
+# Graph Report - photo_manager  (2026-05-27)
 
 ## Corpus Check
-- 50 files · ~84,849 words
+- 49 files · ~84,727 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
 - 735 nodes · 1019 edges · 99 communities (98 shown, 1 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
-
-## Graph Freshness
-- Built from commit: `4cdfb66b`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
-- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_GUI Frontend|GUI Frontend]]
@@ -173,8 +168,8 @@ Cohesion: 0.15
 Nodes (13): definitions, Number, PermissionEntry, Target, Value, anyOf, description, anyOf (+5 more)
 
 ### Community 10 - "schemas"
-Cohesion: 0.15
-Nodes (13): definitions, Number, PermissionEntry, Target, Value, anyOf, description, anyOf (+5 more)
+Cohesion: 0.13
+Nodes (14): anyOf, definitions, Number, PermissionEntry, Target, description, anyOf, description (+6 more)
 
 ### Community 11 - "media"
 Cohesion: 0.20
@@ -253,8 +248,8 @@ Cohesion: 0.40
 Nodes (4): anyOf, description, $schema, title
 
 ### Community 30 - "schemas"
-Cohesion: 0.40
-Nodes (4): anyOf, description, $schema, title
+Cohesion: 0.67
+Nodes (3): Value, anyOf, description
 
 ### Community 31 - "import"
 Cohesion: 0.50
