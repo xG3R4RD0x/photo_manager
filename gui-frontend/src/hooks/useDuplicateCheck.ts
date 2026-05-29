@@ -33,7 +33,7 @@ export function useDuplicateCheck() {
       .sort()
       .join(",");
 
-    if (!duplicateCheckTrigger && currentKey === prevKeyRef.current) {
+    if (!duplicateCheckTrigger) {
       return;
     }
 
