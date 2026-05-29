@@ -1,6 +1,13 @@
 import { useEffect, useCallback, useState } from "react";
-import { invoke } from "@tauri-apps/api/core";
+import { invoke, convertFileSrc } from "@tauri-apps/api/core";
 import { PhotoInfo } from "../stores/usePhotoStore";
+
+const RAW_EXTS = new Set([".cr2", ".nef", ".arw", ".raf", ".dng", ".orf", ".rw2", ".pef", ".srw", ".cr3", ".crw"]);
+
+function isRaw(path: string): boolean {
+  const dot = path.lastIndexOf(".");
+  return dot !== -1 && RAW_EXTS.has(path.slice(dot).toLowerCase());
+}
 
 interface SingleImageViewProps {
   photo: PhotoInfo;
@@ -29,31 +36,43 @@ export default function SingleImageView({ photo, photos, onNavigate }: SingleIma
     setImgSrc(null);
     setImgError(false);
     setIsLoading(true);
-    invoke<string>("get_display_image", { path: photo.path })
-      .then((dataUrl) => {
-        if (!cancelled) {
-          setImgSrc(dataUrl);
-          setIsLoading(false);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setImgError(true);
-          setIsLoading(false);
-        }
-      });
+
+    const path = photo.path;
+
+    if (isRaw(path)) {
+      invoke<string>("get_display_image", { path })
+        .then((previewPath) => {
+          if (!cancelled) {
+            setImgSrc(convertFileSrc(previewPath));
+            setIsLoading(false);
+          }
+        })
+        .catch(() => {
+          if (!cancelled) {
+            setImgError(true);
+            setIsLoading(false);
+          }
+        });
+    } else {
+      // JPEG/PNG: load directly via asset protocol — instant, no Rust involvement
+      setImgSrc(convertFileSrc(path));
+      setIsLoading(false);
+    }
+
     return () => { cancelled = true; };
   }, [photo.path]);
 
-  // Preload adjacent images
+  // Preload adjacent RAW photos into disk cache (JPEG/PNG are instant, no preload needed)
   useEffect(() => {
-    const preloadPaths: string[] = [];
-    if (hasPrev) preloadPaths.push(photos[currentIndex - 1].path);
-    if (hasNext) preloadPaths.push(photos[currentIndex + 1].path);
-    for (const p of preloadPaths) {
-      invoke<string>("get_display_image", { path: p }).catch(() => {});
+    for (let offset = 1; offset <= 2; offset++) {
+      if (currentIndex - offset >= 0 && isRaw(photos[currentIndex - offset].path)) {
+        invoke<string>("get_display_image", { path: photos[currentIndex - offset].path }).catch(() => {});
+      }
+      if (currentIndex + offset < photos.length && isRaw(photos[currentIndex + offset].path)) {
+        invoke<string>("get_display_image", { path: photos[currentIndex + offset].path }).catch(() => {});
+      }
     }
-  }, [photo.path, hasPrev, hasNext, photos, currentIndex]);
+  }, [photo.path, currentIndex, photos]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {

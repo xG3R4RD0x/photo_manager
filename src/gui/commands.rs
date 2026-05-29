@@ -3,8 +3,6 @@ use serde::{Serialize, Deserialize};
 use base64::Engine;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
-use std::fs;
-use walkdir::WalkDir;
 use rayon::prelude::*;
 use tauri::Emitter;
 
@@ -195,13 +193,33 @@ pub fn get_exif(path: String) -> Option<EXIFData> {
 }
 
 #[tauri::command]
-pub fn get_thumbnail(path: String) -> Result<String, String> {
+pub fn get_thumbnail(path: String, width: u32) -> Result<String, String> {
     let file_path = PathBuf::from(&path);
-    let cache = thumbnail::thumbnail_cache();
-    let data = cache.get_or_generate(&file_path, 200)?;
-    let engine = base64::engine::general_purpose::STANDARD;
-    let base64 = engine.encode(&data);
-    Ok(format!("data:image/jpeg;base64,{}", base64))
+    thumbnail::generate_thumbnail_preview(&file_path, width)
+}
+
+/// Event-based thumbnail generation.
+/// Spawns a background thread, writes temp file, emits path via event.
+#[tauri::command]
+pub fn generate_thumbnail(path: String, width: u32, app: tauri::AppHandle) {
+    std::thread::spawn(move || {
+        match thumbnail::generate_thumbnail_preview(&PathBuf::from(&path), width) {
+            Ok(preview_path) => {
+                let _ = app.emit("thumbnail_ready", serde_json::json!({
+                    "path": path,
+                    "preview_path": preview_path,
+                    "width": width,
+                }));
+            }
+            Err(err) => {
+                let _ = app.emit("thumbnail_failed", serde_json::json!({
+                    "path": path,
+                    "reason": err,
+                    "width": width,
+                }));
+            }
+        }
+    });
 }
 
 const DISPLAY_IMAGE_SIZE: u32 = 1200;
@@ -210,11 +228,7 @@ const DISPLAY_IMAGE_QUALITY: u8 = 60;
 #[tauri::command]
 pub fn get_display_image(path: String) -> Result<String, String> {
     let file_path = PathBuf::from(&path);
-    let cache = thumbnail::thumbnail_cache();
-    let data = cache.get_or_generate_display(&file_path, DISPLAY_IMAGE_SIZE, DISPLAY_IMAGE_QUALITY)?;
-    let engine = base64::engine::general_purpose::STANDARD;
-    let base64 = engine.encode(&data);
-    Ok(format!("data:image/jpeg;base64,{}", base64))
+    thumbnail::generate_display_preview(&file_path, DISPLAY_IMAGE_SIZE, DISPLAY_IMAGE_QUALITY)
 }
 
 #[tauri::command]
@@ -235,124 +249,6 @@ pub fn get_full_image(path: String) -> Result<String, String> {
         _ => "image/jpeg",
     };
     Ok(format!("data:{};base64,{}", mime, base64))
-}
-
-/// Event-based thumbnail generation
-/// Emits 'thumbnail_ready' or 'thumbnail_failed' events
-#[tauri::command]
-pub fn generate_thumbnail(path: String, app: tauri::AppHandle) {
-    let file_path = PathBuf::from(&path);
-    let cache = thumbnail::thumbnail_cache();
-
-    // Check cache first (fast path, no thread needed)
-    if let Some(data) = cache.get(&file_path, 200) {
-        let engine = base64::engine::general_purpose::STANDARD;
-        let base64 = engine.encode(&data);
-        let data_url = format!("data:image/jpeg;base64,{}", base64);
-        let _ = app.emit("thumbnail_ready", serde_json::json!({
-            "path": path,
-            "base64": data_url,
-        }));
-        return;
-    }
-
-    // Spawn background thread to avoid blocking
-    std::thread::spawn(move || {
-        let cache = thumbnail::thumbnail_cache();
-        match cache.get_or_generate(&PathBuf::from(&path), 200) {
-            Ok(data) => {
-                let engine = base64::engine::general_purpose::STANDARD;
-                let base64 = engine.encode(&data);
-                let data_url = format!("data:image/jpeg;base64,{}", base64);
-                let _ = app.emit("thumbnail_ready", serde_json::json!({
-                    "path": path.clone(),
-                    "base64": data_url,
-                }));
-            }
-            Err(err) => {
-                let _ = app.emit("thumbnail_failed", serde_json::json!({
-                    "path": path,
-                    "reason": err,
-                }));
-            }
-        }
-    });
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ThumbnailCacheEntry {
-    pub path: String,
-    pub base64: String,
-}
-
-#[tauri::command]
-pub fn load_thumbnail_cache(dest_folder: String) -> Result<Vec<ThumbnailCacheEntry>, String> {
-    let folder_path = PathBuf::from(&dest_folder);
-    let photoignore = storage::load_photoignore(&folder_path);
-    let paths = storage::list_photos(&folder_path, &photoignore);
-
-    let mut entries = Vec::new();
-    let engine = base64::engine::general_purpose::STANDARD;
-    let cache = thumbnail::thumbnail_cache();
-
-    for path in paths {
-        if let Some(data) = cache.get(&path, 200) {
-            let base64 = engine.encode(&data);
-            entries.push(ThumbnailCacheEntry {
-                path: path.to_string_lossy().to_string(),
-                base64: format!("data:image/jpeg;base64,{}", base64),
-            });
-        }
-    }
-
-    Ok(entries)
-}
-
-#[tauri::command]
-pub fn cleanup_thumbnail_cache(dest_folder: String) -> Result<String, String> {
-    let folder_path = PathBuf::from(&dest_folder);
-    if !folder_path.exists() {
-        return Ok("No cache to clean".to_string());
-    }
-
-    let photoignore = storage::load_photoignore(&folder_path);
-    let photos = storage::list_photos(&folder_path, &photoignore);
-
-    let valid_paths: std::collections::HashSet<PathBuf> = photos.iter()
-        .map(|p| thumbnail_path(p))
-        .collect();
-
-    let mut cleaned = 0u32;
-
-    for entry in WalkDir::new(&folder_path)
-        .into_iter()
-        .filter_map(Result::ok)
-        .filter(|e| e.file_type().is_dir() && e.file_name() == ".thumbnails")
-    {
-        if let Ok(files) = fs::read_dir(entry.path()) {
-            for file in files.filter_map(|e| e.ok()) {
-                let file_path = file.path();
-                if file_path.extension().and_then(|e| e.to_str()) != Some("jpg") {
-                    continue;
-                }
-                if !valid_paths.contains(&file_path) {
-                    let _ = fs::remove_file(&file_path);
-                    cleaned += 1;
-                }
-            }
-        }
-    }
-
-    if cleaned == 0 {
-        Ok("No stale cache entries".to_string())
-    } else {
-        Ok(format!("Cleaned {} stale cache entries", cleaned))
-    }
-}
-
-fn thumbnail_path(photo_path: &PathBuf) -> PathBuf {
-    thumbnail::thumbnail_dir(photo_path)
-        .join(format!("{}.jpg", thumbnail::cache_key(photo_path, 200)))
 }
 
 #[tauri::command]

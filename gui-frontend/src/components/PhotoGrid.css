@@ -233,6 +233,12 @@
   border-radius: 2px;
 }
 
+.thumbnail-image--tiny {
+  image-rendering: auto;
+  filter: blur(0.2px);
+  transform: scale(1.01);
+}
+
 .thumbnail-placeholder--loading {
   background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
 }

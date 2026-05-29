@@ -1,13 +1,12 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { listen } from '@tauri-apps/api/event';
 import { invoke } from '@tauri-apps/api/core';
+import { listen } from '@tauri-apps/api/event';
 import { useThumbnailQueueStore } from '../stores/useThumbnailQueueStore';
 import { usePhotoStore } from '../stores/usePhotoStore';
 
 export function useThumbnailGenerator() {
   const isInitialized = useThumbnailQueueStore((s) => s.isInitialized);
   const initializeStore = useThumbnailQueueStore((s) => s.initializeStore);
-  // Wait for metadata enrichment to start before triggering generation
   const photos = usePhotoStore((s) => s.photos);
   const hasSomeDates = photos.length > 0 && photos.some((p) => p.date !== null);
 
@@ -21,7 +20,6 @@ export function useThumbnailGenerator() {
   const initialLoadRef = useRef(false);
   const prevHasDatesRef = useRef(false);
 
-  // When metadata enrichment completes (some photos get dates), reset queue
   useEffect(() => {
     if (photos.length > 0 && hasSomeDates && !prevHasDatesRef.current) {
       useThumbnailQueueStore.getState().fullReset();
@@ -30,7 +28,6 @@ export function useThumbnailGenerator() {
     prevHasDatesRef.current = hasSomeDates;
   }, [hasSomeDates, photos.length]);
 
-  // Reset when photos count changes (new folder loaded)
   const prevPhotoCountRef = useRef(0);
   useEffect(() => {
     if (photos.length > 0 && prevPhotoCountRef.current !== photos.length && prevPhotoCountRef.current > 0) {
@@ -80,7 +77,6 @@ export function useThumbnailGenerator() {
     return () => observerRef.current?.disconnect();
   }, [isInitialized, initializeStore]);
 
-  // Observe photo items and watch for new ones via MutationObserver
   useEffect(() => {
     if (!observerRef.current) return;
 
@@ -108,42 +104,6 @@ export function useThumbnailGenerator() {
   }, [isInitialized]);
 
   useEffect(() => {
-    let active = true;
-    const setupListeners = async () => {
-      try {
-        const unlistenReady = await listen<{ path: string; base64: string }>(
-          'thumbnail_ready',
-          (event) => {
-            if (!active) return;
-            const store = useThumbnailQueueStore.getState();
-            store.storeThumbnail(event.payload.path, event.payload.base64);
-            store.markCompleted(event.payload.path);
-          }
-        );
-
-        const unlistenFailed = await listen<{ path: string; reason: string }>(
-          'thumbnail_failed',
-          (event) => {
-            if (!active) return;
-            const store = useThumbnailQueueStore.getState();
-            store.markFailed(event.payload.path);
-          }
-        );
-
-        unlistenersRef.current = [unlistenReady, unlistenFailed];
-      } catch (error) {
-        console.error('[ThumbnailGenerator] Failed to setup event listeners:', error);
-      }
-    };
-
-    setupListeners();
-    return () => {
-      active = false;
-      unlistenersRef.current.forEach((u) => u());
-    };
-  }, []);
-
-  useEffect(() => {
     const container = document.querySelector('.grid-content');
     if (!container) return;
 
@@ -164,56 +124,89 @@ export function useThumbnailGenerator() {
     };
   }, []);
 
-  const isRawFile = (path: string) => /\.(cr2|nef|arw|raf)$/i.test(path);
+  useEffect(() => {
+    let active = true;
+    const setupListeners = async () => {
+      try {
+        const unlistenReady = await listen<{ path: string; preview_path: string; width: number }>(
+          'thumbnail_ready',
+          (event) => {
+            if (!active) return;
+            const store = useThumbnailQueueStore.getState();
+            store.storeThumbnail(event.payload.path, event.payload.width, event.payload.preview_path);
+            store.markCompleted(event.payload.path, event.payload.width);
+            if (event.payload.width === store.config.tinySize) {
+              store.addToSecondaryPriority([
+                { path: event.payload.path, size: store.config.fullSize, kind: 'full' },
+              ]);
+            }
+            setTimeout(() => generateNextThumbnail(), 0);
+          }
+        );
 
-  const generateNextThumbnail = useCallback(async (): Promise<void> => {
+        const unlistenFailed = await listen<{ path: string; reason: string; width: number }>(
+          'thumbnail_failed',
+          (event) => {
+            if (!active) return;
+            const store = useThumbnailQueueStore.getState();
+            store.markFailed({
+              path: event.payload.path,
+              size: event.payload.width,
+              kind: event.payload.width === store.config.tinySize ? 'tiny' : 'full',
+            });
+            setTimeout(() => generateNextThumbnail(), 0);
+          }
+        );
+
+        unlistenersRef.current = [unlistenReady, unlistenFailed];
+      } catch (error) {
+        console.error('[ThumbnailGenerator] Failed to setup event listeners:', error);
+      }
+    };
+
+    setupListeners();
+    return () => {
+      active = false;
+      unlistenersRef.current.forEach((u) => u());
+    };
+  }, []);
+
+  const hasFreeSlots = () => {
+    const store = useThumbnailQueueStore.getState();
+    return store.inProgress.size < store.config.maxConcurrent;
+  };
+
+  const generateNextThumbnail = useCallback((): void => {
     if (isGeneratingRef.current) return;
     const store = useThumbnailQueueStore.getState();
 
-    let nextPath: string | null =
-      store.highPriority.find((p) => !isRawFile(p)) ||
+    if (!hasFreeSlots()) return;
+
+    const nextRequest =
       store.highPriority[0] ||
       store.secondaryPriority[0] ||
       store.lowPriority[0];
 
-    if (!nextPath) {
+    if (!nextRequest) {
       isGeneratingRef.current = false;
       return;
     }
 
-    const tier: 'high' | 'secondary' = isRawFile(nextPath) ? 'secondary' : 'high';
+    const inProgressKey = `${nextRequest.path}::${nextRequest.size}`;
 
-    if (store.getThumbnail(nextPath) || store.inProgress.has(nextPath)) {
-      store.markCompleted(nextPath);
-      setTimeout(generateNextThumbnail, 0);
+    if (store.getThumbnail(nextRequest.path, nextRequest.size) || store.inProgress.has(inProgressKey)) {
+      store.markCompleted(nextRequest.path, nextRequest.size);
+      setTimeout(() => generateNextThumbnail(), 0);
       return;
     }
 
     isGeneratingRef.current = true;
-    const abortController = store.markInProgress(nextPath, tier);
-
-    try {
-      const timeout = tier === 'secondary' ? store.config.rawConversionTimeout : 30000;
-      await Promise.race([
-        invoke('generate_thumbnail', { path: nextPath }),
-        new Promise<void>((_, reject) =>
-          setTimeout(() => reject(new Error('Timeout')), timeout)
-        ),
-      ]);
-    } catch (error) {
-      if (abortController.signal.aborted) {
-        console.log('[ThumbnailGenerator] Cancelled:', nextPath);
-      } else {
-        console.error('[ThumbnailGenerator] Generation failed:', error);
-        store.markFailed(nextPath);
-      }
-    } finally {
-      isGeneratingRef.current = false;
-      setTimeout(generateNextThumbnail, 0);
-    }
+    store.markInProgress(nextRequest, nextRequest.kind === 'tiny' ? 'high' : 'secondary');
+    invoke('generate_thumbnail', { path: nextRequest.path, width: nextRequest.size });
+    isGeneratingRef.current = false;
+    setTimeout(() => generateNextThumbnail(), 0);
   }, []);
 
-  // Scroll debounce: clear queues, cancel off-screen, add visible items
   useEffect(() => {
     const scrollContainer = document.querySelector('.grid-content');
     if (!scrollContainer) return;
@@ -226,7 +219,6 @@ export function useThumbnailGenerator() {
       debounceTimerRef.current = window.setTimeout(() => {
         const store = useThumbnailQueueStore.getState();
 
-        // Clear all queues so only current visible items get prioritized
         store.clearQueues();
 
         store.resortQueue(store.visiblePhotoPaths, store.config.bufferPixels);
@@ -234,7 +226,10 @@ export function useThumbnailGenerator() {
 
         const visibleArray = Array.from(store.visiblePhotoPaths);
         if (visibleArray.length > 0) {
-          store.addToHighPriority(visibleArray);
+          const batch = visibleArray.slice(0, store.config.initialBatch);
+          store.addToHighPriority(
+            batch.map((path) => ({ path, size: store.config.tinySize, kind: 'tiny' }))
+          );
         }
 
         generateNextThumbnail();
@@ -251,10 +246,10 @@ export function useThumbnailGenerator() {
   useEffect(() => {
     const checkRetries = () => {
       const store = useThumbnailQueueStore.getState();
-      const failed = Array.from(store.failedRetries.entries());
-      for (const [path] of failed) {
-        if (store.canRetry(path) && store.visiblePhotoPaths.has(path)) {
-          store.scheduleRetry(path);
+      const failed = Array.from(store.failedRetries.values());
+      for (const entry of failed) {
+        if (store.canRetry(entry.request) && store.visiblePhotoPaths.has(entry.request.path)) {
+          store.scheduleRetry(entry.request);
         }
       }
       retryTimerRef.current = window.setTimeout(checkRetries, 5000);
@@ -266,7 +261,6 @@ export function useThumbnailGenerator() {
     };
   }, []);
 
-  // Trigger initial generation after grouped layout renders
   useEffect(() => {
     if (hasSomeDates && !initialLoadRef.current) {
       initialLoadRef.current = true;
@@ -280,14 +274,16 @@ export function useThumbnailGenerator() {
           .filter((p): p is string => p !== null);
 
         if (paths.length > 0) {
-          store.addToHighPriority(paths);
+          const batch = paths.slice(0, store.config.initialBatch);
+          store.addToHighPriority(
+            batch.map((path) => ({ path, size: store.config.tinySize, kind: 'tiny' }))
+          );
           generateNextThumbnail();
         }
       });
     }
   }, [hasSomeDates, generateNextThumbnail]);
 
-  // Fallback: if photos loaded but no dates arrive (no EXIF), start generation after 5s
   useEffect(() => {
     if (photos.length > 0 && !hasSomeDates && !initialLoadRef.current) {
       fallbackTimerRef.current = window.setTimeout(() => {
@@ -303,7 +299,10 @@ export function useThumbnailGenerator() {
               .filter((p): p is string => p !== null);
 
             if (paths.length > 0) {
-              store.addToHighPriority(paths);
+              const batch = paths.slice(0, store.config.initialBatch);
+              store.addToHighPriority(
+                batch.map((path) => ({ path, size: store.config.tinySize, kind: 'tiny' }))
+              );
               generateNextThumbnail();
             }
           });

@@ -1,28 +1,43 @@
 import { create } from 'zustand';
-import { invoke } from '@tauri-apps/api/core';
+
+export type ThumbnailKind = 'tiny' | 'full';
+
+export interface ThumbnailRequest {
+  path: string;
+  size: number;
+  kind: ThumbnailKind;
+}
+
+export const getThumbnailKey = (path: string, size: number) => `${path}::${size}`;
+const getRequestKey = (request: ThumbnailRequest) => getThumbnailKey(request.path, request.size);
 
 export interface ThumbnailQueueConfig {
   debounceMs: number;           // Default 300ms
   bufferPixels: number;         // Lookahead buffer as multiple of viewport (default 2x)
-  rawConversionTimeout: number; // Max RAW->JPEG conversion time (default 10000ms)
-  enableThumbnailCache: boolean; // Enable disk cache (default true)
-  batchObserveInterval: number; // Observe every Nth item (default 5)
+  rawConversionTimeout: number; // Max RAW thumbnail generation time (default 10000ms)
   retryDelayMs: number;         // Retry delay for failed thumbnails (default 10000ms)
+  tinySize: number;             // Tiny thumbnail size (default 96px)
+  fullSize: number;             // Full thumbnail size (default 200px)
+  maxConcurrent: number;        // Max concurrent thumbnail tasks
+  initialBatch: number;         // Initial batch size for load
 }
 
 export const DEFAULT_CONFIG: ThumbnailQueueConfig = {
   debounceMs: 300,
   bufferPixels: 2,
   rawConversionTimeout: 10000,
-  enableThumbnailCache: true,
-  batchObserveInterval: 5,
   retryDelayMs: 10000,
+  tinySize: 96,
+  fullSize: 200,
+  maxConcurrent: 4,
+  initialBatch: 120,
 };
 
 export interface ThumbnailInProgress {
   startedAt: number;
   abortController: AbortController;
   tier: 'high' | 'secondary' | 'low';
+  request: ThumbnailRequest;
 }
 
 export interface ThumbnailQueueState {
@@ -31,9 +46,9 @@ export interface ThumbnailQueueState {
   viewportHeight: number;
 
   // Priority queues (file paths)
-  highPriority: string[];      // JPEG/PNG in viewport
-  secondaryPriority: string[]; // RAW with embedded JPEG in viewport + buffer
-  lowPriority: string[];       // RAW conversion + retries
+  highPriority: ThumbnailRequest[];      // Tiny thumbnails in viewport
+  secondaryPriority: ThumbnailRequest[]; // Full thumbnails in viewport
+  lowPriority: ThumbnailRequest[];       // Retries
 
   // Tracking in-progress work
   inProgress: Map<string, ThumbnailInProgress>;
@@ -42,7 +57,7 @@ export interface ThumbnailQueueState {
   thumbnails: Map<string, string>;
 
   // Failed thumbnails to retry
-  failedRetries: Map<string, { failCount: number; nextRetryAt: number }>;
+  failedRetries: Map<string, { failCount: number; nextRetryAt: number; request: ThumbnailRequest }>;
 
   // Configuration
   config: ThumbnailQueueConfig;
@@ -54,16 +69,15 @@ export interface ThumbnailQueueState {
 export interface ThumbnailQueueActions {
   // Initialization
   initializeStore: (config?: Partial<ThumbnailQueueConfig>) => void;
-  loadCacheFromDisk: (cachePath: string) => Promise<void>;
 
   // Visibility updates (called by IntersectionObserver)
   setVisiblePhotoPaths: (paths: Set<string>) => void;
   setViewportHeight: (height: number) => void;
 
   // Queue management
-  addToHighPriority: (paths: string[]) => void;
-  addToSecondaryPriority: (paths: string[]) => void;
-  addToLowPriority: (paths: string[]) => void;
+  addToHighPriority: (requests: ThumbnailRequest[]) => void;
+  addToSecondaryPriority: (requests: ThumbnailRequest[]) => void;
+  addToLowPriority: (requests: ThumbnailRequest[]) => void;
   resortQueue: (visiblePaths: Set<string>, bufferPixels: number) => void;
 
   // Cancellation
@@ -74,25 +88,20 @@ export interface ThumbnailQueueActions {
   fullReset: () => void;
 
   // Work tracking
-  markInProgress: (path: string, tier: 'high' | 'secondary' | 'low') => AbortController;
-  markCompleted: (path: string) => void;
-  markFailed: (path: string) => void;
+  markInProgress: (request: ThumbnailRequest, tier: 'high' | 'secondary' | 'low') => AbortController;
+  markCompleted: (path: string, size: number) => void;
+  markFailed: (request: ThumbnailRequest) => void;
 
   // Results
-  storeThumbnail: (path: string, base64: string) => void;
-  getThumbnail: (path: string) => string | undefined;
-
-  // Cache management
-  clearCache: () => void;
-  saveCache: (cachePath: string) => Promise<void>;
-  mergeCache: (newThumbnails: Map<string, string>) => void;
+  storeThumbnail: (path: string, size: number, thumbnailPath: string) => void;
+  getThumbnail: (path: string, size: number) => string | undefined;
 
   // Configuration
   updateConfig: (partial: Partial<ThumbnailQueueConfig>) => void;
 
   // Retry mechanism
-  canRetry: (path: string) => boolean;
-  scheduleRetry: (path: string) => void;
+  canRetry: (request: ThumbnailRequest) => boolean;
+  scheduleRetry: (request: ThumbnailRequest) => void;
 }
 
 export type ThumbnailQueueStore = ThumbnailQueueState & ThumbnailQueueActions;
@@ -119,18 +128,6 @@ export const useThumbnailQueueStore = create<ThumbnailQueueStore>((set, get) => 
     }));
   },
 
-  loadCacheFromDisk: async (cachePath) => {
-    try {
-      const entries = await invoke<{ path: string; base64: string }[]>('load_thumbnail_cache', { destFolder: cachePath });
-      if (entries.length > 0) {
-        const newThumbnails = new Map(entries.map(e => [e.path, e.base64]));
-        get().mergeCache(newThumbnails);
-      }
-    } catch (error) {
-      console.error('[ThumbnailQueue] Failed to load cache:', error);
-    }
-  },
-
   // Visibility updates
   setVisiblePhotoPaths: (paths) => {
     const prev = get().visiblePhotoPaths;
@@ -145,39 +142,91 @@ export const useThumbnailQueueStore = create<ThumbnailQueueStore>((set, get) => 
   },
 
   // Queue management
-  addToHighPriority: (paths) => {
+  addToHighPriority: (requests) => {
     set((state) => {
-      const newPaths = paths.filter((p) => !state.highPriority.includes(p));
+      const newRequests = requests.filter((request) => {
+        const key = getRequestKey(request);
+        if (state.thumbnails.has(key) || state.inProgress.has(key)) return false;
+        if (state.highPriority.some((r) => getRequestKey(r) === key)) return false;
+        if (state.secondaryPriority.some((r) => getRequestKey(r) === key)) return false;
+        if (state.lowPriority.some((r) => getRequestKey(r) === key)) return false;
+        return true;
+      });
+
+      if (newRequests.length === 0) return {};
       return {
-        highPriority: [...state.highPriority, ...newPaths],
+        highPriority: [...state.highPriority, ...newRequests],
       };
     });
   },
 
-  addToSecondaryPriority: (paths) => {
+  addToSecondaryPriority: (requests) => {
     set((state) => {
-      const newPaths = paths.filter((p) => !state.secondaryPriority.includes(p));
+      const newRequests = requests.filter((request) => {
+        const key = getRequestKey(request);
+        if (state.thumbnails.has(key) || state.inProgress.has(key)) return false;
+        if (state.highPriority.some((r) => getRequestKey(r) === key)) return false;
+        if (state.secondaryPriority.some((r) => getRequestKey(r) === key)) return false;
+        if (state.lowPriority.some((r) => getRequestKey(r) === key)) return false;
+        return true;
+      });
+
+      if (newRequests.length === 0) return {};
       return {
-        secondaryPriority: [...state.secondaryPriority, ...newPaths],
+        secondaryPriority: [...state.secondaryPriority, ...newRequests],
       };
     });
   },
 
-  addToLowPriority: (paths) => {
+  addToLowPriority: (requests) => {
     set((state) => {
-      const newPaths = paths.filter((p) => !state.lowPriority.includes(p));
+      const newRequests = requests.filter((request) => {
+        const key = getRequestKey(request);
+        if (state.thumbnails.has(key) || state.inProgress.has(key)) return false;
+        if (state.highPriority.some((r) => getRequestKey(r) === key)) return false;
+        if (state.secondaryPriority.some((r) => getRequestKey(r) === key)) return false;
+        if (state.lowPriority.some((r) => getRequestKey(r) === key)) return false;
+        return true;
+      });
+
+      if (newRequests.length === 0) return {};
       return {
-        lowPriority: [...state.lowPriority, ...newPaths],
+        lowPriority: [...state.lowPriority, ...newRequests],
       };
     });
   },
 
-  resortQueue: (visiblePaths, bufferPixels) => {
-    // TODO: Implement intelligent re-sorting based on viewport and buffer
-    // This should reorganize all three queues based on current visibility
-    // For now, just return the state unchanged
-    console.log('[ThumbnailQueue] Resort queue - visible:', visiblePaths.size, 'buffer:', bufferPixels);
-    return;
+  resortQueue: (visiblePaths, _bufferPixels) => {
+    set((state) => {
+      const visible = Array.from(visiblePaths);
+
+      const toRequest = (path: string, size: number, kind: ThumbnailKind): ThumbnailRequest => ({
+        path,
+        size,
+        kind,
+      });
+
+      const buildQueue = (paths: string[], size: number, kind: ThumbnailKind) => {
+        const requests: ThumbnailRequest[] = [];
+        for (const path of paths) {
+          const key = getThumbnailKey(path, size);
+          if (state.thumbnails.has(key) || state.inProgress.has(key)) continue;
+          if (requests.some((r) => getRequestKey(r) === key)) continue;
+          requests.push(toRequest(path, size, kind));
+        }
+        return requests;
+      };
+
+      const highPriority = buildQueue(visible, state.config.tinySize, 'tiny');
+      const secondaryPriority = buildQueue(visible, state.config.fullSize, 'full');
+      const lowPriority: ThumbnailRequest[] = [];
+
+      return {
+        highPriority,
+        secondaryPriority,
+        lowPriority,
+      };
+    });
   },
 
   // Cancellation
@@ -185,10 +234,10 @@ export const useThumbnailQueueStore = create<ThumbnailQueueStore>((set, get) => 
     set((state) => {
       const newInProgress = new Map(state.inProgress);
       
-      for (const [path, task] of newInProgress.entries()) {
-        if (!visiblePaths.has(path)) {
+      for (const [key, task] of newInProgress.entries()) {
+        if (!visiblePaths.has(task.request.path)) {
           task.abortController.abort();
-          newInProgress.delete(path);
+          newInProgress.delete(key);
         }
       }
 
@@ -225,90 +274,84 @@ export const useThumbnailQueueStore = create<ThumbnailQueueStore>((set, get) => 
   },
 
   // Work tracking
-  markInProgress: (path, tier) => {
+  markInProgress: (request, tier) => {
     const abortController = new AbortController();
+    const key = getRequestKey(request);
     set((state) => {
       const newInProgress = new Map(state.inProgress);
-      newInProgress.set(path, {
+      newInProgress.set(key, {
         startedAt: Date.now(),
         abortController,
         tier,
+        request,
       });
       return { inProgress: newInProgress };
     });
+    set((state) => ({
+      highPriority: state.highPriority.filter((r) => getRequestKey(r) !== key),
+      secondaryPriority: state.secondaryPriority.filter((r) => getRequestKey(r) !== key),
+      lowPriority: state.lowPriority.filter((r) => getRequestKey(r) !== key),
+    }));
     return abortController;
   },
 
-  markCompleted: (path) => {
+  markCompleted: (path, size) => {
+    const key = getThumbnailKey(path, size);
     set((state) => {
       const newInProgress = new Map(state.inProgress);
-      newInProgress.delete(path);
+      newInProgress.delete(key);
       
       // Remove from all queues
       return {
         inProgress: newInProgress,
-        highPriority: state.highPriority.filter((p) => p !== path),
-        secondaryPriority: state.secondaryPriority.filter((p) => p !== path),
-        lowPriority: state.lowPriority.filter((p) => p !== path),
+        failedRetries: (() => {
+          const newFailed = new Map(state.failedRetries);
+          newFailed.delete(key);
+          return newFailed;
+        })(),
+        highPriority: state.highPriority.filter((r) => getRequestKey(r) !== key),
+        secondaryPriority: state.secondaryPriority.filter((r) => getRequestKey(r) !== key),
+        lowPriority: state.lowPriority.filter((r) => getRequestKey(r) !== key),
       };
     });
   },
 
-  markFailed: (path) => {
+  markFailed: (request) => {
+    const key = getRequestKey(request);
     set((state) => {
       const newInProgress = new Map(state.inProgress);
-      newInProgress.delete(path);
+      newInProgress.delete(key);
       
-      const failCount = (state.failedRetries.get(path)?.failCount ?? 0) + 1;
+      const failCount = (state.failedRetries.get(key)?.failCount ?? 0) + 1;
       const newFailedRetries = new Map(state.failedRetries);
-      newFailedRetries.set(path, {
+      newFailedRetries.set(key, {
         failCount,
         nextRetryAt: Date.now() + state.config.retryDelayMs,
+        request,
       });
 
       return {
         inProgress: newInProgress,
         failedRetries: newFailedRetries,
-        highPriority: state.highPriority.filter((p) => p !== path),
-        secondaryPriority: state.secondaryPriority.filter((p) => p !== path),
-        lowPriority: state.lowPriority.filter((p) => p !== path),
+        highPriority: state.highPriority.filter((r) => getRequestKey(r) !== key),
+        secondaryPriority: state.secondaryPriority.filter((r) => getRequestKey(r) !== key),
+        lowPriority: state.lowPriority.filter((r) => getRequestKey(r) !== key),
       };
     });
   },
 
   // Results
-  storeThumbnail: (path, base64) => {
+  storeThumbnail: (path, size, thumbnailPath) => {
+    const key = getThumbnailKey(path, size);
     set((state) => {
       const newThumbnails = new Map(state.thumbnails);
-      newThumbnails.set(path, base64);
+      newThumbnails.set(key, thumbnailPath);
       return { thumbnails: newThumbnails };
     });
   },
 
-  getThumbnail: (path) => {
-    return get().thumbnails.get(path);
-  },
-
-  // Cache management
-  clearCache: () => {
-    set({
-      thumbnails: new Map(),
-      failedRetries: new Map(),
-    });
-  },
-
-  saveCache: async () => {
-    // Thumbnails saved to disk during generation (Rust side). No-op.
-  },
-
-  mergeCache: (newThumbnails) => {
-    set((state) => {
-      const merged = new Map(state.thumbnails);
-      for (const [path, base64] of newThumbnails.entries()) {
-        merged.set(path, base64);
-      }
-      return { thumbnails: merged };
-    });
+  getThumbnail: (path, size) => {
+    return get().thumbnails.get(getThumbnailKey(path, size));
   },
 
   // Configuration
@@ -319,16 +362,16 @@ export const useThumbnailQueueStore = create<ThumbnailQueueStore>((set, get) => 
   },
 
   // Retry mechanism
-  canRetry: (path) => {
-    const failedRetry = get().failedRetries.get(path);
+  canRetry: (request) => {
+    const failedRetry = get().failedRetries.get(getRequestKey(request));
     if (!failedRetry) return false;
     return Date.now() >= failedRetry.nextRetryAt && failedRetry.failCount < 3;
   },
 
-  scheduleRetry: (path) => {
+  scheduleRetry: (request) => {
     const state = get();
-    if (state.canRetry(path)) {
-      state.addToLowPriority([path]);
+    if (state.canRetry(request)) {
+      state.addToLowPriority([request]);
     }
   },
 }));

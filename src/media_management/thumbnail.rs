@@ -1,6 +1,6 @@
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::fs::{self, File};
-use std::io::{BufReader, Seek, SeekFrom, Read, Cursor, Write};
+use std::io::{BufReader, Cursor, Write};
 use exif::{Reader, Tag, In};
 
 const RAW_EXTENSIONS: &[&str] = &[
@@ -70,81 +70,84 @@ fn encode_jpeg(img: &image::DynamicImage, quality: u8) -> Result<Vec<u8>, String
     Ok(buf)
 }
 
-fn extract_embedded_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
-    let file = File::open(path).map_err(|e| e.to_string())?;
-    let mut reader = BufReader::new(file);
+fn extract_exif_thumbnail_bytes(data: &[u8]) -> Option<Vec<u8>> {
+    let mut cursor = Cursor::new(data);
+    let exif = Reader::new().read_from_container(&mut cursor).ok()?;
 
-    let exif = Reader::new()
-        .read_from_container(&mut reader)
-        .map_err(|e| format!("Failed to read EXIF: {:?}", e))?;
+    let offset_field = exif.get_field(Tag::JPEGInterchangeFormat, In::THUMBNAIL)?;
+    let length_field = exif.get_field(Tag::JPEGInterchangeFormatLength, In::THUMBNAIL)?;
 
-    if let Some(offset_field) = exif.get_field(Tag::JPEGInterchangeFormat, In::THUMBNAIL) {
-        if let Some(length_field) = exif.get_field(Tag::JPEGInterchangeFormatLength, In::THUMBNAIL) {
-            let offset = match &offset_field.value {
-                exif::Value::Long(v) if !v.is_empty() => v[0] as u64,
-                exif::Value::Short(v) if !v.is_empty() => v[0] as u64,
-                _ => return Err("Invalid JPEG offset".to_string()),
-            };
+    let offset = match &offset_field.value {
+        exif::Value::Long(v) if !v.is_empty() => v[0] as usize,
+        exif::Value::Short(v) if !v.is_empty() => v[0] as usize,
+        _ => return None,
+    };
+    let length = match &length_field.value {
+        exif::Value::Long(v) if !v.is_empty() => v[0] as usize,
+        exif::Value::Short(v) if !v.is_empty() => v[0] as usize,
+        _ => return None,
+    };
 
-            let length = match &length_field.value {
-                exif::Value::Long(v) if !v.is_empty() => v[0] as usize,
-                exif::Value::Short(v) if !v.is_empty() => v[0] as usize,
-                _ => return Err("Invalid JPEG length".to_string()),
-            };
+    if offset + length <= data.len() {
+        Some(data[offset..offset + length].to_vec())
+    } else {
+        None
+    }
+}
 
-            let mut file2 = File::open(path).map_err(|e| e.to_string())?;
-            file2.seek(SeekFrom::Start(offset)).map_err(|e| e.to_string())?;
+fn scan_embedded_jpeg(data: &[u8], max_dim: u32, front_bytes: usize, back_bytes: usize) -> Option<image::DynamicImage> {
+    use jpeg_decoder::Decoder;
 
-            let mut jpeg_data = vec![0u8; length];
-            file2.read_exact(&mut jpeg_data).map_err(|e| e.to_string())?;
+    let len = data.len();
+    let scan_chunks = [
+        0..len.min(front_bytes),
+        len.saturating_sub(back_bytes)..len,
+    ];
 
-            let mut reader = image::ImageReader::new(Cursor::new(&jpeg_data));
-            reader.set_format(image::ImageFormat::Jpeg);
-            let img = reader.decode().map_err(|e| e.to_string())?;
+    let mut best_pixels = 0u64;
+    let mut best_img = None;
 
-            let resized = img.resize(width, width, image::imageops::FilterType::Triangle);
-            return encode_jpeg(&resized, 80);
+    for range in &scan_chunks {
+        let mut pos = range.start;
+        while pos + 1 < range.end && pos + 1 < len {
+            if data[pos] == 0xFF && data[pos + 1] == 0xD8 {
+                let mut decoder = Decoder::new(Cursor::new(&data[pos..]));
+                if let Ok((w, h)) = decoder.scale(max_dim as u16, max_dim as u16) {
+                    let pixels = (w as u64) * (h as u64);
+                    if pixels > 10_000 && pixels > best_pixels {
+                        if let Ok(pixel_data) = decoder.decode() {
+                            if let Some(rgb) = image::RgbImage::from_raw(w as u32, h as u32, pixel_data) {
+                                best_pixels = pixels;
+                                best_img = Some(image::DynamicImage::ImageRgb8(rgb));
+                            }
+                        }
+                    }
+                }
+            }
+            pos += 1;
         }
     }
 
-    Err("No embedded JPEG found in RAW file. Full RAW conversion not yet implemented.".to_string())
+    best_img
 }
 
-pub fn cache_key(path: &Path, width: u32) -> String {
-    let hash = blake3::hash(path.to_string_lossy().as_bytes());
-    format!("{}_{}", hash.to_hex(), width)
-}
+fn extract_embedded_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
+    let data = std::fs::read(path).map_err(|e| e.to_string())?;
 
-pub fn thumbnail_dir(photo_path: &Path) -> PathBuf {
-    photo_path.parent()
-        .unwrap_or_else(|| Path::new("."))
-        .join(".thumbnails")
-}
+    if let Some(jpeg_bytes) = extract_exif_thumbnail_bytes(&data) {
+        let mut reader = image::ImageReader::new(Cursor::new(&jpeg_bytes));
+        reader.set_format(image::ImageFormat::Jpeg);
+        let img = reader.decode().map_err(|e| e.to_string())?;
+        let resized = img.resize(width, width, image::imageops::FilterType::Triangle);
+        return encode_jpeg(&resized, 80);
+    }
 
-pub fn read_from_disk_cache(path: &Path, width: u32) -> Option<Vec<u8>> {
-    let file_path = thumbnail_dir(path).join(format!("{}.jpg", cache_key(path, width)));
-    fs::read(&file_path).ok()
-}
+    if let Some(img) = scan_embedded_jpeg(&data, width, 1_000_000, 2_000_000) {
+        let resized = img.resize(width, width, image::imageops::FilterType::Triangle);
+        return encode_jpeg(&resized, 80);
+    }
 
-pub fn write_to_disk_cache(path: &Path, width: u32, data: &[u8]) -> Result<(), String> {
-    let dir = thumbnail_dir(path);
-    fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
-    let file_path = dir.join(format!("{}.jpg", cache_key(path, width)));
-    let mut file = File::create(&file_path).map_err(|e| e.to_string())?;
-    file.write_all(data).map_err(|e| e.to_string())
-}
-
-// ── Unified memory + disk cache ─────────────────────────────
-
-use std::sync::Mutex;
-use std::collections::HashMap;
-
-lazy_static::lazy_static! {
-    static ref THUMBNAIL_CACHE: ThumbnailCache = ThumbnailCache::new();
-}
-
-pub fn thumbnail_cache() -> &'static ThumbnailCache {
-    &THUMBNAIL_CACHE
+    Err("No embedded JPEG found in RAW file".to_string())
 }
 
 pub fn get_display_image(path: &Path, max_pixels: u32, quality: u8) -> Result<Vec<u8>, String> {
@@ -202,106 +205,58 @@ fn decode_png_display(path: &Path, max_pixels: u32, quality: u8) -> Result<Vec<u
 }
 
 fn decode_raw_display(path: &Path, max_pixels: u32, quality: u8) -> Result<Vec<u8>, String> {
-    let file = File::open(path).map_err(|e| e.to_string())?;
-    let mut reader = BufReader::new(file);
+    let data = std::fs::read(path).map_err(|e| e.to_string())?;
 
-    let exif = Reader::new()
-        .read_from_container(&mut reader)
-        .map_err(|e| format!("Failed to read EXIF: {:?}", e))?;
+    if let Some(img) = scan_embedded_jpeg(&data, max_pixels, 6_000_000, 12_000_000) {
+        return encode_jpeg(&resize_to_fit(&img, max_pixels), quality);
+    }
 
-    let offset_field = exif.get_field(Tag::JPEGInterchangeFormat, In::THUMBNAIL)
-        .ok_or("No embedded JPEG thumbnail offset")?;
-    let length_field = exif.get_field(Tag::JPEGInterchangeFormatLength, In::THUMBNAIL)
-        .ok_or("No embedded JPEG thumbnail length")?;
+    if let Some(jpeg_bytes) = extract_exif_thumbnail_bytes(&data) {
+        let mut r = image::ImageReader::new(Cursor::new(&jpeg_bytes));
+        r.set_format(image::ImageFormat::Jpeg);
+        let thumb = r.decode().map_err(|e| e.to_string())?;
 
-    let offset = match &offset_field.value {
-        exif::Value::Long(v) if !v.is_empty() => v[0] as u64,
-        exif::Value::Short(v) if !v.is_empty() => v[0] as u64,
-        _ => return Err("Invalid JPEG offset".to_string()),
-    };
+        let filled = if thumb.width() < max_pixels || thumb.height() < max_pixels {
+            let target = thumb.width().max(thumb.height());
+            let scale = max_pixels as f64 / target as f64;
+            thumb.resize(
+                (thumb.width() as f64 * scale).round() as u32,
+                (thumb.height() as f64 * scale).round() as u32,
+                image::imageops::FilterType::Lanczos3,
+            )
+        } else {
+            resize_to_fit(&thumb, max_pixels)
+        };
+        return encode_jpeg(&filled, quality);
+    }
 
-    let length = match &length_field.value {
-        exif::Value::Long(v) if !v.is_empty() => v[0] as usize,
-        exif::Value::Short(v) if !v.is_empty() => v[0] as usize,
-        _ => return Err("Invalid JPEG length".to_string()),
-    };
-
-    let mut file2 = File::open(path).map_err(|e| e.to_string())?;
-    file2.seek(SeekFrom::Start(offset)).map_err(|e| e.to_string())?;
-
-    let mut jpeg_data = vec![0u8; length];
-    file2.read_exact(&mut jpeg_data).map_err(|e| e.to_string())?;
-
-    let mut reader = image::ImageReader::new(Cursor::new(&jpeg_data));
-    reader.set_format(image::ImageFormat::Jpeg);
-    let img = reader.decode().map_err(|e| e.to_string())?;
-
-    let resized = resize_to_fit(&img, max_pixels);
-    encode_jpeg(&resized, quality)
+    Err("No embedded JPEG found in RAW file".to_string())
 }
 
-pub struct ThumbnailCache {
-    memory: Mutex<HashMap<String, Vec<u8>>>,
+pub fn generate_display_preview(path: &Path, max_pixels: u32, quality: u8) -> Result<String, String> {
+    let data = get_display_image(path, max_pixels, quality)?;
+
+    let hash = blake3::hash(path.to_string_lossy().as_bytes());
+    let preview_dir = std::env::temp_dir().join("photo_manager_previews");
+    fs::create_dir_all(&preview_dir).map_err(|e| e.to_string())?;
+    let preview_path = preview_dir.join(format!("{}_display_{}_{}.jpg", hash.to_hex(), max_pixels, quality));
+
+    let mut file = File::create(&preview_path).map_err(|e| e.to_string())?;
+    file.write_all(&data).map_err(|e| e.to_string())?;
+
+    Ok(preview_path.to_string_lossy().to_string())
 }
 
-impl ThumbnailCache {
-    pub fn new() -> Self {
-        ThumbnailCache {
-            memory: Mutex::new(HashMap::new()),
-        }
-    }
+pub fn generate_thumbnail_preview(path: &Path, width: u32) -> Result<String, String> {
+    let data = get_thumbnail(path, width)?;
 
-    pub fn get(&self, path: &Path, width: u32) -> Option<Vec<u8>> {
-        let key = cache_key(path, width);
+    let hash = blake3::hash(path.to_string_lossy().as_bytes());
+    let thumb_dir = std::env::temp_dir().join("photo_manager_thumbnails");
+    fs::create_dir_all(&thumb_dir).map_err(|e| e.to_string())?;
+    let thumb_path = thumb_dir.join(format!("{}_{}.jpg", hash.to_hex(), width));
 
-        if let Ok(mem) = self.memory.lock() {
-            if let Some(data) = mem.get(&key) {
-                return Some(data.clone());
-            }
-        }
+    let mut file = File::create(&thumb_path).map_err(|e| e.to_string())?;
+    file.write_all(&data).map_err(|e| e.to_string())?;
 
-        if let Some(data) = read_from_disk_cache(path, width) {
-            if let Ok(mut mem) = self.memory.lock() {
-                mem.insert(key, data.clone());
-            }
-            return Some(data);
-        }
-
-        None
-    }
-
-    pub fn insert(&self, path: &Path, width: u32, data: &[u8]) {
-        let key = cache_key(path, width);
-        if let Ok(mut mem) = self.memory.lock() {
-            mem.insert(key, data.to_vec());
-        }
-        let _ = write_to_disk_cache(path, width, data);
-    }
-
-    pub fn get_or_generate(&self, path: &Path, width: u32) -> Result<Vec<u8>, String> {
-        if let Some(cached) = self.get(path, width) {
-            return Ok(cached);
-        }
-        let data = get_thumbnail(path, width)?;
-        self.insert(path, width, &data);
-        Ok(data)
-    }
-
-    pub fn get_or_generate_display(&self, path: &Path, max_pixels: u32, quality: u8) -> Result<Vec<u8>, String> {
-        let key = format!("{}_display_{}_{}", cache_key(path, 0), max_pixels, quality);
-
-        if let Ok(mem) = self.memory.lock() {
-            if let Some(data) = mem.get(&key) {
-                return Ok(data.clone());
-            }
-        }
-
-        let data = get_display_image(path, max_pixels, quality)?;
-
-        if let Ok(mut mem) = self.memory.lock() {
-            mem.insert(key, data.clone());
-        }
-
-        Ok(data)
-    }
+    Ok(thumb_path.to_string_lossy().to_string())
 }

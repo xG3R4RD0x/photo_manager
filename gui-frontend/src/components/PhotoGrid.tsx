@@ -44,7 +44,7 @@ function PhotoGridItem({
   onToggleSelection,
   onInspect,
 }: PhotoGridItemProps) {
-  const { thumbnail, isLoading, isFailed } = useThumbnail(photo.path);
+  const { thumbnail, isLoading, isFailed, hasTiny, hasFull } = useThumbnail(photo.path);
 
   return (
     <ThumbnailLoader photoPath={photo.path}>
@@ -57,7 +57,11 @@ function PhotoGridItem({
       >
         <div className="thumbnail-container">
           {thumbnail ? (
-            <img src={thumbnail} alt={photo.filename} className="thumbnail-image" />
+            <img
+              src={thumbnail}
+              alt={photo.filename}
+              className={`thumbnail-image ${hasTiny && !hasFull ? "thumbnail-image--tiny" : ""}`}
+            />
           ) : isLoading ? (
             <div className="thumbnail-placeholder thumbnail-placeholder--loading">
               <div className="spinner"></div>
