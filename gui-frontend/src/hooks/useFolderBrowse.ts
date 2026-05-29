@@ -27,6 +27,7 @@ export function useFolderBrowse() {
       const unlistenMetadata = await listen<any[]>("metadata_ready", (event) => {
         setPhotos(event.payload);
         setStatus(`Loaded ${event.payload.length} photos`);
+        useUIStore.getState().triggerDuplicateCheck();
         unlistenMetadata();
       });
 
