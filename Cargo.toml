@@ -29,6 +29,7 @@ tauri = { version = "2", features = [] }
 tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"
 dirs = "6.0"
+ignore = "0.4"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }

@@ -8,7 +8,6 @@ import SourceTree from "./components/SourceTree";
 import PhotoGrid from "./components/PhotoGrid";
 import RightPanel from "./components/RightPanel";
 import ImportModal from "./components/ImportModal";
-import PreviewModal from "./components/PreviewModal";
 import DuplicateCheckBar from "./components/DuplicateCheckBar";
 import "./App.css";
 
@@ -35,7 +34,6 @@ export default function App() {
         <RightPanel />
       </div>
       <ImportModal />
-      <PreviewModal />
     </div>
   );
 }

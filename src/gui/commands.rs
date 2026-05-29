@@ -54,7 +54,8 @@ pub fn list_all_removable_drives() -> Vec<storage::RemovableDrive> {
 #[tauri::command]
 pub fn scan_photos_quick(folder: String) -> Vec<PhotoInfo> {
     let folder_path = PathBuf::from(&folder);
-    let paths = storage::list_photos(&folder_path);
+    let photoignore = storage::load_photoignore(&folder_path);
+    let paths = storage::list_photos(&folder_path, &photoignore);
     
     paths.into_iter().map(|path| {
         let filename = path.file_name()
@@ -81,7 +82,8 @@ pub async fn enrich_photos_metadata_fast(
     app: tauri::AppHandle,
 ) -> Result<Vec<PhotoInfo>, String> {
     let folder_path = PathBuf::from(&folder);
-    let mut paths = storage::list_photos(&folder_path);
+    let photoignore = storage::load_photoignore(&folder_path);
+    let mut paths = storage::list_photos(&folder_path, &photoignore);
     
     // Sort for deterministic order
     paths.sort();
@@ -140,7 +142,8 @@ pub async fn enrich_photos_metadata_fast(
 #[tauri::command]
 pub fn scan_photos(folder: String) -> Vec<PhotoInfo> {
     let folder_path = PathBuf::from(&folder);
-    let paths = storage::list_photos(&folder_path);
+    let photoignore = storage::load_photoignore(&folder_path);
+    let paths = storage::list_photos(&folder_path, &photoignore);
     
     paths.into_iter().map(|path| {
         let filename = path.file_name()
@@ -201,6 +204,39 @@ pub fn get_thumbnail(path: String) -> Result<String, String> {
     Ok(format!("data:image/jpeg;base64,{}", base64))
 }
 
+const DISPLAY_IMAGE_SIZE: u32 = 1200;
+const DISPLAY_IMAGE_QUALITY: u8 = 60;
+
+#[tauri::command]
+pub fn get_display_image(path: String) -> Result<String, String> {
+    let file_path = PathBuf::from(&path);
+    let cache = thumbnail::thumbnail_cache();
+    let data = cache.get_or_generate_display(&file_path, DISPLAY_IMAGE_SIZE, DISPLAY_IMAGE_QUALITY)?;
+    let engine = base64::engine::general_purpose::STANDARD;
+    let base64 = engine.encode(&data);
+    Ok(format!("data:image/jpeg;base64,{}", base64))
+}
+
+#[tauri::command]
+pub fn get_full_image(path: String) -> Result<String, String> {
+    let file_path = PathBuf::from(&path);
+    let data = std::fs::read(&file_path).map_err(|e| e.to_string())?;
+    let engine = base64::engine::general_purpose::STANDARD;
+    let base64 = engine.encode(&data);
+    let ext = file_path.extension()
+        .and_then(|e| e.to_str())
+        .map(|s| s.to_lowercase())
+        .unwrap_or_default();
+    let mime = match ext.as_str() {
+        "png" => "image/png",
+        "gif" => "image/gif",
+        "webp" => "image/webp",
+        "bmp" => "image/bmp",
+        _ => "image/jpeg",
+    };
+    Ok(format!("data:{};base64,{}", mime, base64))
+}
+
 /// Event-based thumbnail generation
 /// Emits 'thumbnail_ready' or 'thumbnail_failed' events
 #[tauri::command]
@@ -252,7 +288,8 @@ pub struct ThumbnailCacheEntry {
 #[tauri::command]
 pub fn load_thumbnail_cache(dest_folder: String) -> Result<Vec<ThumbnailCacheEntry>, String> {
     let folder_path = PathBuf::from(&dest_folder);
-    let paths = storage::list_photos(&folder_path);
+    let photoignore = storage::load_photoignore(&folder_path);
+    let paths = storage::list_photos(&folder_path, &photoignore);
 
     let mut entries = Vec::new();
     let engine = base64::engine::general_purpose::STANDARD;
@@ -278,7 +315,8 @@ pub fn cleanup_thumbnail_cache(dest_folder: String) -> Result<String, String> {
         return Ok("No cache to clean".to_string());
     }
 
-    let photos = storage::list_photos(&folder_path);
+    let photoignore = storage::load_photoignore(&folder_path);
+    let photos = storage::list_photos(&folder_path, &photoignore);
 
     let valid_paths: std::collections::HashSet<PathBuf> = photos.iter()
         .map(|p| thumbnail_path(p))

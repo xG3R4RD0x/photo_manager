@@ -147,6 +147,99 @@ pub fn thumbnail_cache() -> &'static ThumbnailCache {
     &THUMBNAIL_CACHE
 }
 
+pub fn get_display_image(path: &Path, max_pixels: u32, quality: u8) -> Result<Vec<u8>, String> {
+    let ext = path.extension()
+        .and_then(|e| e.to_str())
+        .map(|s| s.to_lowercase())
+        .unwrap_or_default();
+
+    match ext.as_str() {
+        "jpg" | "jpeg" => decode_jpeg_display(path, max_pixels, quality),
+        "png" => decode_png_display(path, max_pixels, quality),
+        ext if RAW_EXTENSIONS.contains(&ext) => decode_raw_display(path, max_pixels, quality),
+        _ => Err(format!("Unsupported image format: {}", ext)),
+    }
+}
+
+fn resize_to_fit(img: &image::DynamicImage, max_pixels: u32) -> image::DynamicImage {
+    let (w, h) = (img.width(), img.height());
+    if w <= max_pixels && h <= max_pixels {
+        return img.clone();
+    }
+    let ratio = (max_pixels as f64 / w.max(h) as f64).min(1.0);
+    let new_w = (w as f64 * ratio).round() as u32;
+    let new_h = (h as f64 * ratio).round() as u32;
+    img.resize(new_w, new_h, image::imageops::FilterType::Triangle)
+}
+
+fn decode_jpeg_display(path: &Path, max_pixels: u32, quality: u8) -> Result<Vec<u8>, String> {
+    use jpeg_decoder::Decoder;
+
+    let file = File::open(path).map_err(|e| e.to_string())?;
+    let mut decoder = Decoder::new(BufReader::new(file));
+
+    let (decoded_w, decoded_h) = decoder.scale(max_pixels as u16, max_pixels as u16)
+        .map_err(|e| e.to_string())?;
+
+    let pixels = decoder.decode().map_err(|e| e.to_string())?;
+
+    let img = image::DynamicImage::ImageRgb8(
+        image::RgbImage::from_raw(decoded_w as u32, decoded_h as u32, pixels)
+            .ok_or("Failed to create image")?,
+    );
+
+    let resized = resize_to_fit(&img, max_pixels);
+    encode_jpeg(&resized, quality)
+}
+
+fn decode_png_display(path: &Path, max_pixels: u32, quality: u8) -> Result<Vec<u8>, String> {
+    let img = image::ImageReader::open(path)
+        .map_err(|e| e.to_string())?
+        .decode()
+        .map_err(|e| e.to_string())?;
+    let resized = resize_to_fit(&img, max_pixels);
+    encode_jpeg(&resized, quality)
+}
+
+fn decode_raw_display(path: &Path, max_pixels: u32, quality: u8) -> Result<Vec<u8>, String> {
+    let file = File::open(path).map_err(|e| e.to_string())?;
+    let mut reader = BufReader::new(file);
+
+    let exif = Reader::new()
+        .read_from_container(&mut reader)
+        .map_err(|e| format!("Failed to read EXIF: {:?}", e))?;
+
+    let offset_field = exif.get_field(Tag::JPEGInterchangeFormat, In::THUMBNAIL)
+        .ok_or("No embedded JPEG thumbnail offset")?;
+    let length_field = exif.get_field(Tag::JPEGInterchangeFormatLength, In::THUMBNAIL)
+        .ok_or("No embedded JPEG thumbnail length")?;
+
+    let offset = match &offset_field.value {
+        exif::Value::Long(v) if !v.is_empty() => v[0] as u64,
+        exif::Value::Short(v) if !v.is_empty() => v[0] as u64,
+        _ => return Err("Invalid JPEG offset".to_string()),
+    };
+
+    let length = match &length_field.value {
+        exif::Value::Long(v) if !v.is_empty() => v[0] as usize,
+        exif::Value::Short(v) if !v.is_empty() => v[0] as usize,
+        _ => return Err("Invalid JPEG length".to_string()),
+    };
+
+    let mut file2 = File::open(path).map_err(|e| e.to_string())?;
+    file2.seek(SeekFrom::Start(offset)).map_err(|e| e.to_string())?;
+
+    let mut jpeg_data = vec![0u8; length];
+    file2.read_exact(&mut jpeg_data).map_err(|e| e.to_string())?;
+
+    let mut reader = image::ImageReader::new(Cursor::new(&jpeg_data));
+    reader.set_format(image::ImageFormat::Jpeg);
+    let img = reader.decode().map_err(|e| e.to_string())?;
+
+    let resized = resize_to_fit(&img, max_pixels);
+    encode_jpeg(&resized, quality)
+}
+
 pub struct ThumbnailCache {
     memory: Mutex<HashMap<String, Vec<u8>>>,
 }
@@ -191,6 +284,24 @@ impl ThumbnailCache {
         }
         let data = get_thumbnail(path, width)?;
         self.insert(path, width, &data);
+        Ok(data)
+    }
+
+    pub fn get_or_generate_display(&self, path: &Path, max_pixels: u32, quality: u8) -> Result<Vec<u8>, String> {
+        let key = format!("{}_display_{}_{}", cache_key(path, 0), max_pixels, quality);
+
+        if let Ok(mem) = self.memory.lock() {
+            if let Some(data) = mem.get(&key) {
+                return Ok(data.clone());
+            }
+        }
+
+        let data = get_display_image(path, max_pixels, quality)?;
+
+        if let Ok(mut mem) = self.memory.lock() {
+            mem.insert(key, data.clone());
+        }
+
         Ok(data)
     }
 }

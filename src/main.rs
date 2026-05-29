@@ -18,6 +18,8 @@ fn main() {
             commands::list_all_removable_drives,
             commands::get_exif,
             commands::get_thumbnail,
+            commands::get_display_image,
+            commands::get_full_image,
             commands::generate_thumbnail,
             commands::load_thumbnail_cache,
             commands::cleanup_thumbnail_cache,

@@ -12,24 +12,23 @@ export interface UIStore {
   defaultDestFolder: string | null;
   selectedTemplate: string;
   showImportModal: boolean;
-  showPreviewModal: boolean;
   duplicateCheckProgress: { current: number; total: number } | null;
   duplicateCheckTrigger: number;
-  previewImagePath: string | null;
   importProgress: number;
   importTotal: number;
   importResult: ImportResult | null;
   isImporting: boolean;
   status: string;
   thumbnailGenerationTrigger: number;
-  
+  viewMode: 'grid' | 'single';
+  lastInspectedPath: string | null;
+
   setSourceFolder: (folder: string | null) => void;
   setDestFolder: (folder: string | null) => void;
   setDefaultDestFolder: (folder: string) => void;
   resetDestFolder: () => void;
   setSelectedTemplate: (template: string) => void;
   setShowImportModal: (show: boolean) => void;
-  setShowPreviewModal: (show: boolean, path?: string) => void;
   setImportProgress: (current: number, total: number) => void;
   setDuplicateCheckProgress: (progress: { current: number; total: number } | null) => void;
   triggerDuplicateCheck: () => void;
@@ -38,6 +37,8 @@ export interface UIStore {
   setIsImporting: (importing: boolean) => void;
   setStatus: (status: string) => void;
   deselectAll: () => void;
+  setViewMode: (mode: 'grid' | 'single') => void;
+  setLastInspectedPath: (path: string) => void;
 }
 
 export const useUIStore = create<UIStore>((set) => ({
@@ -46,8 +47,6 @@ export const useUIStore = create<UIStore>((set) => ({
   defaultDestFolder: null,
   selectedTemplate: "YYYY/YYYY-MM-DD/",
   showImportModal: false,
-  showPreviewModal: false,
-  previewImagePath: null,
   duplicateCheckProgress: null,
   duplicateCheckTrigger: 0,
   importProgress: 0,
@@ -56,15 +55,15 @@ export const useUIStore = create<UIStore>((set) => ({
   isImporting: false,
   status: "Ready",
   thumbnailGenerationTrigger: 0,
-  
+  viewMode: 'grid',
+  lastInspectedPath: null,
+
   setSourceFolder: (folder) => set({ sourceFolder: folder }),
   setDestFolder: (folder) => set({ destFolder: folder }),
   setDefaultDestFolder: (folder) => set({ defaultDestFolder: folder, destFolder: folder }),
   resetDestFolder: () => set((state) => ({ destFolder: state.defaultDestFolder })),
   setSelectedTemplate: (template) => set({ selectedTemplate: template }),
   setShowImportModal: (show) => set({ showImportModal: show }),
-  setShowPreviewModal: (show, path) =>
-    set({ showPreviewModal: show, previewImagePath: path || null }),
   setImportProgress: (current, total) =>
     set({ importProgress: current, importTotal: total }),
   setDuplicateCheckProgress: (progress) => set({ duplicateCheckProgress: progress }),
@@ -76,4 +75,6 @@ export const useUIStore = create<UIStore>((set) => ({
   deselectAll: () => {
     usePhotoStore.setState({ selectedPaths: new Set() });
   },
+  setViewMode: (mode) => set({ viewMode: mode }),
+  setLastInspectedPath: (path) => set({ lastInspectedPath: path }),
 }));

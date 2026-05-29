@@ -4,6 +4,7 @@ import { useUIStore } from "../stores/useUIStore";
 import { useThumbnailGenerator } from "../hooks/useThumbnailGenerator";
 import { useThumbnail } from "../hooks/useThumbnail";
 import ThumbnailLoader from "./ThumbnailLoader";
+import SingleImageView from "./SingleImageView";
 import "./PhotoGrid.css";
 
 interface DayGroup {
@@ -33,7 +34,6 @@ interface PhotoGridItemProps {
   isInspected: boolean;
   onToggleSelection: (path: string) => void;
   onInspect: (path: string) => void;
-  onDoubleClick: (path: string) => void;
 }
 
 function PhotoGridItem({
@@ -43,7 +43,6 @@ function PhotoGridItem({
   isInspected,
   onToggleSelection,
   onInspect,
-  onDoubleClick,
 }: PhotoGridItemProps) {
   const { thumbnail, isLoading, isFailed } = useThumbnail(photo.path);
 
@@ -54,7 +53,6 @@ function PhotoGridItem({
           isDuplicate ? "duplicate" : ""
         } ${isInspected ? "inspected" : ""}`}
         onClick={() => onInspect(photo.path)}
-        onDoubleClick={() => onDoubleClick(photo.path)}
         data-photo-path={photo.path}
       >
         <div className="thumbnail-container">
@@ -91,7 +89,7 @@ export default function PhotoGrid() {
   const duplicatePaths = usePhotoStore((s) => s.duplicatePaths);
   const inspectedPath = usePhotoStore((s) => s.inspectedPath);
   const { toggleSelection, toggleGroup, setInspectedPath } = usePhotoStore();
-  const { setShowPreviewModal } = useUIStore();
+  const { viewMode, lastInspectedPath, setViewMode, setLastInspectedPath } = useUIStore();
 
   // Initialize thumbnail generation system
   useThumbnailGenerator();
@@ -211,11 +209,54 @@ export default function PhotoGrid() {
     toggleGroup(nonDups(dayGroup.photos.map((p) => p.path)));
   };
 
+  const flatPhotos = useMemo(() => {
+    return groupedPhotos.flatMap((yearGroup) =>
+      yearGroup.months.flatMap((monthGroup) =>
+        monthGroup.days.flatMap((dayGroup) => dayGroup.photos)
+      )
+    );
+  }, [groupedPhotos]);
+
+  const handleInspect = (path: string) => {
+    setInspectedPath(path);
+    setLastInspectedPath(path);
+  };
+
+  const handleOpenSingleView = () => {
+    const targetPath = inspectedPath || lastInspectedPath;
+    if (!targetPath) return;
+    if (!flatPhotos.some((p) => p.path === targetPath)) {
+      setInspectedPath(flatPhotos[0]?.path ?? null);
+    }
+    setViewMode('single');
+  };
+
+  const handleCloseSingleView = () => {
+    setViewMode('grid');
+  };
+
+  const handleNavigate = (photo: PhotoInfo) => {
+    setInspectedPath(photo.path);
+    setLastInspectedPath(photo.path);
+  };
+
+  const currentSinglePhoto = useMemo(() => {
+    if (viewMode !== 'single') return null;
+    const targetPath = inspectedPath || lastInspectedPath;
+    return flatPhotos.find((p) => p.path === targetPath) || flatPhotos[0] || null;
+  }, [viewMode, inspectedPath, lastInspectedPath, flatPhotos]);
+
   return (
     <div className="photo-grid">
       <div className="grid-header">Photos ({photos.length})</div>
       <div className="grid-content">
-        {groupedPhotos.length === 0 ? (
+        {viewMode === 'single' && currentSinglePhoto ? (
+          <SingleImageView
+            photo={currentSinglePhoto}
+            photos={flatPhotos}
+            onNavigate={handleNavigate}
+          />
+        ) : groupedPhotos.length === 0 ? (
           <p style={{ color: "#666", textAlign: "center", paddingTop: "40px" }}>
             No photos loaded
           </p>
@@ -326,18 +367,15 @@ export default function PhotoGrid() {
                                            {dayGroup.photos.map((photo) => {
                                              const dup = isDup(photo.path);
                                              return (
-                                                <PhotoGridItem
-                                                  key={photo.path}
-                                                  photo={photo}
-                                                  isSelected={selectedPaths.has(photo.path)}
-                                                  isDuplicate={dup}
-                                                  isInspected={inspectedPath === photo.path}
-                                                  onToggleSelection={toggleSelection}
-                                                  onInspect={setInspectedPath}
-                                                  onDoubleClick={(path) =>
-                                                    setShowPreviewModal(true, path)
-                                                  }
-                                                />
+                                                 <PhotoGridItem
+                                                   key={photo.path}
+                                                   photo={photo}
+                                                   isSelected={selectedPaths.has(photo.path)}
+                                                   isDuplicate={dup}
+                                                   isInspected={inspectedPath === photo.path}
+                                                   onToggleSelection={toggleSelection}
+                                                   onInspect={handleInspect}
+                                                 />
                                              );
                                            })}
                                          </div>
@@ -357,6 +395,24 @@ export default function PhotoGrid() {
             })}
           </div>
         )}
+      </div>
+      <div className="view-toggle-bar">
+        <button
+          className={`view-toggle-btn ${viewMode === 'single' ? 'active' : ''}`}
+          disabled={viewMode === 'single' || (!inspectedPath && !lastInspectedPath)}
+          onClick={handleOpenSingleView}
+          title="Single image view"
+        >
+          Single
+        </button>
+        <button
+          className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
+          disabled={viewMode === 'grid'}
+          onClick={handleCloseSingleView}
+          title="Grid view"
+        >
+          Grid
+        </button>
       </div>
     </div>
   );
