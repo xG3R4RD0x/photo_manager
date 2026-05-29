@@ -403,7 +403,9 @@ export default function PhotoGrid() {
           onClick={handleOpenSingleView}
           title="Single image view"
         >
-          Single
+          <svg className="view-toggle-icon" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+            <rect x="1" y="1" width="14" height="14" rx="2" />
+          </svg>
         </button>
         <button
           className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
@@ -411,7 +413,12 @@ export default function PhotoGrid() {
           onClick={handleCloseSingleView}
           title="Grid view"
         >
-          Grid
+          <svg className="view-toggle-icon" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+            <rect x="1" y="1" width="6" height="6" rx="1" />
+            <rect x="9" y="1" width="6" height="6" rx="1" />
+            <rect x="1" y="9" width="6" height="6" rx="1" />
+            <rect x="9" y="9" width="6" height="6" rx="1" />
+          </svg>
         </button>
       </div>
     </div>

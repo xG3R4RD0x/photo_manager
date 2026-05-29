@@ -294,15 +294,21 @@
 }
 
 .view-toggle-btn {
-  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
   border: 1px solid #444;
   border-radius: 4px;
   background: #2a2a2a;
   color: #ccc;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
   transition: all 0.15s;
+  line-height: 0;
+}
+
+.view-toggle-icon {
+  display: block;
 }
 
 .view-toggle-btn:hover:not(:disabled) {
