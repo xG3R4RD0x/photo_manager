@@ -1,16 +1,16 @@
-# Graph Report - photo_manager  (2026-05-27)
+# Graph Report - photo_manager  (2026-05-29)
 
 ## Corpus Check
-- 50 files · ~84,878 words
+- 50 files · ~86,619 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 751 nodes · 1049 edges · 101 communities (99 shown, 2 thin omitted)
+- 788 nodes · 1121 edges · 102 communities (100 shown, 2 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d3b97246`
+- Built from commit: `3b5bcf55`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -107,6 +107,7 @@
 - [[_COMMUNITY_Community 98|Community 98]]
 - [[_COMMUNITY_Community 99|Community 99]]
 - [[_COMMUNITY_Community 100|Community 100]]
+- [[_COMMUNITY_Community 101|Community 101]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `allow` - 76 edges
@@ -129,25 +130,25 @@
   gui-frontend/src/components/ImportModal.tsx → gui-frontend/src/stores/useUIStore.ts
 - `MetadataSection()` --calls--> `usePhotoStore`  [EXTRACTED]
   gui-frontend/src/components/MetadataSection.tsx → gui-frontend/src/stores/usePhotoStore.ts
-- `PreviewModal()` --calls--> `useUIStore`  [EXTRACTED]
-  gui-frontend/src/components/PreviewModal.tsx → gui-frontend/src/stores/useUIStore.ts
+- `PhotoGrid()` --calls--> `usePhotoStore`  [EXTRACTED]
+  gui-frontend/src/components/PhotoGrid.tsx → gui-frontend/src/stores/usePhotoStore.ts
 
-## Communities (101 total, 2 thin omitted)
+## Communities (102 total, 2 thin omitted)
 
 ### Community 0 - "GUI Frontend"
-Cohesion: 0.07
-Nodes (50): DestinationTreeSection(), DuplicateCheckBar(), FormatSection(), TEMPLATES, ImportModal(), EXIFData, MetadataSection(), DayGroup (+42 more)
+Cohesion: 0.11
+Nodes (32): DestinationTreeSection(), DuplicateCheckBar(), FormatSection(), TEMPLATES, ImportModal(), EXIFData, MetadataSection(), PreviewModal() (+24 more)
 
 ### Community 1 - "schemas"
 Cohesion: 0.05
-Nodes (40): commands, description, identifier, commands, description, identifier, commands, description (+32 more)
+Nodes (44): commands, description, identifier, commands, description, identifier, commands, description (+36 more)
 
 ### Community 2 - "schemas"
 Cohesion: 0.06
 Nodes (36): commands, description, identifier, commands, description, identifier, commands, description (+28 more)
 
 ### Community 3 - "GUI Frontend"
-Cohesion: 0.08
+Cohesion: 0.07
 Nodes (18): cleanup_thumbnail_cache(), DirEntry, DupProgress, EXIFData, generate_thumbnail(), generate_thumbnail_impl(), get_config(), get_thumbnail() (+10 more)
 
 ### Community 4 - "GUI Frontend"
@@ -163,8 +164,8 @@ Cohesion: 0.19
 Nodes (16): core, core:app, default_permission, global_scope_schema, permission_sets, default_permission, default_permission, global_scope_schema (+8 more)
 
 ### Community 7 - "photo"
-Cohesion: 0.10
-Nodes (20): app, security, windows, build, beforeBuildCommand, beforeDevCommand, devUrl, frontendDist (+12 more)
+Cohesion: 0.08
+Nodes (23): app, security, windows, enable, scope, build, beforeBuildCommand, beforeDevCommand (+15 more)
 
 ### Community 8 - "photo"
 Cohesion: 0.15
@@ -175,8 +176,8 @@ Cohesion: 0.15
 Nodes (13): definitions, Number, PermissionEntry, Target, Value, anyOf, description, anyOf (+5 more)
 
 ### Community 10 - "schemas"
-Cohesion: 0.13
-Nodes (15): definitions, Identifier, Number, PermissionEntry, Target, Value, oneOf, anyOf (+7 more)
+Cohesion: 0.15
+Nodes (13): definitions, Number, PermissionEntry, Target, Value, anyOf, description, anyOf (+5 more)
 
 ### Community 11 - "media"
 Cohesion: 0.20
@@ -199,8 +200,8 @@ Cohesion: 0.20
 Nodes (10): type, webviews, windows, items, description, items, type, description (+2 more)
 
 ### Community 16 - "schemas"
-Cohesion: 0.18
-Nodes (11): description, properties, required, type, Capability, description, type, identifier (+3 more)
+Cohesion: 0.20
+Nodes (10): properties, type, default, description, type, identifier, local, remote (+2 more)
 
 ### Community 17 - "schemas"
 Cohesion: 0.20
@@ -211,12 +212,12 @@ Cohesion: 0.20
 Nodes (10): type, webviews, windows, items, description, items, type, description (+2 more)
 
 ### Community 19 - "schemas"
-Cohesion: 0.22
-Nodes (9): commands, description, identifier, allow, commands, description, identifier, allow-app-show (+1 more)
+Cohesion: 0.50
+Nodes (4): commands, description, identifier, deny-tauri-version
 
 ### Community 20 - "schemas"
-Cohesion: 0.22
-Nodes (9): commands, description, identifier, deny, commands, description, identifier, allow-set-dock-visibility (+1 more)
+Cohesion: 0.50
+Nodes (4): commands, description, identifier, deny-fetch-data-store-identifiers
 
 ### Community 21 - "schemas"
 Cohesion: 0.25
@@ -231,8 +232,8 @@ Cohesion: 0.29
 Nodes (6): main-window, description, identifier, local, permissions, windows
 
 ### Community 24 - "media"
-Cohesion: 0.33
-Nodes (3): find_photo_folder(), list_all_removable_drives(), RemovableDrive
+Cohesion: 0.27
+Nodes (9): find_photo_folder(), list_all_removable_drives(), list_photos(), RemovableDrive, test_dir(), test_list_photos_ignores_dot_dirs(), test_list_photos_negation(), test_list_photos_no_ignore_all_included() (+1 more)
 
 ### Community 25 - "capabilities"
 Cohesion: 0.33
@@ -291,8 +292,8 @@ Cohesion: 0.50
 Nodes (4): commands, description, identifier, deny-remove-listener
 
 ### Community 39 - "schemas"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-version
+Cohesion: 0.25
+Nodes (8): description, identifier, permissions, commands, description, identifier, allow-app-show, deny-version
 
 ### Community 40 - "schemas"
 Cohesion: 0.50
@@ -307,8 +308,8 @@ Cohesion: 0.50
 Nodes (4): commands, description, identifier, allow-fetch-data-store-identifiers
 
 ### Community 43 - "schemas"
-Cohesion: 0.40
-Nodes (5): commands, description, identifier, permissions, allow-register-listener
+Cohesion: 0.50
+Nodes (4): commands, description, identifier, allow-register-listener
 
 ### Community 44 - "schemas"
 Cohesion: 0.50
@@ -383,44 +384,44 @@ Cohesion: 0.50
 Nodes (4): commands, description, identifier, allow-create-default
 
 ### Community 62 - "schemas"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-is-checked
+Cohesion: 0.40
+Nodes (5): commands, description, identifier, permissions, allow-is-checked
 
 ### Community 63 - "schemas"
 Cohesion: 0.50
 Nodes (4): commands, description, identifier, allow-is-enabled
 
 ### Community 64 - "schemas"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-popup
+Cohesion: 0.22
+Nodes (9): commands, description, identifier, deny, commands, description, identifier, allow-popup (+1 more)
 
 ### Community 65 - "schemas"
 Cohesion: 0.50
 Nodes (4): commands, description, identifier, allow-prepend
 
 ### Community 66 - "schemas"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-remove
+Cohesion: 0.20
+Nodes (10): commands, commands, description, identifier, commands, description, identifier, allow (+2 more)
 
 ### Community 67 - "schemas"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-remove-at
+Nodes (4): commands, description, identifier, allow-bundle-type
 
 ### Community 68 - "schemas"
-Cohesion: 0.22
-Nodes (9): commands, description, identifier, commands, description, identifier, permissions, allow-set-as-app-menu (+1 more)
+Cohesion: 0.50
+Nodes (4): commands, description, identifier, allow-set-as-app-menu
 
 ### Community 69 - "schemas"
 Cohesion: 0.50
 Nodes (4): commands, description, identifier, allow-set-as-help-menu-for-nsapp
 
 ### Community 70 - "schemas"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-new
+Cohesion: 0.08
+Nodes (24): DayGroup, MonthGroup, PhotoGrid(), PhotoGridItem(), PhotoGridItemProps, YearGroup, RAW_EXTS, SingleImageViewProps (+16 more)
 
 ### Community 71 - "schemas"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-bundle-type
+Nodes (4): commands, description, identifier, deny-create-default
 
 ### Community 72 - "schemas"
 Cohesion: 0.50
@@ -448,7 +449,7 @@ Nodes (4): commands, description, identifier, deny-insert
 
 ### Community 78 - "schemas"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-is-checked
+Nodes (4): commands, description, identifier, allow-set-checked
 
 ### Community 79 - "schemas"
 Cohesion: 0.50
@@ -475,44 +476,48 @@ Cohesion: 0.50
 Nodes (4): default, description, type, description
 
 ### Community 85 - "media"
-Cohesion: 0.27
-Nodes (12): cache_file_path(), cache_key(), decode_jpeg_thumbnail(), decode_png_thumbnail(), encode_jpeg(), extract_embedded_thumbnail(), get_cache_dir(), get_thumbnail() (+4 more)
+Cohesion: 0.15
+Nodes (26): cache_file_path(), cache_key(), decode_exif_thumbnail_image(), decode_jpeg_display(), decode_jpeg_thumbnail(), decode_png_display(), decode_png_thumbnail(), decode_raw_display() (+18 more)
 
 ### Community 87 - "schemas"
 Cohesion: 0.67
 Nodes (3): Identifier, description, oneOf
 
 ### Community 88 - "schemas"
-Cohesion: 0.50
-Nodes (4): default, description, type, local
+Cohesion: 0.67
+Nodes (3): Identifier, description, oneOf
 
 ### Community 98 - "Community 98"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-create-default
+Nodes (4): commands, description, identifier, allow-set-dock-visibility
 
 ### Community 99 - "Community 99"
 Cohesion: 0.50
 Nodes (4): commands, description, identifier, deny-append
 
+### Community 101 - "Community 101"
+Cohesion: 0.50
+Nodes (4): description, required, type, Capability
+
 ## Knowledge Gaps
-- **356 isolated node(s):** `name`, `version`, `type`, `workspaces`, `dev` (+351 more)
+- **362 isolated node(s):** `name`, `version`, `type`, `workspaces`, `dev` (+357 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `allow` connect `schemas` to `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `Community 98`, `Community 99`?**
-  _High betweenness centrality (0.065) - this node is a cross-community bridge._
-- **Why does `deny` connect `schemas` to `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `Community 98`, `Community 99`?**
-  _High betweenness centrality (0.065) - this node is a cross-community bridge._
-- **Why does `permissions` connect `schemas` to `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `Community 98`, `Community 99`?**
-  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+- **Why does `allow` connect `schemas` to `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `Community 98`, `Community 99`?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+- **Why does `deny` connect `schemas` to `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `Community 98`, `Community 99`?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+- **Why does `permissions` connect `schemas` to `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `schemas`, `Community 99`?**
+  _High betweenness centrality (0.025) - this node is a cross-community bridge._
 - **What connects `name`, `version`, `type` to the rest of the system?**
-  _356 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _362 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `GUI Frontend` be split into smaller, more focused modules?**
-  _Cohesion score 0.06522522522522523 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10823529411764705 - nodes in this community are weakly interconnected._
 - **Should `schemas` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected._
 - **Should `schemas` be split into smaller, more focused modules?**
   _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._

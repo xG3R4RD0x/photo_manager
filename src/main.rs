@@ -4,6 +4,7 @@
 )]
 
 use photo_manager_lib::gui::commands;
+use photo_manager_lib::media_management::thumbnail;
 
 fn main() {
     tauri::Builder::default()
@@ -20,12 +21,19 @@ fn main() {
             commands::get_thumbnail,
             commands::generate_thumbnail,
             commands::get_display_image,
+            commands::get_display_image_medium,
+            commands::get_display_image_low,
             commands::get_full_image,
             commands::import_photos,
             commands::list_directory_tree,
             commands::get_pictures_folder,
             commands::start_duplicate_check,
         ])
+        .on_window_event(|_app, event| {
+            if let tauri::WindowEvent::CloseRequested { .. } = event {
+                thumbnail::cleanup_display_cache();
+            }
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

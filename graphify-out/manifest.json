@@ -1,8 +1,8 @@
 {
   "D:\\dev\\photo_manager\\src\\main.rs": {
-    "mtime": 1779448222.7031229,
-    "ast_hash": "58db5c1346091ad5f29a452ebd5279e1",
-    "semantic_hash": "58db5c1346091ad5f29a452ebd5279e1"
+    "mtime": 1780067060.4467845,
+    "ast_hash": "ac3329e4df5b889ac853220be4333d5f",
+    "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\src\\media_management\\metadata.rs": {
     "mtime": 1779831722.382906,
@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\src\\media_management\\storage.rs": {
-    "mtime": 1779876769.108991,
-    "ast_hash": "d68b9d59216939d0f74df4585ee0d45e",
+    "mtime": 1780053691.6369205,
+    "ast_hash": "0d2deed2a1699a07a11794fc18d7ffb9",
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\build.rs": {
@@ -30,13 +30,13 @@
     "semantic_hash": "b8059798d9d0170b41e688ff7992a623"
   },
   "D:\\dev\\photo_manager\\tauri.conf.json": {
-    "mtime": 1779369354.9561164,
-    "ast_hash": "cdf258f40b011482ea9968fa661140f5",
-    "semantic_hash": "cdf258f40b011482ea9968fa661140f5"
+    "mtime": 1780058475.3326392,
+    "ast_hash": "db53be4a8679bdad07d55ef518e03e15",
+    "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\.opencode\\opencode.json": {
-    "mtime": 1779871843.119844,
-    "ast_hash": "2aa3efecff3142840fbfb2ac5d6e7836",
+    "mtime": 1780055116.732857,
+    "ast_hash": "19a51febeea85351e9fcc679b3df35f4",
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\.opencode\\plugins\\graphify.js": {
@@ -45,7 +45,7 @@
     "semantic_hash": "32b67963417a30cb80544e0b2a56a98d"
   },
   "D:\\dev\\photo_manager\\capabilities\\main-window.json": {
-    "mtime": 1779448110.6791,
+    "mtime": 1780047220.7724042,
     "ast_hash": "61beee5518a7906faeb6abee579b6140",
     "semantic_hash": "61beee5518a7906faeb6abee579b6140"
   },
@@ -85,9 +85,9 @@
     "semantic_hash": "a885c4b6f113f042d378230855ec3eb3"
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\App.tsx": {
-    "mtime": 1779377948.7482138,
-    "ast_hash": "a5d3c7e039cf1f80e51025d6c3dc1ffa",
-    "semantic_hash": "a5d3c7e039cf1f80e51025d6c3dc1ffa"
+    "mtime": 1780046980.1361547,
+    "ast_hash": "0ca1f55fbd040645b2441f5893fc4bb9",
+    "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\main.tsx": {
     "mtime": 1779307502.559171,
@@ -120,14 +120,9 @@
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\components\\PhotoGrid.tsx": {
-    "mtime": 1779833290.295084,
-    "ast_hash": "030dbbae8010cd0377df002da2d28667",
+    "mtime": 1780062808.7381403,
+    "ast_hash": "274a1a7719af9436ed8d8ed0f0875f10",
     "semantic_hash": ""
-  },
-  "D:\\dev\\photo_manager\\gui-frontend\\src\\components\\PreviewModal.tsx": {
-    "mtime": 1779308640.4423735,
-    "ast_hash": "9081a5c5dec069c359667404e5fd818a",
-    "semantic_hash": "9081a5c5dec069c359667404e5fd818a"
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\components\\RightPanel.tsx": {
     "mtime": 1779372776.0221736,
@@ -170,13 +165,13 @@
     "semantic_hash": "4f2bb7e2d5d1cbc107c64e0ac2e6a4b0"
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\hooks\\useThumbnail.ts": {
-    "mtime": 1779448065.1201441,
-    "ast_hash": "f6bf6ac9f0abfa42fbc8689c77a5fd4d",
-    "semantic_hash": "f6bf6ac9f0abfa42fbc8689c77a5fd4d"
+    "mtime": 1780063121.975057,
+    "ast_hash": "9d0aefa209cd4e7b4b3f655a7e8b1f3f",
+    "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\hooks\\useThumbnailGenerator.ts": {
-    "mtime": 1779833465.2270079,
-    "ast_hash": "c7f4ec8b0bc3fde568ebb78808b53552",
+    "mtime": 1780062839.7081556,
+    "ast_hash": "475cd800d6436ecfabe7b35ef4a0168b",
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\stores\\usePhotoStore.ts": {
@@ -185,14 +180,14 @@
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\stores\\useThumbnailQueueStore.ts": {
-    "mtime": 1779830370.843768,
-    "ast_hash": "1765048936e075f682ca3ca12ebc6164",
+    "mtime": 1780062789.920668,
+    "ast_hash": "c16590044438a47eb3e171f3b2f69080",
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\stores\\useUIStore.ts": {
-    "mtime": 1779447481.732152,
-    "ast_hash": "56921c2bfa476cd5fa505f7900827d10",
-    "semantic_hash": "56921c2bfa476cd5fa505f7900827d10"
+    "mtime": 1780046875.467446,
+    "ast_hash": "cc5e76ae3e2aaee23108bcb3453cea77",
+    "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\gui-frontend\\src\\utils\\applyTemplate.ts": {
     "mtime": 1779373031.1237102,
@@ -205,8 +200,8 @@
     "semantic_hash": "49d6f7093c56bfc9483fda05b1c03cc8"
   },
   "D:\\dev\\photo_manager\\src\\gui\\commands.rs": {
-    "mtime": 1779878158.9421115,
-    "ast_hash": "daeca285a8565b83aeba419285b7175a",
+    "mtime": 1780067057.303655,
+    "ast_hash": "ed85d741c4bef7fd13ef312e03ff7b90",
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\src\\gui\\config.rs": {
@@ -235,8 +230,8 @@
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\src\\media_management\\thumbnail.rs": {
-    "mtime": 1779878150.2346947,
-    "ast_hash": "e3fcfebd5c0532991e012903532cf872",
+    "mtime": 1780067051.555544,
+    "ast_hash": "8c740e462219f689e2f7be131e032327",
     "semantic_hash": ""
   },
   "D:\\dev\\photo_manager\\gui-frontend\\index.html": {
@@ -252,6 +247,11 @@
   "D:\\dev\\photo_manager\\CONTEXT.md": {
     "mtime": 1779878178.2468772,
     "ast_hash": "83ef5e72b4fd8561e9c3c32566ea4eae",
+    "semantic_hash": ""
+  },
+  "D:\\dev\\photo_manager\\gui-frontend\\src\\components\\SingleImageView.tsx": {
+    "mtime": 1780067095.4568605,
+    "ast_hash": "a62d44c24b34e863ad50f85ff8b939a5",
     "semantic_hash": ""
   }
 }

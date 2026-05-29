@@ -256,10 +256,37 @@
       "norm_label": "csp"
     },
     {
-      "label": "bundle",
+      "label": "assetProtocol",
+      "file_type": "code",
+      "source_file": "tauri.conf.json",
+      "source_location": "L27",
+      "id": "photo_manager_tauri_conf_security_assetprotocol",
+      "community": 7,
+      "norm_label": "assetprotocol"
+    },
+    {
+      "label": "enable",
+      "file_type": "code",
+      "source_file": "tauri.conf.json",
+      "source_location": "L28",
+      "id": "photo_manager_tauri_conf_assetprotocol_enable",
+      "community": 7,
+      "norm_label": "enable"
+    },
+    {
+      "label": "scope",
       "file_type": "code",
       "source_file": "tauri.conf.json",
       "source_location": "L29",
+      "id": "photo_manager_tauri_conf_assetprotocol_scope",
+      "community": 7,
+      "norm_label": "scope"
+    },
+    {
+      "label": "bundle",
+      "file_type": "code",
+      "source_file": "tauri.conf.json",
+      "source_location": "L33",
       "id": "photo_manager_tauri_conf_bundle",
       "community": 7,
       "norm_label": "bundle"
@@ -268,7 +295,7 @@
       "label": "active",
       "file_type": "code",
       "source_file": "tauri.conf.json",
-      "source_location": "L30",
+      "source_location": "L34",
       "id": "photo_manager_tauri_conf_bundle_active",
       "community": 7,
       "norm_label": "active"
@@ -277,7 +304,7 @@
       "label": "targets",
       "file_type": "code",
       "source_file": "tauri.conf.json",
-      "source_location": "L31",
+      "source_location": "L35",
       "id": "photo_manager_tauri_conf_bundle_targets",
       "community": 7,
       "norm_label": "targets"
@@ -286,7 +313,7 @@
       "label": "icon",
       "file_type": "code",
       "source_file": "tauri.conf.json",
-      "source_location": "L35",
+      "source_location": "L39",
       "id": "photo_manager_tauri_conf_bundle_icon",
       "community": 7,
       "norm_label": "icon"
@@ -295,7 +322,7 @@
       "label": "windows",
       "file_type": "code",
       "source_file": "tauri.conf.json",
-      "source_location": "L42",
+      "source_location": "L46",
       "id": "photo_manager_tauri_conf_bundle_windows",
       "community": 7,
       "norm_label": "windows"
@@ -304,7 +331,7 @@
       "label": "certificateThumbprint",
       "file_type": "code",
       "source_file": "tauri.conf.json",
-      "source_location": "L43",
+      "source_location": "L47",
       "id": "photo_manager_tauri_conf_windows_certificatethumbprint",
       "community": 7,
       "norm_label": "certificatethumbprint"
@@ -313,7 +340,7 @@
       "label": "digestAlgorithm",
       "file_type": "code",
       "source_file": "tauri.conf.json",
-      "source_location": "L44",
+      "source_location": "L48",
       "id": "photo_manager_tauri_conf_windows_digestalgorithm",
       "community": 7,
       "norm_label": "digestalgorithm"
@@ -322,7 +349,7 @@
       "label": "wix",
       "file_type": "code",
       "source_file": "tauri.conf.json",
-      "source_location": "L45",
+      "source_location": "L49",
       "id": "photo_manager_tauri_conf_windows_wix",
       "community": 7,
       "norm_label": "wix"
@@ -531,7 +558,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_app_permissions",
-      "community": 43,
+      "community": 39,
       "norm_label": "permissions"
     },
     {
@@ -576,7 +603,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_commands_allow",
-      "community": 19,
+      "community": 66,
       "norm_label": "allow"
     },
     {
@@ -585,7 +612,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_commands_deny",
-      "community": 20,
+      "community": 64,
       "norm_label": "deny"
     },
     {
@@ -594,7 +621,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_app_show",
-      "community": 19,
+      "community": 39,
       "norm_label": "allow-app-show"
     },
     {
@@ -603,7 +630,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_app_show_identifier",
-      "community": 19,
+      "community": 39,
       "norm_label": "identifier"
     },
     {
@@ -612,7 +639,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_app_show_description",
-      "community": 19,
+      "community": 39,
       "norm_label": "description"
     },
     {
@@ -621,7 +648,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_app_show_commands",
-      "community": 19,
+      "community": 66,
       "norm_label": "commands"
     },
     {
@@ -630,7 +657,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_bundle_type",
-      "community": 71,
+      "community": 67,
       "norm_label": "allow-bundle-type"
     },
     {
@@ -639,7 +666,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_bundle_type_identifier",
-      "community": 71,
+      "community": 67,
       "norm_label": "identifier"
     },
     {
@@ -648,7 +675,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_bundle_type_description",
-      "community": 71,
+      "community": 67,
       "norm_label": "description"
     },
     {
@@ -657,7 +684,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_bundle_type_commands",
-      "community": 71,
+      "community": 67,
       "norm_label": "commands"
     },
     {
@@ -954,7 +981,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_set_dock_visibility",
-      "community": 20,
+      "community": 98,
       "norm_label": "allow-set-dock-visibility"
     },
     {
@@ -963,7 +990,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_dock_visibility_identifier",
-      "community": 20,
+      "community": 98,
       "norm_label": "identifier"
     },
     {
@@ -972,7 +999,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_dock_visibility_description",
-      "community": 20,
+      "community": 98,
       "norm_label": "description"
     },
     {
@@ -981,7 +1008,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_dock_visibility_commands",
-      "community": 20,
+      "community": 98,
       "norm_label": "commands"
     },
     {
@@ -2088,7 +2115,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_new",
-      "community": 70,
+      "community": 1,
       "norm_label": "allow-new"
     },
     {
@@ -2097,7 +2124,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_new_identifier",
-      "community": 70,
+      "community": 1,
       "norm_label": "identifier"
     },
     {
@@ -2106,7 +2133,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_new_description",
-      "community": 70,
+      "community": 1,
       "norm_label": "description"
     },
     {
@@ -2115,7 +2142,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_new_commands",
-      "community": 70,
+      "community": 1,
       "norm_label": "commands"
     },
     {
@@ -2412,7 +2439,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_core_menu_permissions",
-      "community": 68,
+      "community": 62,
       "norm_label": "permissions"
     },
     {
@@ -2781,7 +2808,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_remove_at",
-      "community": 67,
+      "community": 66,
       "norm_label": "allow-remove-at"
     },
     {
@@ -2790,7 +2817,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_remove_at_identifier",
-      "community": 67,
+      "community": 66,
       "norm_label": "identifier"
     },
     {
@@ -2799,7 +2826,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_remove_at_description",
-      "community": 67,
+      "community": 66,
       "norm_label": "description"
     },
     {
@@ -2808,7 +2835,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_remove_at_commands",
-      "community": 67,
+      "community": 66,
       "norm_label": "commands"
     },
     {
@@ -2997,7 +3024,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_allow_set_checked",
-      "community": 68,
+      "community": 78,
       "norm_label": "allow-set-checked"
     },
     {
@@ -3006,7 +3033,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_checked_identifier",
-      "community": 68,
+      "community": 78,
       "norm_label": "identifier"
     },
     {
@@ -3015,7 +3042,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_checked_description",
-      "community": 68,
+      "community": 78,
       "norm_label": "description"
     },
     {
@@ -3024,7 +3051,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_allow_set_checked_commands",
-      "community": 68,
+      "community": 78,
       "norm_label": "commands"
     },
     {
@@ -3213,7 +3240,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_deny_create_default",
-      "community": 98,
+      "community": 71,
       "norm_label": "deny-create-default"
     },
     {
@@ -3222,7 +3249,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_deny_create_default_identifier",
-      "community": 98,
+      "community": 71,
       "norm_label": "identifier"
     },
     {
@@ -3231,7 +3258,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_deny_create_default_description",
-      "community": 98,
+      "community": 71,
       "norm_label": "description"
     },
     {
@@ -3240,7 +3267,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_deny_create_default_commands",
-      "community": 98,
+      "community": 71,
       "norm_label": "commands"
     },
     {
@@ -3321,7 +3348,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_permissions_deny_is_checked",
-      "community": 78,
+      "community": 64,
       "norm_label": "deny-is-checked"
     },
     {
@@ -3330,7 +3357,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_deny_is_checked_identifier",
-      "community": 78,
+      "community": 64,
       "norm_label": "identifier"
     },
     {
@@ -3339,7 +3366,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_deny_is_checked_description",
-      "community": 78,
+      "community": 64,
       "norm_label": "description"
     },
     {
@@ -3348,7 +3375,7 @@
       "source_file": "gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "id": "schemas_acl_manifests_deny_is_checked_commands",
-      "community": 78,
+      "community": 64,
       "norm_label": "commands"
     },
     {
@@ -4149,7 +4176,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L39",
       "id": "schemas_windows_schema_definitions_capability",
-      "community": 16,
+      "community": 101,
       "norm_label": "capability"
     },
     {
@@ -4158,7 +4185,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L40",
       "id": "schemas_windows_schema_capability_description",
-      "community": 16,
+      "community": 101,
       "norm_label": "description"
     },
     {
@@ -4167,7 +4194,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L41",
       "id": "schemas_windows_schema_capability_type",
-      "community": 16,
+      "community": 101,
       "norm_label": "type"
     },
     {
@@ -4176,7 +4203,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L42",
       "id": "schemas_windows_schema_capability_required",
-      "community": 16,
+      "community": 101,
       "norm_label": "required"
     },
     {
@@ -4203,7 +4230,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L48",
       "id": "schemas_windows_schema_identifier_description",
-      "community": 16,
+      "community": 88,
       "norm_label": "description"
     },
     {
@@ -4284,7 +4311,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L67",
       "id": "schemas_windows_schema_properties_local",
-      "community": 88,
+      "community": 16,
       "norm_label": "local"
     },
     {
@@ -4293,7 +4320,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L68",
       "id": "schemas_windows_schema_local_description",
-      "community": 88,
+      "community": 16,
       "norm_label": "description"
     },
     {
@@ -4302,7 +4329,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L69",
       "id": "schemas_windows_schema_local_default",
-      "community": 88,
+      "community": 16,
       "norm_label": "default"
     },
     {
@@ -4311,7 +4338,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L70",
       "id": "schemas_windows_schema_local_type",
-      "community": 88,
+      "community": 16,
       "norm_label": "type"
     },
     {
@@ -4599,7 +4626,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L2000",
       "id": "schemas_windows_schema_definitions_identifier",
-      "community": 10,
+      "community": 88,
       "norm_label": "identifier"
     },
     {
@@ -4608,7 +4635,7 @@
       "source_file": "gen/schemas/windows-schema.json",
       "source_location": "L2002",
       "id": "schemas_windows_schema_identifier_oneof",
-      "community": 10,
+      "community": 88,
       "norm_label": "oneof"
     },
     {
@@ -5191,7 +5218,7 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "gui-frontend/src/App.tsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "id": "src_app_app",
       "community": 0,
       "norm_label": "app()"
@@ -5319,43 +5346,43 @@
       "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
       "source_location": "L1",
       "id": "gui_frontend_src_components_photogrid_tsx",
-      "community": 0,
+      "community": 70,
       "norm_label": "photogrid.tsx"
     },
     {
       "label": "DayGroup",
       "file_type": "code",
       "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "id": "components_photogrid_daygroup",
-      "community": 0,
+      "community": 70,
       "norm_label": "daygroup"
     },
     {
       "label": "MonthGroup",
       "file_type": "code",
       "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "id": "components_photogrid_monthgroup",
-      "community": 0,
+      "community": 70,
       "norm_label": "monthgroup"
     },
     {
       "label": "YearGroup",
       "file_type": "code",
       "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
-      "source_location": "L19",
+      "source_location": "L20",
       "id": "components_photogrid_yeargroup",
-      "community": 0,
+      "community": 70,
       "norm_label": "yeargroup"
     },
     {
       "label": "PhotoGridItemProps",
       "file_type": "code",
       "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
-      "source_location": "L29",
+      "source_location": "L30",
       "id": "components_photogrid_photogriditemprops",
-      "community": 0,
+      "community": 70,
       "norm_label": "photogriditemprops"
     },
     {
@@ -5364,35 +5391,17 @@
       "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
       "source_location": "L39",
       "id": "components_photogrid_photogriditem",
-      "community": 0,
+      "community": 70,
       "norm_label": "photogriditem()"
     },
     {
       "label": "PhotoGrid()",
       "file_type": "code",
       "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
-      "source_location": "L88",
+      "source_location": "L90",
       "id": "components_photogrid_photogrid",
-      "community": 0,
+      "community": 70,
       "norm_label": "photogrid()"
-    },
-    {
-      "label": "PreviewModal.tsx",
-      "file_type": "code",
-      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
-      "source_location": "L1",
-      "id": "gui_frontend_src_components_previewmodal_tsx",
-      "community": 0,
-      "norm_label": "previewmodal.tsx"
-    },
-    {
-      "label": "PreviewModal()",
-      "file_type": "code",
-      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
-      "source_location": "L4",
-      "id": "components_previewmodal_previewmodal",
-      "community": 0,
-      "norm_label": "previewmodal()"
     },
     {
       "label": "RightPanel.tsx",
@@ -5411,6 +5420,51 @@
       "id": "components_rightpanel_rightpanel",
       "community": 0,
       "norm_label": "rightpanel()"
+    },
+    {
+      "label": "SingleImageView.tsx",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L1",
+      "id": "gui_frontend_src_components_singleimageview_tsx",
+      "community": 70,
+      "norm_label": "singleimageview.tsx"
+    },
+    {
+      "label": "RAW_EXTS",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L5",
+      "id": "components_singleimageview_raw_exts",
+      "community": 70,
+      "norm_label": "raw_exts"
+    },
+    {
+      "label": "isRaw()",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L7",
+      "id": "components_singleimageview_israw",
+      "community": 70,
+      "norm_label": "israw()"
+    },
+    {
+      "label": "SingleImageViewProps",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L12",
+      "id": "components_singleimageview_singleimageviewprops",
+      "community": 70,
+      "norm_label": "singleimageviewprops"
+    },
+    {
+      "label": "SingleImageView()",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L18",
+      "id": "components_singleimageview_singleimageview",
+      "community": 70,
+      "norm_label": "singleimageview()"
     },
     {
       "label": "SourceTree.tsx",
@@ -5445,7 +5499,7 @@
       "source_file": "gui-frontend/src/components/ThumbnailLoader.tsx",
       "source_location": "L1",
       "id": "gui_frontend_src_components_thumbnailloader_tsx",
-      "community": 0,
+      "community": 70,
       "norm_label": "thumbnailloader.tsx"
     },
     {
@@ -5454,7 +5508,7 @@
       "source_file": "gui-frontend/src/components/ThumbnailLoader.tsx",
       "source_location": "L3",
       "id": "components_thumbnailloader_thumbnailloaderprops",
-      "community": 0,
+      "community": 70,
       "norm_label": "thumbnailloaderprops"
     },
     {
@@ -5463,7 +5517,7 @@
       "source_file": "gui-frontend/src/components/ThumbnailLoader.tsx",
       "source_location": "L8",
       "id": "components_thumbnailloader_thumbnailloader",
-      "community": 0,
+      "community": 70,
       "norm_label": "thumbnailloader()"
     },
     {
@@ -5571,25 +5625,25 @@
       "source_file": "gui-frontend/src/hooks/useThumbnail.ts",
       "source_location": "L1",
       "id": "gui_frontend_src_hooks_usethumbnail_ts",
-      "community": 0,
+      "community": 70,
       "norm_label": "usethumbnail.ts"
     },
     {
       "label": "UseThumbnailResult",
       "file_type": "code",
       "source_file": "gui-frontend/src/hooks/useThumbnail.ts",
-      "source_location": "L3",
+      "source_location": "L4",
       "id": "hooks_usethumbnail_usethumbnailresult",
-      "community": 0,
+      "community": 70,
       "norm_label": "usethumbnailresult"
     },
     {
       "label": "useThumbnail()",
       "file_type": "code",
       "source_file": "gui-frontend/src/hooks/useThumbnail.ts",
-      "source_location": "L10",
+      "source_location": "L13",
       "id": "hooks_usethumbnail_usethumbnail",
-      "community": 0,
+      "community": 70,
       "norm_label": "usethumbnail()"
     },
     {
@@ -5598,7 +5652,7 @@
       "source_file": "gui-frontend/src/hooks/useThumbnailGenerator.ts",
       "source_location": "L1",
       "id": "gui_frontend_src_hooks_usethumbnailgenerator_ts",
-      "community": 0,
+      "community": 70,
       "norm_label": "usethumbnailgenerator.ts"
     },
     {
@@ -5607,7 +5661,7 @@
       "source_file": "gui-frontend/src/hooks/useThumbnailGenerator.ts",
       "source_location": "L7",
       "id": "hooks_usethumbnailgenerator_usethumbnailgenerator",
-      "community": 0,
+      "community": 70,
       "norm_label": "usethumbnailgenerator()"
     },
     {
@@ -5625,7 +5679,7 @@
       "source_file": "gui-frontend/src/stores/usePhotoStore.ts",
       "source_location": "L3",
       "id": "stores_usephotostore_photoinfo",
-      "community": 0,
+      "community": 70,
       "norm_label": "photoinfo"
     },
     {
@@ -5652,70 +5706,106 @@
       "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
       "source_location": "L1",
       "id": "gui_frontend_src_stores_usethumbnailqueuestore_ts",
-      "community": 0,
+      "community": 70,
       "norm_label": "usethumbnailqueuestore.ts"
+    },
+    {
+      "label": "ThumbnailKind",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
+      "source_location": "L3",
+      "id": "stores_usethumbnailqueuestore_thumbnailkind",
+      "community": 70,
+      "norm_label": "thumbnailkind"
+    },
+    {
+      "label": "ThumbnailRequest",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
+      "source_location": "L5",
+      "id": "stores_usethumbnailqueuestore_thumbnailrequest",
+      "community": 70,
+      "norm_label": "thumbnailrequest"
+    },
+    {
+      "label": "getThumbnailKey()",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
+      "source_location": "L11",
+      "id": "stores_usethumbnailqueuestore_getthumbnailkey",
+      "community": 70,
+      "norm_label": "getthumbnailkey()"
+    },
+    {
+      "label": "getRequestKey()",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
+      "source_location": "L12",
+      "id": "stores_usethumbnailqueuestore_getrequestkey",
+      "community": 70,
+      "norm_label": "getrequestkey()"
     },
     {
       "label": "ThumbnailQueueConfig",
       "file_type": "code",
       "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
-      "source_location": "L4",
+      "source_location": "L14",
       "id": "stores_usethumbnailqueuestore_thumbnailqueueconfig",
-      "community": 0,
+      "community": 70,
       "norm_label": "thumbnailqueueconfig"
     },
     {
       "label": "DEFAULT_CONFIG",
       "file_type": "code",
       "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
-      "source_location": "L13",
+      "source_location": "L25",
       "id": "stores_usethumbnailqueuestore_default_config",
-      "community": 0,
+      "community": 70,
       "norm_label": "default_config"
     },
     {
       "label": "ThumbnailInProgress",
       "file_type": "code",
       "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
-      "source_location": "L22",
+      "source_location": "L36",
       "id": "stores_usethumbnailqueuestore_thumbnailinprogress",
-      "community": 0,
+      "community": 70,
       "norm_label": "thumbnailinprogress"
     },
     {
       "label": "ThumbnailQueueState",
       "file_type": "code",
       "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
-      "source_location": "L28",
+      "source_location": "L43",
       "id": "stores_usethumbnailqueuestore_thumbnailqueuestate",
-      "community": 0,
+      "community": 70,
       "norm_label": "thumbnailqueuestate"
     },
     {
       "label": "ThumbnailQueueActions",
       "file_type": "code",
       "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
-      "source_location": "L54",
+      "source_location": "L69",
       "id": "stores_usethumbnailqueuestore_thumbnailqueueactions",
-      "community": 0,
+      "community": 70,
       "norm_label": "thumbnailqueueactions"
     },
     {
       "label": "ThumbnailQueueStore",
       "file_type": "code",
       "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
-      "source_location": "L98",
+      "source_location": "L107",
       "id": "stores_usethumbnailqueuestore_thumbnailqueuestore",
-      "community": 0,
+      "community": 70,
       "norm_label": "thumbnailqueuestore"
     },
     {
       "label": "useThumbnailQueueStore",
       "file_type": "code",
       "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
-      "source_location": "L100",
+      "source_location": "L109",
       "id": "stores_usethumbnailqueuestore_usethumbnailqueuestore",
-      "community": 0,
+      "community": 70,
       "norm_label": "usethumbnailqueuestore"
     },
     {
@@ -5749,7 +5839,7 @@
       "label": "useUIStore",
       "file_type": "code",
       "source_file": "gui-frontend/src/stores/useUIStore.ts",
-      "source_location": "L43",
+      "source_location": "L44",
       "id": "stores_useuistore_useuistore",
       "community": 0,
       "norm_label": "useuistore"
@@ -5857,7 +5947,7 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "src/main.rs",
-      "source_location": "L8",
+      "source_location": "L9",
       "id": "src_main_main",
       "community": 92,
       "norm_label": "main()"
@@ -5875,7 +5965,7 @@
       "label": "PhotoInfo",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L16",
+      "source_location": "L14",
       "id": "gui_commands_photoinfo",
       "community": 3,
       "norm_label": "photoinfo"
@@ -5884,7 +5974,7 @@
       "label": "EXIFData",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L24",
+      "source_location": "L22",
       "id": "gui_commands_exifdata",
       "community": 3,
       "norm_label": "exifdata"
@@ -5893,7 +5983,7 @@
       "label": "detect_camera()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L38",
+      "source_location": "L36",
       "id": "gui_commands_detect_camera",
       "community": 3,
       "norm_label": "detect_camera()"
@@ -5902,7 +5992,7 @@
       "label": "find_photo_folder()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L43",
+      "source_location": "L41",
       "id": "gui_commands_find_photo_folder",
       "community": 3,
       "norm_label": "find_photo_folder()"
@@ -5911,7 +6001,7 @@
       "label": "list_all_removable_drives()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L49",
+      "source_location": "L47",
       "id": "gui_commands_list_all_removable_drives",
       "community": 3,
       "norm_label": "list_all_removable_drives()"
@@ -5920,7 +6010,7 @@
       "label": "scan_photos_quick()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L55",
+      "source_location": "L53",
       "id": "gui_commands_scan_photos_quick",
       "community": 3,
       "norm_label": "scan_photos_quick()"
@@ -5929,7 +6019,7 @@
       "label": "enrich_photos_metadata_fast()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L79",
+      "source_location": "L78",
       "id": "gui_commands_enrich_photos_metadata_fast",
       "community": 3,
       "norm_label": "enrich_photos_metadata_fast()"
@@ -5947,7 +6037,7 @@
       "label": "get_exif()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L167",
+      "source_location": "L168",
       "id": "gui_commands_get_exif",
       "community": 3,
       "norm_label": "get_exif()"
@@ -5956,7 +6046,7 @@
       "label": "get_thumbnail()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L195",
+      "source_location": "L196",
       "id": "gui_commands_get_thumbnail",
       "community": 3,
       "norm_label": "get_thumbnail()"
@@ -5965,52 +6055,52 @@
       "label": "generate_thumbnail()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L207",
+      "source_location": "L204",
       "id": "gui_commands_generate_thumbnail",
       "community": 3,
       "norm_label": "generate_thumbnail()"
     },
     {
-      "label": "ThumbnailCacheEntry",
+      "label": "get_display_image()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L247",
-      "id": "gui_commands_thumbnailcacheentry",
+      "source_location": "L234",
+      "id": "gui_commands_get_display_image",
       "community": 3,
-      "norm_label": "thumbnailcacheentry"
+      "norm_label": "get_display_image()"
     },
     {
-      "label": "load_thumbnail_cache()",
+      "label": "get_display_image_medium()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L253",
-      "id": "gui_commands_load_thumbnail_cache",
+      "source_location": "L241",
+      "id": "gui_commands_get_display_image_medium",
       "community": 3,
-      "norm_label": "load_thumbnail_cache()"
+      "norm_label": "get_display_image_medium()"
     },
     {
-      "label": "cleanup_thumbnail_cache()",
+      "label": "get_display_image_low()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L275",
-      "id": "gui_commands_cleanup_thumbnail_cache",
+      "source_location": "L252",
+      "id": "gui_commands_get_display_image_low",
       "community": 3,
-      "norm_label": "cleanup_thumbnail_cache()"
+      "norm_label": "get_display_image_low()"
     },
     {
-      "label": "thumbnail_path()",
+      "label": "get_full_image()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L315",
-      "id": "gui_commands_thumbnail_path",
+      "source_location": "L258",
+      "id": "gui_commands_get_full_image",
       "community": 3,
-      "norm_label": "thumbnail_path()"
+      "norm_label": "get_full_image()"
     },
     {
       "label": "get_config()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L321",
+      "source_location": "L278",
       "id": "gui_commands_get_config",
       "community": 3,
       "norm_label": "get_config()"
@@ -6019,7 +6109,7 @@
       "label": "save_config_cmd()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L326",
+      "source_location": "L283",
       "id": "gui_commands_save_config_cmd",
       "community": 3,
       "norm_label": "save_config_cmd()"
@@ -6028,7 +6118,7 @@
       "label": "get_pictures_folder()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L331",
+      "source_location": "L288",
       "id": "gui_commands_get_pictures_folder",
       "community": 3,
       "norm_label": "get_pictures_folder()"
@@ -6037,7 +6127,7 @@
       "label": "DirEntry",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L338",
+      "source_location": "L295",
       "id": "gui_commands_direntry",
       "community": 3,
       "norm_label": "direntry"
@@ -6046,7 +6136,7 @@
       "label": "list_directory_tree()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L344",
+      "source_location": "L301",
       "id": "gui_commands_list_directory_tree",
       "community": 3,
       "norm_label": "list_directory_tree()"
@@ -6055,7 +6145,7 @@
       "label": "scan_dir()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L356",
+      "source_location": "L313",
       "id": "gui_commands_scan_dir",
       "community": 3,
       "norm_label": "scan_dir()"
@@ -6064,7 +6154,7 @@
       "label": "import_photos()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L378",
+      "source_location": "L335",
       "id": "gui_commands_import_photos",
       "community": 3,
       "norm_label": "import_photos()"
@@ -6073,7 +6163,7 @@
       "label": "DupProgress",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L422",
+      "source_location": "L379",
       "id": "gui_commands_dupprogress",
       "community": 3,
       "norm_label": "dupprogress"
@@ -6082,7 +6172,7 @@
       "label": "start_duplicate_check()",
       "file_type": "code",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L428",
+      "source_location": "L385",
       "id": "gui_commands_start_duplicate_check",
       "community": 3,
       "norm_label": "start_duplicate_check()"
@@ -6406,7 +6496,7 @@
       "label": "RemovableDrive",
       "file_type": "code",
       "source_file": "src/media_management/storage.rs",
-      "source_location": "L8",
+      "source_location": "L9",
       "id": "media_management_storage_removabledrive",
       "community": 24,
       "norm_label": "removabledrive"
@@ -6415,7 +6505,7 @@
       "label": "detect_camera_drive()",
       "file_type": "code",
       "source_file": "src/media_management/storage.rs",
-      "source_location": "L17",
+      "source_location": "L18",
       "id": "media_management_storage_detect_camera_drive",
       "community": 24,
       "norm_label": "detect_camera_drive()"
@@ -6424,7 +6514,7 @@
       "label": "list_all_removable_drives()",
       "file_type": "code",
       "source_file": "src/media_management/storage.rs",
-      "source_location": "L33",
+      "source_location": "L34",
       "id": "media_management_storage_list_all_removable_drives",
       "community": 24,
       "norm_label": "list_all_removable_drives()"
@@ -6433,19 +6523,73 @@
       "label": "find_photo_folder()",
       "file_type": "code",
       "source_file": "src/media_management/storage.rs",
-      "source_location": "L82",
+      "source_location": "L83",
       "id": "media_management_storage_find_photo_folder",
       "community": 24,
       "norm_label": "find_photo_folder()"
     },
     {
+      "label": "load_photoignore()",
+      "file_type": "code",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L100",
+      "id": "media_management_storage_load_photoignore",
+      "community": 24,
+      "norm_label": "load_photoignore()"
+    },
+    {
       "label": "list_photos()",
       "file_type": "code",
       "source_file": "src/media_management/storage.rs",
-      "source_location": "L97",
+      "source_location": "L146",
       "id": "media_management_storage_list_photos",
       "community": 24,
       "norm_label": "list_photos()"
+    },
+    {
+      "label": "test_dir()",
+      "file_type": "code",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L174",
+      "id": "media_management_storage_test_dir",
+      "community": 24,
+      "norm_label": "test_dir()"
+    },
+    {
+      "label": "test_list_photos_ignores_dot_dirs()",
+      "file_type": "code",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L182",
+      "id": "media_management_storage_test_list_photos_ignores_dot_dirs",
+      "community": 24,
+      "norm_label": "test_list_photos_ignores_dot_dirs()"
+    },
+    {
+      "label": "test_list_photos_negation()",
+      "file_type": "code",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L207",
+      "id": "media_management_storage_test_list_photos_negation",
+      "community": 24,
+      "norm_label": "test_list_photos_negation()"
+    },
+    {
+      "label": "test_list_photos_no_ignore_all_included()",
+      "file_type": "code",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L231",
+      "id": "media_management_storage_test_list_photos_no_ignore_all_included",
+      "community": 24,
+      "norm_label": "test_list_photos_no_ignore_all_included()"
+    },
+    {
+      "label": "test_list_photos_skips_non_photo_extensions()",
+      "file_type": "code",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L245",
+      "id": "media_management_storage_test_list_photos_skips_non_photo_extensions",
+      "community": 24,
+      "norm_label": "test_list_photos_skips_non_photo_extensions()"
     },
     {
       "label": "template.rs",
@@ -6520,103 +6664,148 @@
       "norm_label": "encode_jpeg()"
     },
     {
-      "label": "extract_embedded_thumbnail()",
+      "label": "extract_exif_thumbnail_bytes()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L73",
+      "id": "media_management_thumbnail_extract_exif_thumbnail_bytes",
+      "community": 85,
+      "norm_label": "extract_exif_thumbnail_bytes()"
+    },
+    {
+      "label": "scan_embedded_jpeg()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L98",
+      "id": "media_management_thumbnail_scan_embedded_jpeg",
+      "community": 85,
+      "norm_label": "scan_embedded_jpeg()"
+    },
+    {
+      "label": "extract_embedded_thumbnail()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L134",
       "id": "media_management_thumbnail_extract_embedded_thumbnail",
       "community": 85,
       "norm_label": "extract_embedded_thumbnail()"
     },
     {
-      "label": "cache_key()",
+      "label": "get_display_image()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L113",
-      "id": "media_management_thumbnail_cache_key",
+      "source_location": "L153",
+      "id": "media_management_thumbnail_get_display_image",
       "community": 85,
-      "norm_label": "cache_key()"
+      "norm_label": "get_display_image()"
     },
     {
-      "label": "thumbnail_dir()",
+      "label": "get_display_image_fast()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L118",
-      "id": "media_management_thumbnail_thumbnail_dir",
+      "source_location": "L167",
+      "id": "media_management_thumbnail_get_display_image_fast",
       "community": 85,
-      "norm_label": "thumbnail_dir()"
+      "norm_label": "get_display_image_fast()"
     },
     {
-      "label": "read_from_disk_cache()",
+      "label": "decode_exif_thumbnail_image()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L124",
-      "id": "media_management_thumbnail_read_from_disk_cache",
+      "source_location": "L181",
+      "id": "media_management_thumbnail_decode_exif_thumbnail_image",
       "community": 85,
-      "norm_label": "read_from_disk_cache()"
+      "norm_label": "decode_exif_thumbnail_image()"
     },
     {
-      "label": "write_to_disk_cache()",
-      "file_type": "code",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L129",
-      "id": "media_management_thumbnail_write_to_disk_cache",
-      "community": 85,
-      "norm_label": "write_to_disk_cache()"
-    },
-    {
-      "label": "thumbnail_cache()",
-      "file_type": "code",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L146",
-      "id": "media_management_thumbnail_thumbnail_cache",
-      "community": 85,
-      "norm_label": "thumbnail_cache()"
-    },
-    {
-      "label": "ThumbnailCache",
-      "file_type": "code",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L150",
-      "id": "media_management_thumbnail_thumbnailcache",
-      "community": 85,
-      "norm_label": "thumbnailcache"
-    },
-    {
-      "label": ".new()",
-      "file_type": "code",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L155",
-      "id": "media_management_thumbnail_thumbnailcache_new",
-      "community": 85,
-      "norm_label": ".new()"
-    },
-    {
-      "label": ".get()",
-      "file_type": "code",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L161",
-      "id": "media_management_thumbnail_thumbnailcache_get",
-      "community": 85,
-      "norm_label": ".get()"
-    },
-    {
-      "label": ".insert()",
-      "file_type": "code",
-      "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L180",
-      "id": "media_management_thumbnail_thumbnailcache_insert",
-      "community": 85,
-      "norm_label": ".insert()"
-    },
-    {
-      "label": ".get_or_generate()",
+      "label": "scan_embedded_jpeg_timed()",
       "file_type": "code",
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L188",
-      "id": "media_management_thumbnail_thumbnailcache_get_or_generate",
+      "id": "media_management_thumbnail_scan_embedded_jpeg_timed",
       "community": 85,
-      "norm_label": ".get_or_generate()"
+      "norm_label": "scan_embedded_jpeg_timed()"
+    },
+    {
+      "label": "resize_to_fit()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L235",
+      "id": "media_management_thumbnail_resize_to_fit",
+      "community": 85,
+      "norm_label": "resize_to_fit()"
+    },
+    {
+      "label": "decode_jpeg_display()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L246",
+      "id": "media_management_thumbnail_decode_jpeg_display",
+      "community": 85,
+      "norm_label": "decode_jpeg_display()"
+    },
+    {
+      "label": "decode_png_display()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L266",
+      "id": "media_management_thumbnail_decode_png_display",
+      "community": 85,
+      "norm_label": "decode_png_display()"
+    },
+    {
+      "label": "decode_raw_display()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L275",
+      "id": "media_management_thumbnail_decode_raw_display",
+      "community": 85,
+      "norm_label": "decode_raw_display()"
+    },
+    {
+      "label": "preview_path_for()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L323",
+      "id": "media_management_thumbnail_preview_path_for",
+      "community": 85,
+      "norm_label": "preview_path_for()"
+    },
+    {
+      "label": "generate_display_preview()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L330",
+      "id": "media_management_thumbnail_generate_display_preview",
+      "community": 85,
+      "norm_label": "generate_display_preview()"
+    },
+    {
+      "label": "generate_display_preview_fast()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L345",
+      "id": "media_management_thumbnail_generate_display_preview_fast",
+      "community": 85,
+      "norm_label": "generate_display_preview_fast()"
+    },
+    {
+      "label": "cleanup_display_cache()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L365",
+      "id": "media_management_thumbnail_cleanup_display_cache",
+      "community": 85,
+      "norm_label": "cleanup_display_cache()"
+    },
+    {
+      "label": "generate_thumbnail_preview()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L370",
+      "id": "media_management_thumbnail_generate_thumbnail_preview",
+      "community": 85,
+      "norm_label": "generate_thumbnail_preview()"
     },
     {
       "label": "CONTEXT.md",
@@ -6662,6 +6851,150 @@
       "id": "photo_manager_context_thumbnail_cache",
       "community": 30,
       "norm_label": "thumbnail cache"
+    },
+    {
+      "label": "PreviewModal.tsx",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "previewmodal.tsx",
+      "id": "gui_frontend_src_components_previewmodal_tsx"
+    },
+    {
+      "label": "PreviewModal()",
+      "file_type": "code",
+      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
+      "source_location": "L4",
+      "community": 0,
+      "norm_label": "previewmodal()",
+      "id": "components_previewmodal_previewmodal"
+    },
+    {
+      "label": "ThumbnailCacheEntry",
+      "file_type": "code",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L247",
+      "community": 3,
+      "norm_label": "thumbnailcacheentry",
+      "id": "gui_commands_thumbnailcacheentry"
+    },
+    {
+      "label": "load_thumbnail_cache()",
+      "file_type": "code",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L253",
+      "community": 3,
+      "norm_label": "load_thumbnail_cache()",
+      "id": "gui_commands_load_thumbnail_cache"
+    },
+    {
+      "label": "cleanup_thumbnail_cache()",
+      "file_type": "code",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L275",
+      "community": 3,
+      "norm_label": "cleanup_thumbnail_cache()",
+      "id": "gui_commands_cleanup_thumbnail_cache"
+    },
+    {
+      "label": "thumbnail_path()",
+      "file_type": "code",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L315",
+      "community": 3,
+      "norm_label": "thumbnail_path()",
+      "id": "gui_commands_thumbnail_path"
+    },
+    {
+      "label": "cache_key()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L113",
+      "community": 85,
+      "norm_label": "cache_key()",
+      "id": "media_management_thumbnail_cache_key"
+    },
+    {
+      "label": "thumbnail_dir()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L118",
+      "community": 85,
+      "norm_label": "thumbnail_dir()",
+      "id": "media_management_thumbnail_thumbnail_dir"
+    },
+    {
+      "label": "read_from_disk_cache()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L124",
+      "community": 85,
+      "norm_label": "read_from_disk_cache()",
+      "id": "media_management_thumbnail_read_from_disk_cache"
+    },
+    {
+      "label": "write_to_disk_cache()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L129",
+      "community": 85,
+      "norm_label": "write_to_disk_cache()",
+      "id": "media_management_thumbnail_write_to_disk_cache"
+    },
+    {
+      "label": "thumbnail_cache()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L146",
+      "community": 85,
+      "norm_label": "thumbnail_cache()",
+      "id": "media_management_thumbnail_thumbnail_cache"
+    },
+    {
+      "label": "ThumbnailCache",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L150",
+      "community": 85,
+      "norm_label": "thumbnailcache",
+      "id": "media_management_thumbnail_thumbnailcache"
+    },
+    {
+      "label": ".new()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L155",
+      "community": 85,
+      "norm_label": ".new()",
+      "id": "media_management_thumbnail_thumbnailcache_new"
+    },
+    {
+      "label": ".get()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L161",
+      "community": 85,
+      "norm_label": ".get()",
+      "id": "media_management_thumbnail_thumbnailcache_get"
+    },
+    {
+      "label": ".insert()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L180",
+      "community": 85,
+      "norm_label": ".insert()",
+      "id": "media_management_thumbnail_thumbnailcache_insert"
+    },
+    {
+      "label": ".get_or_generate()",
+      "file_type": "code",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L188",
+      "community": 85,
+      "norm_label": ".get_or_generate()",
+      "id": "media_management_thumbnail_thumbnailcache_get_or_generate"
     },
     {
       "label": "get_cache_dir()",
@@ -7023,6 +7356,36 @@
       "confidence_score": 1.0,
       "source": "photo_manager_tauri_conf_app_security",
       "target": "photo_manager_tauri_conf_security_csp"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tauri.conf.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "photo_manager_tauri_conf_app_security",
+      "target": "photo_manager_tauri_conf_security_assetprotocol"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tauri.conf.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "photo_manager_tauri_conf_security_assetprotocol",
+      "target": "photo_manager_tauri_conf_assetprotocol_enable"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tauri.conf.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "photo_manager_tauri_conf_security_assetprotocol",
+      "target": "photo_manager_tauri_conf_assetprotocol_scope"
     },
     {
       "relation": "contains",
@@ -14220,17 +14583,6 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "gui-frontend/src/App.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_app_tsx",
-      "target": "gui_frontend_src_components_previewmodal_tsx"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/App.tsx",
       "source_location": "L12",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -14257,6 +14609,17 @@
       "confidence_score": 1.0,
       "source": "gui_frontend_src_main_tsx",
       "target": "gui_frontend_src_app_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/App.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_app_tsx",
+      "target": "gui_frontend_src_components_previewmodal_tsx"
     },
     {
       "relation": "calls",
@@ -14780,6 +15143,17 @@
       "target": "gui_frontend_src_components_thumbnailloader_tsx"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_photogrid_tsx",
+      "target": "gui_frontend_src_components_singleimageview_tsx"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "gui-frontend/src/components/PhotoGrid.tsx",
@@ -14882,49 +15256,6 @@
       "weight": 1.0,
       "source": "components_photogrid_photogrid",
       "target": "hooks_usethumbnailgenerator_usethumbnailgenerator"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_components_previewmodal_tsx",
-      "target": "gui_frontend_src_stores_useuistore_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_components_previewmodal_tsx",
-      "target": "stores_useuistore_useuistore"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gui_frontend_src_components_previewmodal_tsx",
-      "target": "components_previewmodal_previewmodal"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "source": "components_previewmodal_previewmodal",
-      "target": "stores_useuistore_useuistore"
     },
     {
       "relation": "imports_from",
@@ -15034,6 +15365,68 @@
       "weight": 1.0,
       "source": "components_rightpanel_rightpanel",
       "target": "hooks_useimportflow_useimportflow"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_singleimageview_tsx",
+      "target": "gui_frontend_src_stores_usephotostore_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_singleimageview_tsx",
+      "target": "stores_usephotostore_photoinfo"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_singleimageview_tsx",
+      "target": "components_singleimageview_raw_exts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_singleimageview_tsx",
+      "target": "components_singleimageview_israw"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_singleimageview_tsx",
+      "target": "components_singleimageview_singleimageviewprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/SingleImageView.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_singleimageview_tsx",
+      "target": "components_singleimageview_singleimageview"
     },
     {
       "relation": "imports_from",
@@ -15819,6 +16212,46 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "gui_frontend_src_stores_usethumbnailqueuestore_ts",
+      "target": "stores_usethumbnailqueuestore_thumbnailkind"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_stores_usethumbnailqueuestore_ts",
+      "target": "stores_usethumbnailqueuestore_thumbnailrequest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_stores_usethumbnailqueuestore_ts",
+      "target": "stores_usethumbnailqueuestore_getthumbnailkey"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_stores_usethumbnailqueuestore_ts",
+      "target": "stores_usethumbnailqueuestore_getrequestkey"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_stores_usethumbnailqueuestore_ts",
       "target": "stores_usethumbnailqueuestore_thumbnailqueueconfig"
     },
     {
@@ -15882,6 +16315,17 @@
       "target": "stores_usethumbnailqueuestore_usethumbnailqueuestore"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/stores/useThumbnailQueueStore.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "stores_usethumbnailqueuestore_getrequestkey",
+      "target": "stores_usethumbnailqueuestore_getthumbnailkey"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "gui-frontend/src/stores/useUIStore.ts",
@@ -15915,12 +16359,45 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_previewmodal_tsx",
+      "target": "gui_frontend_src_stores_useuistore_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "gui-frontend/src/hooks/useTestData.ts",
       "source_location": "L2",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "gui_frontend_src_hooks_usetestdata_ts",
       "target": "gui_frontend_src_stores_useuistore_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_previewmodal_tsx",
+      "target": "stores_useuistore_useuistore"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "components_previewmodal_previewmodal",
+      "target": "stores_useuistore_useuistore"
     },
     {
       "relation": "imports",
@@ -16148,41 +16625,41 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L282",
+      "source_location": "L232",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_gui_commands_rs",
-      "target": "gui_commands_thumbnailcacheentry"
+      "target": "gui_commands_get_display_image"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/gui/commands.rs",
-      "source_location": "L290",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_gui_commands_rs",
-      "target": "gui_commands_load_thumbnail_cache"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/gui/commands.rs",
-      "source_location": "L306",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_gui_commands_rs",
-      "target": "gui_commands_cleanup_thumbnail_cache"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/gui/commands.rs",
-      "source_location": "L315",
+      "source_location": "L241",
       "weight": 1.0,
       "source": "src_gui_commands_rs",
-      "target": "gui_commands_thumbnail_path",
+      "target": "gui_commands_get_display_image_medium",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L239",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_gui_commands_rs",
+      "target": "gui_commands_get_display_image_low"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L245",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_gui_commands_rs",
+      "target": "gui_commands_get_full_image"
     },
     {
       "relation": "contains",
@@ -16278,6 +16755,46 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/gui/commands.rs",
+      "source_location": "L282",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_gui_commands_rs",
+      "target": "gui_commands_thumbnailcacheentry"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L290",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_gui_commands_rs",
+      "target": "gui_commands_load_thumbnail_cache"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L306",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_gui_commands_rs",
+      "target": "gui_commands_cleanup_thumbnail_cache"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L315",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_gui_commands_rs",
+      "target": "gui_commands_thumbnail_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/gui/commands.rs",
       "source_location": "L269",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -16305,17 +16822,6 @@
       "confidence_score": 1.0,
       "source": "gui_commands_generate_thumbnail",
       "target": "gui_commands_generate_thumbnail_impl"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/gui/commands.rs",
-      "source_location": "L284",
-      "weight": 1.0,
-      "source": "gui_commands_cleanup_thumbnail_cache",
-      "target": "gui_commands_thumbnail_path",
-      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -16860,11 +17366,71 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/media_management/storage.rs",
+      "source_location": "L100",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_storage_rs",
+      "target": "media_management_storage_load_photoignore"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
       "source_location": "L97",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_media_management_storage_rs",
       "target": "media_management_storage_list_photos"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L174",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_storage_rs",
+      "target": "media_management_storage_test_dir"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L182",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_storage_rs",
+      "target": "media_management_storage_test_list_photos_ignores_dot_dirs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L207",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_storage_rs",
+      "target": "media_management_storage_test_list_photos_negation"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L231",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_storage_rs",
+      "target": "media_management_storage_test_list_photos_no_ignore_all_included"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L245",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_storage_rs",
+      "target": "media_management_storage_test_list_photos_skips_non_photo_extensions"
     },
     {
       "relation": "contains",
@@ -16886,6 +17452,94 @@
       "confidence_score": 1.0,
       "source": "media_management_storage_list_all_removable_drives",
       "target": "media_management_storage_find_photo_folder"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L194",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_storage_test_list_photos_ignores_dot_dirs",
+      "target": "media_management_storage_list_photos"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L219",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_storage_test_list_photos_negation",
+      "target": "media_management_storage_list_photos"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L240",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_storage_test_list_photos_no_ignore_all_included",
+      "target": "media_management_storage_list_photos"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L254",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_storage_test_list_photos_skips_non_photo_extensions",
+      "target": "media_management_storage_list_photos"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L183",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_storage_test_list_photos_ignores_dot_dirs",
+      "target": "media_management_storage_test_dir"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L208",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_storage_test_list_photos_negation",
+      "target": "media_management_storage_test_dir"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L232",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_storage_test_list_photos_no_ignore_all_included",
+      "target": "media_management_storage_test_dir"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/storage.rs",
+      "source_location": "L246",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_storage_test_list_photos_skips_non_photo_extensions",
+      "target": "media_management_storage_test_dir"
     },
     {
       "relation": "contains",
@@ -16962,11 +17616,161 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L73",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_extract_exif_thumbnail_bytes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L98",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_scan_embedded_jpeg"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L39",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
       "target": "media_management_thumbnail_extract_embedded_thumbnail"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L153",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_get_display_image"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L167",
+      "weight": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_get_display_image_fast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L181",
+      "weight": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_decode_exif_thumbnail_image",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L188",
+      "weight": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_scan_embedded_jpeg_timed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L167",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_resize_to_fit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L178",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_decode_jpeg_display"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L198",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_decode_png_display"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L207",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_decode_raw_display"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L323",
+      "weight": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_preview_path_for",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L238",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_generate_display_preview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L345",
+      "weight": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_generate_display_preview_fast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L256",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_cleanup_display_cache"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L261",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_media_management_thumbnail_rs",
+      "target": "media_management_thumbnail_generate_thumbnail_preview"
     },
     {
       "relation": "contains",
@@ -16984,9 +17788,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L118",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_media_management_thumbnail_rs",
-      "target": "media_management_thumbnail_thumbnail_dir",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_thumbnail_dir"
     },
     {
       "relation": "contains",
@@ -17086,10 +17890,10 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L198",
+      "source_location": "L262",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "media_management_thumbnail_thumbnailcache_get_or_generate",
+      "source": "media_management_thumbnail_generate_thumbnail_preview",
       "target": "media_management_thumbnail_get_thumbnail"
     },
     {
@@ -17097,11 +17901,11 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L31",
+      "source_location": "L198",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "media_management_thumbnail_decode_jpeg_thumbnail",
-      "target": "media_management_thumbnail_thumbnailcache_new"
+      "source": "media_management_thumbnail_thumbnailcache_get_or_generate",
+      "target": "media_management_thumbnail_get_thumbnail"
     },
     {
       "relation": "calls",
@@ -17119,10 +17923,65 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_decode_jpeg_thumbnail",
+      "target": "media_management_thumbnail_thumbnailcache_new"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L54",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "media_management_thumbnail_decode_png_thumbnail",
+      "target": "media_management_thumbnail_encode_jpeg"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L106",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_extract_embedded_thumbnail",
+      "target": "media_management_thumbnail_encode_jpeg"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L195",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_decode_jpeg_display",
+      "target": "media_management_thumbnail_encode_jpeg"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L204",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_decode_png_display",
+      "target": "media_management_thumbnail_encode_jpeg"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L212",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_decode_raw_display",
       "target": "media_management_thumbnail_encode_jpeg"
     },
     {
@@ -17141,11 +18000,55 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/media_management/thumbnail.rs",
-      "source_location": "L106",
+      "source_location": "L137",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "media_management_thumbnail_extract_embedded_thumbnail",
-      "target": "media_management_thumbnail_encode_jpeg"
+      "target": "media_management_thumbnail_extract_exif_thumbnail_bytes"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L182",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_decode_exif_thumbnail_image",
+      "target": "media_management_thumbnail_extract_exif_thumbnail_bytes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L216",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_decode_raw_display",
+      "target": "media_management_thumbnail_extract_exif_thumbnail_bytes"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L145",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_extract_embedded_thumbnail",
+      "target": "media_management_thumbnail_scan_embedded_jpeg"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L211",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_decode_raw_display",
+      "target": "media_management_thumbnail_scan_embedded_jpeg"
     },
     {
       "relation": "calls",
@@ -17157,6 +18060,232 @@
       "confidence_score": 1.0,
       "source": "media_management_thumbnail_extract_embedded_thumbnail",
       "target": "media_management_thumbnail_thumbnailcache_new"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L160",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_get_display_image",
+      "target": "media_management_thumbnail_decode_jpeg_display"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L161",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_get_display_image",
+      "target": "media_management_thumbnail_decode_png_display"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L162",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_get_display_image",
+      "target": "media_management_thumbnail_decode_raw_display"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L248",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_generate_display_preview",
+      "target": "media_management_thumbnail_get_display_image"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L174",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_get_display_image_fast",
+      "target": "media_management_thumbnail_decode_jpeg_display",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L175",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_get_display_image_fast",
+      "target": "media_management_thumbnail_decode_png_display",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L176",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_get_display_image_fast",
+      "target": "media_management_thumbnail_decode_raw_display",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L357",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_generate_display_preview_fast",
+      "target": "media_management_thumbnail_get_display_image_fast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L284",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_decode_raw_display",
+      "target": "media_management_thumbnail_decode_exif_thumbnail_image",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L292",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_decode_raw_display",
+      "target": "media_management_thumbnail_scan_embedded_jpeg_timed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L194",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_decode_jpeg_display",
+      "target": "media_management_thumbnail_resize_to_fit"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L203",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_decode_png_display",
+      "target": "media_management_thumbnail_resize_to_fit"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L212",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "media_management_thumbnail_decode_raw_display",
+      "target": "media_management_thumbnail_resize_to_fit"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L331",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_generate_display_preview",
+      "target": "media_management_thumbnail_preview_path_for",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/media_management/thumbnail.rs",
+      "source_location": "L351",
+      "weight": 1.0,
+      "source": "media_management_thumbnail_generate_display_preview_fast",
+      "target": "media_management_thumbnail_preview_path_for",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTEXT.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "context_md",
+      "target": "photo_manager_context_photo_manager_domain_glossary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTEXT.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "photo_manager_context_photo_manager_domain_glossary",
+      "target": "photo_manager_context_date_template"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTEXT.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "photo_manager_context_photo_manager_domain_glossary",
+      "target": "photo_manager_context_thumbnail_cache"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTEXT.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "photo_manager_context_date_template",
+      "target": "photo_manager_context_tokens"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gui-frontend/src/components/PreviewModal.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_frontend_src_components_previewmodal_tsx",
+      "target": "components_previewmodal_previewmodal"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/gui/commands.rs",
+      "source_location": "L284",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "gui_commands_cleanup_thumbnail_cache",
+      "target": "gui_commands_thumbnail_path"
     },
     {
       "relation": "calls",
@@ -17209,9 +18338,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L120",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_thumbnail_dir",
-      "target": "media_management_thumbnail_thumbnailcache_new",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_thumbnailcache_new"
     },
     {
       "relation": "calls",
@@ -17220,9 +18349,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L125",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_read_from_disk_cache",
-      "target": "media_management_thumbnail_thumbnail_dir",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_thumbnail_dir"
     },
     {
       "relation": "calls",
@@ -17231,9 +18360,9 @@
       "source_file": "src/media_management/thumbnail.rs",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "media_management_thumbnail_write_to_disk_cache",
-      "target": "media_management_thumbnail_thumbnail_dir",
-      "confidence_score": 1.0
+      "target": "media_management_thumbnail_thumbnail_dir"
     },
     {
       "relation": "calls",
@@ -17353,46 +18482,6 @@
       "target": "media_management_thumbnail_thumbnailcache_insert"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CONTEXT.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "context_md",
-      "target": "photo_manager_context_photo_manager_domain_glossary"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CONTEXT.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "photo_manager_context_photo_manager_domain_glossary",
-      "target": "photo_manager_context_date_template"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CONTEXT.md",
-      "source_location": "L26",
-      "weight": 1.0,
-      "source": "photo_manager_context_photo_manager_domain_glossary",
-      "target": "photo_manager_context_thumbnail_cache",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CONTEXT.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "photo_manager_context_date_template",
-      "target": "photo_manager_context_tokens"
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -17435,5 +18524,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d3b972460294457e2aba189ba06462b134c21502"
+  "built_at_commit": "3b5bcf554081e94463ab937ca718e9f76444b6cf"
 }

@@ -222,13 +222,36 @@ pub fn generate_thumbnail(path: String, width: u32, app: tauri::AppHandle) {
     });
 }
 
-const DISPLAY_IMAGE_SIZE: u32 = 1200;
-const DISPLAY_IMAGE_QUALITY: u8 = 60;
+const DISPLAY_IMAGE_SIZE: u32 = 1600;
+const DISPLAY_IMAGE_QUALITY: u8 = 80;
+
+const DISPLAY_IMAGE_LOW_SIZE: u32 = 720;
+const DISPLAY_IMAGE_LOW_QUALITY: u8 = 70;
+
+const DISPLAY_IMAGE_FAST_SCAN_TIMEOUT_MS: u128 = 700;
 
 #[tauri::command]
-pub fn get_display_image(path: String) -> Result<String, String> {
+pub fn get_display_image(path: String, allow_scan: Option<bool>) -> Result<String, String> {
     let file_path = PathBuf::from(&path);
-    thumbnail::generate_display_preview(&file_path, DISPLAY_IMAGE_SIZE, DISPLAY_IMAGE_QUALITY)
+    let allow_scan = allow_scan.unwrap_or(true);
+    thumbnail::generate_display_preview(&file_path, DISPLAY_IMAGE_SIZE, DISPLAY_IMAGE_QUALITY, allow_scan)
+}
+
+#[tauri::command]
+pub fn get_display_image_medium(path: String) -> Result<String, String> {
+    let file_path = PathBuf::from(&path);
+    thumbnail::generate_display_preview_fast(
+        &file_path,
+        DISPLAY_IMAGE_SIZE,
+        DISPLAY_IMAGE_QUALITY,
+        DISPLAY_IMAGE_FAST_SCAN_TIMEOUT_MS,
+    )
+}
+
+#[tauri::command]
+pub fn get_display_image_low(path: String) -> Result<String, String> {
+    let file_path = PathBuf::from(&path);
+    thumbnail::generate_display_preview(&file_path, DISPLAY_IMAGE_LOW_SIZE, DISPLAY_IMAGE_LOW_QUALITY, false)
 }
 
 #[tauri::command]
