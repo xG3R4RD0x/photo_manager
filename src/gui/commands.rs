@@ -331,48 +331,72 @@ fn scan_dir(dir: &std::path::PathBuf, depth: u32) -> Vec<DirEntry> {
     entries
 }
 
+#[derive(Clone, serde::Serialize)]
+struct ImportProgress {
+    current: usize,
+    total: usize,
+}
+
 #[tauri::command]
 pub fn import_photos(
     paths: Vec<String>,
     dest: String,
     template: String,
-) -> Result<String, String> {
-    let dest_path = PathBuf::from(&dest);
-    
-    let mut imported = 0;
-    let mut errors = Vec::new();
-    let mut dedup_keys = Vec::new();
-    
-    for path_str in paths {
-        let source_path = PathBuf::from(&path_str);
-        
-        // Extract EXIF date
-        let date = metadata::extract_exif_date(&source_path);
-        
-        // Check dedup by filename
-        let filename = source_path.file_name()
-            .map(|n| n.to_string_lossy().to_string())
-            .unwrap_or_default();
-        if dedup_keys.contains(&filename) {
-            errors.push(format!("Skipped (duplicate): {}", filename));
-            continue;
+    app: tauri::AppHandle,
+) -> Result<(), String> {
+    std::thread::spawn(move || {
+        let dest_path = PathBuf::from(&dest);
+        let total = paths.len();
+
+        let mut imported = 0;
+        let mut errors = Vec::new();
+        let mut dedup_keys = Vec::new();
+
+        for (i, path_str) in paths.iter().enumerate() {
+            if i % 10 == 0 || i == total - 1 {
+                let _ = app.emit(
+                    "import_progress",
+                    ImportProgress {
+                        current: i + 1,
+                        total,
+                    },
+                );
+            }
+
+            let source_path = PathBuf::from(path_str);
+
+            let date = metadata::extract_exif_date(&source_path);
+
+            let filename = source_path
+                .file_name()
+                .map(|n| n.to_string_lossy().to_string())
+                .unwrap_or_default();
+            if dedup_keys.contains(&filename) {
+                errors.push(format!("Skipped (duplicate): {}", filename));
+                continue;
+            }
+            dedup_keys.push(filename);
+
+            match copier::copy_with_template(&source_path, &dest_path, &template, date) {
+                Ok(_) => imported += 1,
+                Err(e) => errors.push(format!("Failed: {}", e)),
+            }
         }
-        dedup_keys.push(filename);
-        
-        // Copy with template
-        match copier::copy_with_template(&source_path, &dest_path, &template, date) {
-            Ok(_) => imported += 1,
-            Err(e) => errors.push(format!("Failed: {}", e)),
-        }
-    }
-    
-    let summary = format!(
-        "Imported {} photos{}",
-        imported,
-        if errors.is_empty() { "".to_string() } else { format!(" with {} errors", errors.len()) }
-    );
-    
-    Ok(summary)
+
+        let summary = format!(
+            "Imported {} photos{}",
+            imported,
+            if errors.is_empty() {
+                "".to_string()
+            } else {
+                format!(" with {} errors", errors.len())
+            }
+        );
+
+        let _ = app.emit("import_done", summary);
+    });
+
+    Ok(())
 }
 
 #[derive(Clone, serde::Serialize)]

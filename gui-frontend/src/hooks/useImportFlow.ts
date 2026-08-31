@@ -1,4 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { usePhotoStore } from "../stores/usePhotoStore";
 import { useUIStore } from "../stores/useUIStore";
 
@@ -21,35 +22,63 @@ export function useImportFlow() {
       return;
     }
 
-    useUIStore.setState({ isImporting: true, importResult: null, status: "Starting import..." });
+    useUIStore.setState({
+      isImporting: true,
+      importResult: null,
+      status: "Starting import...",
+      importProgress: 0,
+      importTotal: selectedPhotos.length,
+    });
+
+    const unlistenProgress = await listen<{ current: number; total: number }>(
+      "import_progress",
+      (event) => {
+        useUIStore.getState().setImportProgress(event.payload.current, event.payload.total);
+      }
+    );
+
+    const unlistenDone = await listen<string>("import_done", (event) => {
+      useUIStore.setState({
+        importResult: { success: true, message: event.payload },
+        isImporting: false,
+        status: "Import complete!",
+      });
+      usePhotoStore.getState().deselectAll();
+      useUIStore.getState().triggerDuplicateCheck();
+      useUIStore.getState().triggerThumbnailGeneration();
+      unlistenProgress();
+      unlistenDone();
+      unlistenError();
+    });
+
+    const unlistenError = await listen("import_error", () => {
+      useUIStore.setState({
+        importResult: { success: false, message: "Import failed" },
+        isImporting: false,
+        status: "Import failed",
+      });
+      unlistenProgress();
+      unlistenDone();
+      unlistenError();
+    });
 
     try {
-      const result = await invoke<string>("import_photos", {
+      await invoke("import_photos", {
         paths: selectedPhotos,
         dest: destFolder,
         template: selectedTemplate,
       });
-
-      useUIStore.setState({
-        importResult: { success: true, message: result },
-        isImporting: false,
-        status: "Import complete!",
-      });
-
-      usePhotoStore.getState().deselectAll();
-      
-      // Trigger both duplicate check and thumbnail generation
-      useUIStore.getState().triggerDuplicateCheck();
-      useUIStore.getState().triggerThumbnailGeneration();
     } catch (error) {
       useUIStore.setState({
         importResult: { success: false, message: `Import failed: ${error}` },
         isImporting: false,
         status: "Import failed",
       });
+      unlistenProgress();
+      unlistenDone();
+      unlistenError();
     }
   };
 
   return { startImport };
 }
-
