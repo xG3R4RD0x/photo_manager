@@ -57,7 +57,7 @@ _Avoid_: flat structure, mixed folder
 
 ## Video Thumbnail
 
-A JPEG still frame extracted from a video at the 1-second mark using bundled ffmpeg, resized and cached in the same temp cache as photo thumbnails. Used for display only — there is no playback.
+A JPEG image shown as a video's grid preview (display only — there is no playback). Priority: the JPEG thumbnail embedded in the video's `moov` atom (XAVC/AVCHD carry one), extracted by scanning the first/last 16 MiB of the clip; falls back to an ffmpeg frame extraction at the 1-second mark. Resized and cached in the same temp cache as photo thumbnails.
 
 _Avoid_: video preview, video player
 

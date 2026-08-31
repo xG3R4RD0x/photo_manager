@@ -28,9 +28,18 @@ pub fn get_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
     }
 }
 
-/// Extract a video thumbnail frame via ffmpeg and return the raw JPEG bytes.
-/// The frame is captured at VIDEO_THUMBNAIL_TIMESTAMP_SEC, scaled to `width`.
+/// Extract a video thumbnail.
+///
+/// Priority:
+///   1. A JPEG thumbnail embedded in the video file (XAVC/AVCHD carry one).
+///   2. Fallback: extract a frame via ffmpeg at VIDEO_THUMBNAIL_TIMESTAMP_SEC.
 fn generate_video_thumbnail_bytes(path: &Path, width: u32) -> Result<Vec<u8>, String> {
+    // Try the embedded JPEG first (fast, no ffmpeg subprocess needed).
+    if let Ok(img) = extract_video_embedded_thumbnail(path, width) {
+        return Ok(img);
+    }
+
+    // Fallback: ffmpeg frame extraction.
     let hash = blake3::hash(path.to_string_lossy().as_bytes());
     let thumb_dir = std::env::temp_dir().join("photo_manager_video_thumbs");
     fs::create_dir_all(&thumb_dir).map_err(|e| e.to_string())?;
@@ -45,6 +54,47 @@ fn generate_video_thumbnail_bytes(path: &Path, width: u32) -> Result<Vec<u8>, St
 
     let data = fs::read(&tmp_jpeg).map_err(|e| e.to_string())?;
     Ok(data)
+}
+
+/// Extract a JPEG thumbnail embedded in a video file (e.g. Sony XAVC), if present.
+///
+/// AVCHD/XAVC containers carry a small JPEG preview near the `moov` metadata
+/// atom, which typically sits at the start or end of the file. We read only the
+/// first/last regions (never the whole video), scan them for JPEG markers
+/// (0xFFD8...0xFFD9) and decode the largest candidate. Returns Err if none.
+fn extract_video_embedded_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
+    use std::io::{Read, Seek, SeekFrom};
+
+    let file_len = std::fs::metadata(path).map_err(|e| e.to_string())?.len();
+    let mut file = File::open(path).map_err(|e| e.to_string())?;
+
+    const FRONT: u64 = 16 * 1024 * 1024; // 16 MiB from the start
+    const BACK: u64 = 16 * 1024 * 1024; // 16 MiB from the end
+
+    let mut data = Vec::new();
+
+    // Read the head.
+    let to_read = file_len.min(FRONT) as usize;
+    let mut head = vec![0u8; to_read];
+    file.read_exact(&mut head).map_err(|e| e.to_string())?;
+    data.extend_from_slice(&head);
+
+    // Read the tail (if it doesn't overlap the head).
+    if file_len > FRONT {
+        let tail_start = file_len.saturating_sub(BACK);
+        file.seek(SeekFrom::Start(tail_start)).map_err(|e| e.to_string())?;
+        let tail_len = (file_len - tail_start) as usize;
+        let mut tail = vec![0u8; tail_len];
+        file.read_exact(&mut tail).map_err(|e| e.to_string())?;
+        data.extend_from_slice(&tail);
+    }
+
+    if let Some(img) = scan_embedded_jpeg(&data, width, FRONT as usize, BACK as usize) {
+        let resized = img.resize(width, width, image::imageops::FilterType::Triangle);
+        return encode_jpeg(&resized, 80);
+    }
+
+    Err("No embedded JPEG found in video".to_string())
 }
 
 fn decode_jpeg_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
@@ -402,4 +452,66 @@ pub fn generate_thumbnail_preview(path: &Path, width: u32) -> Result<String, Str
     file.write_all(&data).map_err(|e| e.to_string())?;
 
     Ok(thumb_path.to_string_lossy().to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn make_jpeg_bytes() -> Vec<u8> {
+        let img = image::RgbImage::from_pixel(320, 180, image::Rgb([120, 80, 40]));
+        encode_jpeg(&image::DynamicImage::ImageRgb8(img), 80).unwrap()
+    }
+
+    #[test]
+    fn extracts_embedded_jpeg_from_video_like_buffer() {
+        // Build a synthetic "video" file: a small head, an embedded JPEG, then
+        // a large body that pushes the file over our FRONT window so the JPEG
+        // lives in the tail region.
+        let tmp_dir = std::env::temp_dir().join("photo_manager_thumb_tests");
+        fs::create_dir_all(&tmp_dir).unwrap();
+        let path = tmp_dir.join("synth_video.mp4");
+
+        let head = vec![0u8; 1024];
+        let jpeg = make_jpeg_bytes();
+        let tail = vec![0u8; 20 * 1024 * 1024]; // push total > 16 MiB FRONT
+
+        let mut file = File::create(&path).unwrap();
+        file.write_all(&head).unwrap();
+        file.write_all(&jpeg).unwrap();
+        file.write_all(&tail).unwrap();
+        drop(file);
+
+        let result = extract_video_embedded_thumbnail(&path, 200);
+        assert!(result.is_ok(), "expected embedded JPEG extraction to succeed");
+        let bytes = result.unwrap();
+        assert!(!bytes.is_empty());
+        assert_eq!(&bytes[0..2], &[0xFF, 0xD8], "output should be a JPEG");
+
+        let _ = fs::remove_file(&path);
+    }
+
+    #[test]
+    fn extracts_embedded_jpeg_from_tail_region() {
+        let tmp_dir = std::env::temp_dir().join("photo_manager_thumb_tests");
+        fs::create_dir_all(&tmp_dir).unwrap();
+        let path = tmp_dir.join("synth_video_tail.mp4");
+
+        // A large body keeps moov-like metadata (and its embedded JPEG) in the
+        // tail region, beyond the FRONT window.
+        let jpeg = make_jpeg_bytes();
+        let body = vec![0u8; 20 * 1024 * 1024];
+
+        let mut file = File::create(&path).unwrap();
+        file.write_all(&body).unwrap();
+        file.write_all(&jpeg).unwrap();
+        drop(file);
+
+        let result = extract_video_embedded_thumbnail(&path, 200);
+        assert!(result.is_ok(), "expected embedded JPEG from tail to succeed");
+        let bytes = result.unwrap();
+        assert_eq!(&bytes[0..2], &[0xFF, 0xD8]);
+
+        let _ = fs::remove_file(&path);
+    }
 }

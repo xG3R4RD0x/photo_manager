@@ -12,3 +12,9 @@ requiring a system ffmpeg because that fails when ffmpeg is absent or the wrong
 version — unreliable on end-user machines, especially for AVCHD `.mts` files
 from Sony cameras. The binary is shipped next to the executable under
 `binaries/` (declared via `bundle.externalBin`), with a PATH fallback in dev.
+
+## Status: Superceded
+
+Replaced by [0002](0002-video-thumbnail-from-embedded-jpeg.md). ffmpeg remains
+the fallback for video metadata probing and for videos without an embedded
+preview, but it is no longer the primary thumbnail path.

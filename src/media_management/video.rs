@@ -76,6 +76,21 @@ fn locate_ffprobe() -> Option<PathBuf> {
     locate_binary("ffprobe")
 }
 
+/// Configure a Command so spawned processes don't flash console windows
+/// on Windows (ffmpeg/ffprobe are console apps).
+fn silent_cmd(program: &Path) -> Command {
+    let mut cmd = Command::new(program);
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        // CREATE_NO_WINDOW: run without showing a console window (Tauri apps
+        // don't have one, so child console processes would pop up windows).
+        const CREATE_NO_WINDOW: u32 = 0x08000000;
+        cmd.creation_flags(CREATE_NO_WINDOW);
+    }
+    cmd
+}
+
 /// Extract a JPEG thumbnail frame at the given timestamp using ffmpeg.
 pub fn extract_video_thumbnail(
     source: &Path,
@@ -90,7 +105,7 @@ pub fn extract_video_thumbnail(
         std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
     }
 
-    let status = Command::new(&ffmpeg)
+    let status = silent_cmd(&ffmpeg)
         .args(&[
             "-y",
             "-ss",
@@ -121,7 +136,7 @@ pub fn extract_video_metadata(path: &Path) -> Result<VideoMetadata, String> {
     let ffprobe = locate_ffprobe()
         .ok_or_else(|| "ffprobe binary not found; install ffmpeg or bundle it with the app".to_string())?;
 
-    let output = Command::new(&ffprobe)
+    let output = silent_cmd(&ffprobe)
         .args(&[
             "-v",
             "error",
