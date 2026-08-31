@@ -71,6 +71,13 @@ function PhotoGridItem({
           ) : (
             <div className="thumbnail-placeholder" />
           )}
+          {photo.media_type === "video" && (
+            <div className="video-badge" title="Video">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          )}
         </div>
         <div className="filename">{photo.filename}</div>
         {!isDuplicate && (

@@ -6,7 +6,7 @@ use std::sync::Arc;
 use rayon::prelude::*;
 use tauri::Emitter;
 
-use crate::media_management::{storage, metadata, thumbnail};
+use crate::media_management::{storage, metadata, thumbnail, video};
 use crate::import::copier;
 use crate::gui::config::{load_config, save_config};
 
@@ -16,6 +16,10 @@ pub struct PhotoInfo {
     pub filename: String,
     pub date: Option<String>,
     pub file_size: u64,
+    pub media_type: String,
+    pub duration: Option<f64>,
+    pub resolution: Option<String>,
+    pub codec: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -48,6 +52,14 @@ pub fn list_all_removable_drives() -> Vec<storage::RemovableDrive> {
     storage::list_all_removable_drives()
 }
 
+/// Format width × height as a resolution string, or None if either is missing.
+fn resolution_string(width: Option<u32>, height: Option<u32>) -> Option<String> {
+    match (width, height) {
+        (Some(w), Some(h)) => Some(format!("{}x{}", w, h)),
+        _ => None,
+    }
+}
+
 /// Quick scan without EXIF extraction (instant)
 #[tauri::command]
 pub fn scan_photos_quick(folder: String) -> Vec<PhotoInfo> {
@@ -64,11 +76,17 @@ pub fn scan_photos_quick(folder: String) -> Vec<PhotoInfo> {
             .map(|m| m.len())
             .unwrap_or(0);
         
+        let is_video = video::is_video(&path);
+        
         PhotoInfo {
             path: path.to_string_lossy().to_string(),
             filename,
-            date: None,  // No EXIF extraction yet
+            date: None,  // Filled in by enrichment
             file_size,
+            media_type: if is_video { "video".to_string() } else { "photo".to_string() },
+            duration: None,
+            resolution: None,
+            codec: None,
         }
     }).collect()
 }
@@ -97,13 +115,24 @@ pub async fn enrich_photos_metadata_fast(
                 .map(|n| n.to_string_lossy().to_string())
                 .unwrap_or_default();
 
-            // Fast EXIF extraction with cache + fallback
-            let date = metadata::extract_exif_date_fast(path)
-                .map(|dt| dt.format("%Y-%m-%d %H:%M:%S").to_string());
+            let is_video = video::is_video(path);
 
-            let file_size = std::fs::metadata(&path)
+            let file_size = std::fs::metadata(path)
                 .map(|m| m.len())
                 .unwrap_or(0);
+
+            let (date, duration, resolution, codec) = if is_video {
+                // Video metadata via ffprobe (date, duration, resolution, codec)
+                match video::extract_video_metadata(path) {
+                    Ok(vm) => (vm.date, vm.duration, resolution_string(vm.width, vm.height), vm.codec),
+                    Err(_) => (None, None, None, None),
+                }
+            } else {
+                // Fast EXIF extraction with cache + fallback
+                let dt = metadata::extract_exif_date_fast(path)
+                    .map(|d| d.format("%Y-%m-%d %H:%M:%S").to_string());
+                (dt, None, None, None)
+            };
 
             // Track progress
             let _count = processed.fetch_add(1, Ordering::Relaxed);
@@ -113,6 +142,10 @@ pub async fn enrich_photos_metadata_fast(
                 filename,
                 date,
                 file_size,
+                media_type: if is_video { "video".to_string() } else { "photo".to_string() },
+                duration,
+                resolution,
+                codec,
             }
         })
         .collect();
@@ -148,18 +181,32 @@ pub fn scan_photos(folder: String) -> Vec<PhotoInfo> {
             .map(|n| n.to_string_lossy().to_string())
             .unwrap_or_default();
         
-        let date = metadata::extract_exif_date(&path)
-            .map(|dt| dt.format("%Y-%m-%d %H:%M:%S").to_string());
-        
+        let is_video = video::is_video(&path);
+
         let file_size = std::fs::metadata(&path)
             .map(|m| m.len())
             .unwrap_or(0);
+
+        let (date, duration, resolution, codec) = if is_video {
+            match video::extract_video_metadata(&path) {
+                Ok(vm) => (vm.date, vm.duration, resolution_string(vm.width, vm.height), vm.codec),
+                Err(_) => (None, None, None, None),
+            }
+        } else {
+            let dt = metadata::extract_exif_date(&path)
+                .map(|d| d.format("%Y-%m-%d %H:%M:%S").to_string());
+            (dt, None, None, None)
+        };
         
         PhotoInfo {
             path: path.to_string_lossy().to_string(),
             filename,
             date,
             file_size,
+            media_type: if is_video { "video".to_string() } else { "photo".to_string() },
+            duration,
+            resolution,
+            codec,
         }
     }).collect()
 }
@@ -189,6 +236,46 @@ pub fn get_exif(path: String) -> Option<EXIFData> {
         file_type: ext,
         file_size,
         gps: full.gps,
+    })
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct VideoData {
+    pub file_type: String,
+    pub file_size: u64,
+    pub date: Option<String>,
+    pub duration: Option<f64>,
+    pub width: Option<u32>,
+    pub height: Option<u32>,
+    pub codec: Option<String>,
+}
+
+#[tauri::command]
+pub fn get_video_metadata(path: String) -> Option<VideoData> {
+    let file_path = PathBuf::from(&path);
+    if !video::is_video(&file_path) {
+        return None;
+    }
+
+    let ext = file_path.extension()
+        .map(|e| e.to_string_lossy().to_string())
+        .unwrap_or_default()
+        .to_uppercase();
+
+    let file_size = std::fs::metadata(&file_path)
+        .map(|m| m.len())
+        .unwrap_or(0);
+
+    let vm = video::extract_video_metadata(&file_path).ok()?;
+
+    Some(VideoData {
+        file_type: ext,
+        file_size,
+        date: vm.date,
+        duration: vm.duration,
+        width: vm.width,
+        height: vm.height,
+        codec: vm.codec,
     })
 }
 
@@ -365,7 +452,15 @@ pub fn import_photos(
 
             let source_path = PathBuf::from(path_str);
 
-            let date = metadata::extract_exif_date(&source_path);
+            let is_video = video::is_video(&source_path);
+            let date = if is_video {
+                video::extract_video_metadata(&source_path)
+                    .ok()
+                    .and_then(|vm| vm.date)
+                    .and_then(|s| chrono::NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S").ok())
+            } else {
+                metadata::extract_exif_date(&source_path)
+            };
 
             let filename = source_path
                 .file_name()
@@ -383,9 +478,16 @@ pub fn import_photos(
             }
         }
 
+        let kind = if paths.iter().any(|p| video::is_video(&PathBuf::from(p))) {
+            "files"
+        } else {
+            "photos"
+        };
+
         let summary = format!(
-            "Imported {} photos{}",
+            "Imported {} {}{}",
             imported,
+            kind,
             if errors.is_empty() {
                 "".to_string()
             } else {
@@ -436,7 +538,13 @@ pub fn start_duplicate_check(
             }
 
             if let Some(name) = PathBuf::from(path).file_name() {
-                let candidate = dest_base.join(folder).join(name);
+                let is_video = video::is_video(&PathBuf::from(path));
+                let folder = if is_video {
+                    format!("{}/video", folder)
+                } else {
+                    folder.to_string()
+                };
+                let candidate = dest_base.join(&folder).join(name);
                 if candidate.exists() {
                     found.push(path.clone());
                 }

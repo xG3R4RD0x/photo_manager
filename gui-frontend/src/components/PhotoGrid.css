@@ -239,6 +239,21 @@
   transform: scale(1.01);
 }
 
+.video-badge {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
 .thumbnail-placeholder--loading {
   background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
 }

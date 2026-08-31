@@ -32,7 +32,7 @@ export function applyTemplate(template: string, dateStr: string): string {
 }
 
 export function buildDestinationTree(
-  photos: { path: string; date: string | null }[],
+  photos: { path: string; date: string | null; media_type?: string }[],
   template: string,
 ): TreeNode {
   const pathCounts: Record<string, number> = {};
@@ -40,7 +40,8 @@ export function buildDestinationTree(
   for (const photo of photos) {
     const relPath = photo.date ? applyTemplate(template, photo.date) : "SinFecha";
     const normalized = relPath.replace(/^\/+|\/+$/g, "");
-    pathCounts[normalized] = (pathCounts[normalized] || 0) + 1;
+    const finalPath = photo.media_type === "video" ? `${normalized}/video` : normalized;
+    pathCounts[finalPath] = (pathCounts[finalPath] || 0) + 1;
   }
 
   const treeMap: Record<string, { _count: number; _children: Record<string, any> }> = {};

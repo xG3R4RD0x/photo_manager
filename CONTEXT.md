@@ -34,3 +34,35 @@ Two cache layers:
 - **Disk**: `.thumbnails/` subdirectory per photo folder, persistent
 
 Lookup order: memory → disk → generate → insert into both.
+
+## Media Item
+
+A file that the app can discover, display, and import. There are two kinds:
+
+- **Photo**: an image file (jpg, jpeg, png, cr2, nef, arw, raf) shown in the grid and viewable full-size.
+- **Video**: a video file (mp4, mov, avi, mkv, webm, 3gp, mts, m2ts, and others) shown in the grid with a thumbnail and a video icon. Videos are never played; only a static thumbnail is shown.
+
+_Avoid_: file, asset
+
+## Import Destination Structure
+
+Photos and videos imported together share one date-based folder tree. Within each date folder, photos land at the root and videos land in a `video/` subfolder:
+
+```
+dest/YYYY/MM-DD/photo.jpg
+dest/YYYY/MM-DD/video/video.mp4
+```
+
+_Avoid_: flat structure, mixed folder
+
+## Video Thumbnail
+
+A JPEG still frame extracted from a video at the 1-second mark using bundled ffmpeg, resized and cached in the same temp cache as photo thumbnails. Used for display only — there is no playback.
+
+_Avoid_: video preview, video player
+
+## Video Metadata
+
+Metadata read from a video via bundled ffprobe: creation date (from QuickTime/MP4 atoms), duration, resolution, and codec. Used for date-based folder organization and shown in the metadata panel.
+
+_Avoid_: video info, video properties

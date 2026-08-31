@@ -15,22 +15,54 @@ interface EXIFData {
   gps?: [number, number];
 }
 
+interface VideoData {
+  file_type: string;
+  file_size: number;
+  date?: string;
+  duration?: number;
+  width?: number;
+  height?: number;
+  codec?: string;
+}
+
+function formatDuration(seconds: number): string {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+}
+
 export default function MetadataSection() {
   const inspectedPath = usePhotoStore((s) => s.inspectedPath);
+  const inspectedPhoto = usePhotoStore((s) =>
+    s.inspectedPath ? s.photos.find((p) => p.path === s.inspectedPath) : undefined
+  );
   const [exif, setExif] = useState<EXIFData | null>(null);
+  const [videoData, setVideoData] = useState<VideoData | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const isVideo = inspectedPhoto?.media_type === "video";
 
   useEffect(() => {
     if (inspectedPath) {
       setLoading(true);
-      invoke<EXIFData>("get_exif", { path: inspectedPath })
-        .then(setExif)
-        .catch((err) => console.error("EXIF fetch failed:", err))
-        .finally(() => setLoading(false));
+      if (isVideo) {
+        invoke<VideoData>("get_video_metadata", { path: inspectedPath })
+          .then(setVideoData)
+          .catch((err) => console.error("Video metadata fetch failed:", err))
+          .finally(() => setLoading(false));
+      } else {
+        invoke<EXIFData>("get_exif", { path: inspectedPath })
+          .then(setExif)
+          .catch((err) => console.error("EXIF fetch failed:", err))
+          .finally(() => setLoading(false));
+      }
     } else {
       setExif(null);
+      setVideoData(null);
     }
-  }, [inspectedPath]);
+  }, [inspectedPath, isVideo]);
 
   if (!inspectedPath) {
     return (
@@ -54,8 +86,21 @@ export default function MetadataSection() {
 
   return (
     <div className="metadata-section">
-      <h3>📷 Metadata</h3>
-      {exif && (
+      <h3>{isVideo ? "🎬 Metadata" : "📷 Metadata"}</h3>
+      {isVideo && videoData && (
+        <div className="metadata-content">
+          {videoData.date && <p>📅 {videoData.date}</p>}
+          {videoData.duration !== undefined && videoData.duration !== null && (
+            <p>⏱️ {formatDuration(videoData.duration)}</p>
+          )}
+          {videoData.width && videoData.height && (
+            <p>📐 {videoData.width}x{videoData.height}</p>
+          )}
+          {videoData.codec && <p>💾 {videoData.codec}</p>}
+          <p>📁 {videoData.file_type} ({(videoData.file_size / 1024 / 1024).toFixed(1)}MB)</p>
+        </div>
+      )}
+      {!isVideo && exif && (
         <div className="metadata-content">
           {exif.camera && <p>📷 {exif.camera}</p>}
           {exif.lens && <p>🔍 {exif.lens}</p>}

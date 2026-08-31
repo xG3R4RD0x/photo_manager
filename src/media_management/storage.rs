@@ -5,6 +5,13 @@ use std::fs;
 use serde::{Serialize, Deserialize};
 use ignore::gitignore::{Gitignore, GitignoreBuilder};
 
+pub const PHOTO_EXTENSIONS: &[&str] = &["jpg", "jpeg", "png", "cr2", "nef", "arw", "raf"];
+
+/// Returns true if the given extension (lowercase, no dot) is a recognized photo format.
+pub fn is_photo_extension(ext: &str) -> bool {
+    PHOTO_EXTENSIONS.contains(&ext)
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RemovableDrive {
     pub mount_point: String,
@@ -157,7 +164,7 @@ pub fn list_photos(folder_path: &PathBuf, photoignore: &Gitignore) -> Vec<PathBu
     {
         if let Some(ext) = entry.path().extension().and_then(|e| e.to_str()) {
             let ext_lower = ext.to_lowercase();
-            if matches!(ext_lower.as_str(), "jpg" | "jpeg" | "png" | "cr2" | "nef" | "arw" | "raf") {
+            if is_photo_extension(&ext_lower) || crate::media_management::video::is_video(entry.path()) {
                 photos.push(entry.path().to_path_buf());
             }
         }

@@ -18,6 +18,7 @@ fn main() {
             commands::enrich_photos_metadata_fast,
             commands::list_all_removable_drives,
             commands::get_exif,
+            commands::get_video_metadata,
             commands::get_thumbnail,
             commands::generate_thumbnail,
             commands::get_display_image,

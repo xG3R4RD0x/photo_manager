@@ -1,8 +1,11 @@
 use std::path::PathBuf;
 use std::fs;
 use chrono::NaiveDateTime;
+use crate::media_management::video;
 
-/// Copy file from source to destination, organizing by template
+/// Copy file from source to destination, organizing by template.
+/// Photos land at <dest_base>/<folder>/<filename>.
+/// Videos land at <dest_base>/<folder>/video/<filename>.
 pub fn copy_with_template(
     source: &PathBuf,
     dest_base: &PathBuf,
@@ -13,17 +16,25 @@ pub fn copy_with_template(
         Some(dt) => apply_template(template, dt),
         None => "SinFecha".to_string(),
     };
-    
+
     let dest_dir = dest_base.join(&folder_path);
-    fs::create_dir_all(&dest_dir).map_err(|e| e.to_string())?;
-    
+
+    // Videos go into a /video subfolder within the same date folder
+    let final_dir = if video::is_video(source) {
+        dest_dir.join("video")
+    } else {
+        dest_dir
+    };
+
+    fs::create_dir_all(&final_dir).map_err(|e| e.to_string())?;
+
     let filename = source
         .file_name()
         .ok_or("Invalid source filename")?;
-    
-    let dest_file = dest_dir.join(filename);
+
+    let dest_file = final_dir.join(filename);
     fs::copy(source, &dest_file).map_err(|e| e.to_string())?;
-    
+
     Ok(dest_file)
 }
 

@@ -46,7 +46,21 @@ export default function SingleImageView({ photo, photos, onNavigate }: SingleIma
 
     let lowTimer: number | null = null;
 
-    if (isRaw(path)) {
+    if (photo.media_type === "video") {
+      // Videos: show a static thumbnail only — no playback.
+      invoke<string>("get_thumbnail", { path, width: 800 })
+        .then((thumbPath) => {
+          if (cancelled || requestIdRef.current !== requestId) return;
+          setImgSrc(convertFileSrc(thumbPath));
+          setIsLoading(false);
+        })
+        .catch(() => {
+          if (!cancelled && requestIdRef.current === requestId) {
+            setImgError(true);
+            setIsLoading(false);
+          }
+        });
+    } else if (isRaw(path)) {
       const setPreview = (level: "low" | "medium" | "full", previewPath: string) => {
         if (cancelled || requestIdRef.current !== requestId) return;
         const rank = { none: 0, low: 1, medium: 2, full: 3 } as const;

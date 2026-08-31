@@ -46,7 +46,9 @@ export default function DestinationTreeSection() {
     if (selectedPhotos.length === 0) return "";
     const sample = selectedPhotos[0];
     const rel = sample.date ? applyTemplate(selectedTemplate, sample.date) : "SinFecha";
-    return `${destFolder}/${rel}/`;
+    return sample.media_type === "video"
+      ? `${destFolder}/${rel}/video/`
+      : `${destFolder}/${rel}/`;
   }, [selectedPhotos, selectedTemplate, destFolder]);
 
   const selectDestination = async () => {

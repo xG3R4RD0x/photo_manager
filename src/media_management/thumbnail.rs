@@ -10,6 +10,9 @@ const RAW_EXTENSIONS: &[&str] = &[
     "rw2", "rwl", "sr2", "srf", "srw", "x3f",
 ];
 
+/// Timestamp (seconds) into a video at which to extract a thumbnail frame.
+pub const VIDEO_THUMBNAIL_TIMESTAMP_SEC: f64 = 1.0;
+
 pub fn get_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
     let ext = path.extension()
         .and_then(|e| e.to_str())
@@ -20,8 +23,28 @@ pub fn get_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {
         "jpg" | "jpeg" => decode_jpeg_thumbnail(path, width),
         "png" => decode_png_thumbnail(path, width),
         ext if RAW_EXTENSIONS.contains(&ext) => extract_embedded_thumbnail(path, width),
+        _ if crate::media_management::video::is_video(path) => generate_video_thumbnail_bytes(path, width),
         _ => Err(format!("Unsupported image format: {}", ext)),
     }
+}
+
+/// Extract a video thumbnail frame via ffmpeg and return the raw JPEG bytes.
+/// The frame is captured at VIDEO_THUMBNAIL_TIMESTAMP_SEC, scaled to `width`.
+fn generate_video_thumbnail_bytes(path: &Path, width: u32) -> Result<Vec<u8>, String> {
+    let hash = blake3::hash(path.to_string_lossy().as_bytes());
+    let thumb_dir = std::env::temp_dir().join("photo_manager_video_thumbs");
+    fs::create_dir_all(&thumb_dir).map_err(|e| e.to_string())?;
+    let tmp_jpeg = thumb_dir.join(format!("{}_{}.jpg", hash.to_hex(), width));
+
+    crate::media_management::video::extract_video_thumbnail(
+        path,
+        &tmp_jpeg,
+        VIDEO_THUMBNAIL_TIMESTAMP_SEC,
+        width,
+    )?;
+
+    let data = fs::read(&tmp_jpeg).map_err(|e| e.to_string())?;
+    Ok(data)
 }
 
 fn decode_jpeg_thumbnail(path: &Path, width: u32) -> Result<Vec<u8>, String> {

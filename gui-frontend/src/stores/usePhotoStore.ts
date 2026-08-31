@@ -5,6 +5,10 @@ export interface PhotoInfo {
   filename: string;
   date: string | null;
   file_size: number;
+  media_type?: string;
+  duration?: number | null;
+  resolution?: string | null;
+  codec?: string | null;
 }
 
 export interface PhotoStore {
