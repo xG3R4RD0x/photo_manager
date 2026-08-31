@@ -15,6 +15,7 @@ export default function SourceTree() {
   const [devices, setDevices] = useState<RemovableDrive[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const sourceFolder = useUIStore((s) => s.sourceFolder);
+  const setSourceFolder = useUIStore((s) => s.setSourceFolder);
   const { scanPhotosWithMetadata } = useFolderBrowse();
 
   const loadDevices = async () => {
@@ -35,13 +36,10 @@ export default function SourceTree() {
 
   const handleDeviceSelect = async (device: RemovableDrive) => {
     try {
-      const photoFolder = await invoke<string | null>("find_photo_folder", {
-        drive: device.mount_point,
-      });
-
-      if (photoFolder) {
-        await scanPhotosWithMetadata(photoFolder);
-      }
+      // Scan the whole drive root so videos in PRIVATE/ (Sony AVCHD/XAVC)
+      // are detected too, not just the DCIM photo folder.
+      setSourceFolder(device.mount_point);
+      await scanPhotosWithMetadata(device.mount_point);
     } catch (error) {
       console.error("Error scanning device:", error);
     }

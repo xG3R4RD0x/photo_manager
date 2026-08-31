@@ -29,15 +29,9 @@ export function useDeviceDetection() {
 
           setSourceFolder(device.mount_point);
 
-          // Auto-find photo folder and scan
-          const photoFolder = await invoke<string | null>(
-            "find_photo_folder",
-            { drive: device.mount_point }
-          );
-
-          if (photoFolder) {
-            await scanPhotosWithMetadata(photoFolder);
-          }
+          // Scan the whole drive root (mount_point), not just the DCIM folder,
+          // so videos in PRIVATE/ (e.g. Sony AVCHD/XAVC) are detected too.
+          await scanPhotosWithMetadata(device.mount_point);
         }
       } catch (error) {
         console.error("Device detection error:", error);
